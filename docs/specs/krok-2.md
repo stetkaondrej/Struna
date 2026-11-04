@@ -1,6 +1,6 @@
 # Krok 2 · MVP komplet – specifikace
 
-> Stav: **postaveno ve verzi 0.3.0** (schváleno 4. 11. 2026) · čeká na test na iPhonu a kontrolu prstokladů učitelem · Cílová verze: **0.3.0** · Metaplán v1.1, kap. 8
+> Stav: **postaveno ve verzi 0.3.0** (schváleno 4. 11. 2026) · prstoklady zkontroloval učitel (0.3.1, D-014) · čeká na test na iPhonu · Cílová verze: **0.3.0** · Metaplán v1.1, kap. 8
 
 ## Cíl
 
@@ -24,7 +24,7 @@ Po kroku 2 Struna **ví, co cvičit**. Dcera otevře aplikaci a vidí 3 úkoly n
 
 Prstoklady a texty jsou v `content/chords.json` (česky i anglicky). Další akord se přidá bez programování.
 
-> 🎓 **Učitel:** prosím o kontrolu prstokladů (hlavně G, ten se hraje několika způsoby). Používáme nejběžnější verze pro začátečníky.
+> 🎓 **Učitel:** prstoklady zkontroloval. G se hraje s malíčkem na struně e a prsteníčkem na struně H (D-014).
 
 ---
 

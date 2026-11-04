@@ -2,6 +2,11 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 0.3.1 · 2026-11-04 · Prstoklady podle učitele
+
+- **G dur**: malíček (4) na strunu e a prsteníček (3) na strunu H, oba ve 3. pražci (plnější zvuk)
+- **E moll**: tip doplněn o variantu s prsty 1 a 2; prsty 2 a 3 zůstávají kvůli snadnému přechodu z Am
+
 ## 0.3.0 · 2026-11-04 · Krok 2: MVP komplet
 
 - **Kniha akordů** (záložka Akordy): Em, Am, E, A, D, G, C s prstoklady, čísly prstů a tipy

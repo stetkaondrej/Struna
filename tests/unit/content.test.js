@@ -27,11 +27,11 @@ test('každý akord má 6 strun, platné pražce a prsty', () => {
   }
 });
 
-test('prstoklady odpovídají běžným tvarům pro začátečníky', () => {
+test('prstoklady odpovídají tvarům, které potvrdil učitel', () => {
   const shapes = Object.fromEntries(chords.map((c) => [c.id, c.frets.join(',')]));
   assert.deepEqual(shapes, {
     Em: '0,2,2,0,0,0', Am: '-1,0,2,2,1,0', E: '0,2,2,1,0,0', A: '-1,0,2,2,2,0',
-    D: '-1,-1,0,2,3,2', G: '3,2,0,0,0,3', C: '-1,3,2,0,1,0',
+    D: '-1,-1,0,2,3,2', G: '3,2,0,0,3,3', C: '-1,3,2,0,1,0', // G podle učitele (D-014)
   });
 });
 
@@ -44,4 +44,9 @@ test('úkoly mise mají texty v obou jazycích se stejnými zástupnými místy'
       assert.deepEqual(holes(q.en[field]), holes(q.cs[field]), `${type}.${field}`);
     }
   }
+});
+
+test('G dur: malíček na struně e, prsteníček na struně H (doporučení učitele)', () => {
+  const g = chords.find((c) => c.id === 'G');
+  assert.deepEqual(g.fingers, [2, 1, 0, 0, 3, 4]);
 });

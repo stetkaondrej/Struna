@@ -4,6 +4,13 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-014 · Prstoklady potvrdil učitel
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Učitel prstoklady potvrdil s dvěma úpravami:
+- **G dur** se hraje 3 2 0 0 3 3 s prsty 2 1 – – 3 4: malíček na struně e, prsteníček na struně H (plnější zvuk).
+- **E moll** zůstává s prsty 2 a 3 (snadný přechod z Am). Varianta s prsty 1 a 2 je uvedena v tipu.
+**Poznámka učitele:** prstoklad vždy záleží i na skladbě. Aplikace ukazuje jednu základní variantu.
+
 ## D-013 · Nový domácí úkol se objeví v dnešní misi
 **Datum:** 4. 11. 2026
 **Rozhodnutí:** Mise se během dne nemění, s jednou výjimkou: když se po lekci zadá nový domácí úkol a první úkol mise (rozcvička nebo starý domácí úkol) ještě není odškrtnutý, nahradí ho nový domácí úkol.

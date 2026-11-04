@@ -3,8 +3,8 @@
   "chords": [
     {
       "id": "Em", "frets": [0, 2, 2, 0, 0, 0], "fingers": [0, 2, 3, 0, 0, 0],
-      "cs": { "label": "E moll", "tip": "Nejsnazší první akord. Prsty 2 a 3 dej do 2. pražce, ostatní struny zní prázdné." },
-      "en": { "label": "E minor", "tip": "The easiest first chord. Put fingers 2 and 3 on the 2nd fret; all other strings ring open." }
+      "cs": { "label": "E moll", "tip": "Nejsnazší první akord. Prsty 2 a 3 dej do 2. pražce, ostatní struny zní prázdné. Z tohoto tvaru se dobře přehazuje na Am. Někdy se hraje i prsty 1 a 2, záleží na skladbě." },
+      "en": { "label": "E minor", "tip": "The easiest first chord. Put fingers 2 and 3 on the 2nd fret; all other strings ring open. This shape makes switching to Am easy. Sometimes it is played with fingers 1 and 2, depending on the song." }
     },
     {
       "id": "Am", "frets": [-1, 0, 2, 2, 1, 0], "fingers": [0, 0, 2, 3, 1, 0],
@@ -27,9 +27,9 @@
       "en": { "label": "D major", "tip": "Play only the 4 thinnest strings. Your fingers make a little triangle." }
     },
     {
-      "id": "G", "frets": [3, 2, 0, 0, 0, 3], "fingers": [2, 1, 0, 0, 0, 3],
-      "cs": { "label": "G dur", "tip": "Prsty se natáhnou přes celý krk. Tři prostřední struny zní prázdné." },
-      "en": { "label": "G major", "tip": "Your fingers stretch across the whole neck. The three middle strings ring open." }
+      "id": "G", "frets": [3, 2, 0, 0, 3, 3], "fingers": [2, 1, 0, 0, 3, 4],
+      "cs": { "label": "G dur", "tip": "Na strunu e dej malíček (4), prsteníček (3) na strunu H, oba do 3. pražce. Akord pak zní plněji. Struny D a G zní prázdné." },
+      "en": { "label": "G major", "tip": "Put your little finger (4) on the e string and your ring finger (3) on the B string, both on the 3rd fret. The chord sounds fuller. The D and G strings ring open." }
     },
     {
       "id": "C", "frets": [-1, 3, 2, 0, 1, 0], "fingers": [0, 3, 2, 0, 1, 0],
