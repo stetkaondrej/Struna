@@ -1,6 +1,6 @@
 # Krok 2 · MVP komplet – specifikace
 
-> Stav: **postaveno ve verzi 0.3.0** (schváleno 4. 11. 2026) · prstoklady zkontroloval učitel (0.3.1, D-014) · čeká na test na iPhonu · Cílová verze: **0.3.0** · Metaplán v1.1, kap. 8
+> Stav: **✅ hotovo** · verze 0.3.1, prstoklady zkontroloval učitel (D-014), otestováno na iPhonu
 
 ## Cíl
 
