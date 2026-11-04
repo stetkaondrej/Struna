@@ -27,7 +27,7 @@ Vlastník projektu je začátečník ve vibe codingu: **vysvětluj každý krok 
 2. `npm test` a `npm run test:e2e` musí projít.
 3. Commit a push na `main`. GitHub Pages nasadí aplikaci automaticky.
 4. Vlastník projde `docs/test-checklist.md` na iPhonu.
-5. Aktualizuj tabulku stavu v `README.md` a kopii dokumentů na Google Drive (`Vibe Coding/01 Projects/Strum Quest`).
+5. Aktualizuj tabulku stavu v `README.md`. Na Google Drive (`Vibe Coding/01 Projects/Strum Quest`) vytvoř nový dokument „Struna - stav projektu“ s aktuálním stavem a starý přejmenuj na „(zastaralé)“. Obsah souborů na Drive měnit nejde. Aktuální dokumenty jsou vždy na GitHubu.
 
 ## Příkazy
 
