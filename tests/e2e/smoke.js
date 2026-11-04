@@ -70,6 +70,30 @@ async function skipOnboarding(p = page) {
   }
   await p.waitForSelector('#start');
 }
+// Text v kroužku časovače musí ležet celý uvnitř vnitřního kruhu (nesmí zasahovat do čáry).
+async function assertTextInsideRing(p, label) {
+  const bad = await p.evaluate(() => {
+    const ring = document.querySelector('.ring-lg');
+    const r = ring.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const inner = r.width / 2 - r.width * (18 / 240); // poloměr bez tloušťky čáry
+    const out = [];
+    for (const el of ring.querySelectorAll('.ring-inner > *')) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      for (const b of range.getClientRects()) { // každý řádek textu zvlášť
+        for (const [x, y] of [[b.left, b.top], [b.right, b.top], [b.left, b.bottom], [b.right, b.bottom]]) {
+          const d = Math.hypot(x - cx, y - cy);
+          if (d > inner + 1) out.push(`${el.id || el.className}: ${Math.round(d)} > ${Math.round(inner)}`);
+        }
+      }
+    }
+    return out;
+  });
+  assert.deepEqual(bad, [], `${label}: text přesahuje kroužek`);
+}
+
 // Stránka se nesmí posouvat do stran (nic nepřetéká přes okraj displeje).
 async function assertNoSideScroll(p, label) {
   const { sw, iw } = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth }));
@@ -154,6 +178,7 @@ try {
     await page.waitForSelector('#clock');
     await waitText('#clock', '06:0');
     await page.screenshot({ path: path.join(outDir, 'cviceni.png') });
+    await assertTextInsideRing(page, 'iPhone 12 Pro');
     await page.click('#pause');
     await waitText('#status', 'Pozastaveno');
     const paused = await text('#clock');
@@ -478,6 +503,9 @@ try {
         await p3.waitForSelector(`#main .screen[data-route="${route}"]`);
         await assertNoSideScroll(p3, `${device} #${route}`);
       }
+      await p3.goto(`${base}#cviceni`);
+      await p3.waitForSelector('#clock');
+      await assertTextInsideRing(p3, device);
       await p3.goto(`${base}#dnes`);
       await p3.waitForSelector('#mission');
       await p3.screenshot({ path: path.join(outDir, `velikost-${device.replace(/ /g, '-')}.png`) });
@@ -503,6 +531,7 @@ try {
       await p4.goto(`${base}#${route}`);
       await p4.waitForSelector(`#main .screen[data-route="${route}"]`);
       await assertNoSideScroll(p4, `velké písmo #${route}`);
+      if (route === 'cviceni') await assertTextInsideRing(p4, 'velké písmo');
       await p4.screenshot({ path: path.join(outDir, `velke-pismo-${route}.png`) });
     }
     await ctx4.close();

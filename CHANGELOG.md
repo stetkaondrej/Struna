@@ -2,6 +2,11 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.0.1 · 2026-11-04 · Oprava kroužku časovače
+
+- Čas a text v kroužku na obrazovce Cvičení přetékaly přes kroužek, když měl iPhone větší písmo. Písmo uvnitř kroužku se teď řídí velikostí kroužku a kroužek roste spolu s písmem. Totéž pro kroužek na obrazovce Dnes
+- Test v prohlížeči nově kontroluje, že text leží celý uvnitř kroužku (iPhone 12 Pro, SE, 14 Pro Max i s velkým písmem)
+
 ## 1.0.0 · 2026-11-04 · Krok 3: Do telefonu 🎉
 
 První hotová verze Struny.

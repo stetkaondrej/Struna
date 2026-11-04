@@ -135,13 +135,17 @@ button:focus-visible, a:focus-visible, label:focus-visible { outline: 3px solid 
 .row-between { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.ring { position: relative; display: grid; place-items: center; flex: none; max-width: 100%; }
+.ring { position: relative; display: grid; place-items: center; flex: none; max-width: 100%; aspect-ratio: 1; container-type: inline-size; }
+/* Velký kroužek (Cvičení) roste s písmem iPhonu, ale nikdy nepřeteče šířku karty. */
+.ring-lg { width: clamp(220px, 15rem, 100%); }
+/* Malý kroužek (Dnes) */
+.ring-sm { width: clamp(112px, 8rem, 40vw); }
 .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ring-bar { transition: stroke-dashoffset .6s ease; }
-.ring-inner { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 0 14px; }
+.ring-inner { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2cqi; max-width: 66cqi; }
 
 .today-card { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px 16px; }
-.today-card .ring-inner strong { font-family: var(--font-display); font-size: 1.059rem; line-height: 1.1; }
+.today-card .ring-inner strong { font-family: var(--font-display); font-size: 13cqi; line-height: 1.1; }
 .today-card .btn { grid-column: 1 / -1; }
 .today-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 
@@ -161,7 +165,8 @@ button:focus-visible, a:focus-visible, label:focus-visible { outline: 3px solid 
 .bar i { display: block; height: 100%; background: var(--sun); border-radius: 12px; }
 
 .practice { align-items: center; text-align: center; gap: 14px; }
-.clock { font-family: var(--font-display); font-size: 3.059rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+.clock { font-family: var(--font-display); font-size: 19cqi; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; white-space: nowrap; }
+.ring-lg .ring-inner .small { font-size: 6cqi; }
 .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; width: 100%; }
 .practice .confirm { width: 100%; text-align: left; }
 

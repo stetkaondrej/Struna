@@ -32,12 +32,14 @@ export const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
 // Kruhový ukazatel pokroku (0 až 1). Uvnitř může být libovolný obsah.
-export function ring(fraction, { size = 120, stroke = 12, inner = '', label = '' } = {}) {
+// size/stroke určují jen kresbu (viewBox). Skutečnou šířku určuje CSS (třída ring-lg / ring-sm),
+// a protože písmo uvnitř se řídí šířkou kroužku, text se do kroužku vejde vždy (i s větším písmem v iPhonu).
+export function ring(fraction, { size = 120, stroke = 12, inner = '', label = '', cls = '' } = {}) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const f = Math.max(0, Math.min(1, fraction));
   return `
-    <div class="ring" style="width:${size}px;height:${size}px" role="img" aria-label="${esc(label)}">
+    <div class="ring ${cls}" role="img" aria-label="${esc(label)}">
       <svg viewBox="0 0 ${size} ${size}" aria-hidden="true">
         <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${stroke}"/>
         <circle class="ring-bar" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--teal)" stroke-width="${stroke}"

@@ -74,7 +74,7 @@ export default {
 
       <section class="card today-card">
         ${ring(progress.todaySec / (goal * 60), {
-          size: 132, label: t('today.progressLabel'),
+          size: 132, label: t('today.progressLabel'), cls: 'ring-sm',
           inner: `<strong>${esc(t('today.progress', { done: doneMin, goal }))}</strong>`,
         })}
         <div class="today-text">

@@ -45,7 +45,7 @@ export default {
       el.innerHTML = `
         <section class="card practice">
           ${ring(fraction(now), {
-            size: 240, stroke: 18, label: status,
+            size: 240, stroke: 18, label: status, cls: 'ring-lg',
             inner: `<span class="clock" id="clock">${timer.formatClock(timer.elapsedSec(active, now))}</span>
                     <span class="muted small" id="status">${esc(status)}</span>`,
           })}
