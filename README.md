@@ -16,8 +16,8 @@ Doplňuje lekce s učitelem: krátké denní mise, viditelný pokrok a týdenní
 
 | Krok | Obsah | Stav |
 |---|---|---|
-| 0 · Základy | Kostra, offline, ukládání, zálohy, jazyky | ✅ verze 0.1.0 |
-| 1 · Jádro MVP | Dnes, časovač, streak, XP | ⏳ další |
+| 0 · Základy | Kostra, offline, ukládání, zálohy, jazyky | ✅ verze 0.1.0, otestováno na iPhonu |
+| 1 · Jádro MVP | Dnes, časovač, streak, XP | 📝 specifikace čeká na schválení |
 | 2 · MVP komplet | Akordy, domácí úkol, deník | – |
 | 3 · Do telefonu | Úvodní nastavení, finální ikona | – |
 | 4 · Verze 2 | Nahrávky, report pro učitele, mapa, metronom | – |
