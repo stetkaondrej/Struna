@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Struna</title>
+  <meta name="description" content="Hravý pomocník pro cvičení na kytaru.">
+  <meta name="theme-color" content="#127C7A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Struna">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1 id="title">Struna</h1>
+    <button type="button" id="top-action" class="icon-btn"></button>
+  </header>
+
+  <div id="update-bar" class="update-bar" role="status" hidden>
+    <p></p>
+    <button type="button" class="btn primary small"></button>
+  </div>
+
+  <main id="main"></main>
+
+  <nav id="tabbar" class="tabbar"></nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript>Struna potřebuje zapnutý JavaScript. / Struna needs JavaScript.</noscript>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Krok 0 · Základy – specifikace
 
-> Stav: **čeká na schválení** · Cílová verze: **0.1.0** · Metaplán v1.1, kap. 8
+> Stav: **schváleno 4. 11. 2026 · postaveno ve verzi 0.1.0** · Cílová verze: **0.1.0** · Metaplán v1.1, kap. 8
 
 ## Cíl
 

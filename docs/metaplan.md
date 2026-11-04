@@ -232,4 +232,4 @@ Podrobnosti a důvody jsou v `docs/decisions.md`.
 
 ## 14. Další krok
 
-**Fáze 0 · Základy.** Specifikace: `docs/specs/krok-0.md`. Čeká na schválení.
+**Fáze 0 · Základy** je postavená (verze 0.1.0, `docs/specs/krok-0.md`). Čeká na ruční test na iPhonu. Další je krok 1 · Jádro MVP.

@@ -1,0 +1,12 @@
+{
+  "name": "struna",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hravý pomocník pro cvičení na kytaru (webová aplikace pro iPhone).",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "node tests/e2e/smoke.js",
+    "serve": "python3 -m http.server 8080"
+  }
+}
