@@ -170,8 +170,8 @@ button:focus-visible, a:focus-visible, label:focus-visible { outline: 3px solid 
 .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; width: 100%; }
 .practice .confirm { width: 100%; text-align: left; }
 
-.done { align-items: center; text-align: center; gap: 12px; }
-.done h2 { font-size: 1.765rem; }
+.done-card { align-items: center; text-align: center; gap: 12px; }
+.done-card h2 { font-size: 1.765rem; }
 .xp-big { font-family: var(--font-display); font-size: 3.294rem; font-weight: 800; color: var(--teal); line-height: 1; }
 .badge { background: var(--teal-soft); color: var(--ink); font-weight: 700; border-radius: 999px; padding: 6px 14px; }
 .badge.sun { background: var(--sun); color: #1D2A2A; }
@@ -322,3 +322,63 @@ video.clip-media { max-height: 50vh; background: #000; }
 .clip-pick { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .check-row { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
 .check-row input { width: 24px; height: 24px; accent-color: var(--teal); flex: none; }
+
+/* --- Krok 4b: mapa, hra, samolepky --- */
+.map-path { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.map-world { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; position: relative; padding: 8px 0; }
+.map-world:not(:last-child)::after {
+  content: ""; position: absolute; left: 31px; top: 72px; bottom: -8px; width: 4px; border-radius: 4px; background: var(--line);
+}
+.map-world.done:not(:last-child)::after { background: var(--teal); }
+.map-node {
+  position: relative; z-index: 1; width: 66px; height: 66px; border-radius: 50%; border: 3px solid transparent; cursor: pointer;
+  display: grid; place-items: center; background: var(--line); color: var(--muted); font: inherit;
+}
+.node-emoji { font-size: 1.9rem; line-height: 1; }
+.map-world.done .map-node { background: var(--teal); color: var(--on-accent); font-weight: 800; }
+.map-world.current .map-node { background: var(--sun); border-color: var(--surface); box-shadow: 0 0 0 4px var(--sun-soft); transform: scale(1.08); }
+.map-world.open .map-node { background: var(--sun-soft); }
+.map-text { font: inherit; color: inherit; background: none; border: 0; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; padding: 0; min-width: 0; }
+.map-world.locked .map-text strong { color: var(--muted); }
+
+.world-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; }
+.world-emoji { font-size: 3rem; line-height: 1; }
+.world-head h2 { font-size: 1.4rem; }
+.section-title { font-size: 1.1rem; }
+.lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.lesson.done { background: var(--teal-soft); border-color: transparent; }
+.lesson .btn { align-self: flex-start; }
+.boss { border: 2px solid var(--sun); background: var(--sun-soft); }
+.boss.done { border-color: var(--teal); background: var(--teal-soft); }
+.eyebrow { font-size: 0.8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.quiz { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; width: 100%; }
+.quiz-svg { width: 100%; max-width: 300px; height: auto; display: block; }
+.quiz-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+.quiz-buttons .btn { font-size: 1.4rem; min-height: 56px; }
+.quiz-msg { min-height: 1.5em; font-weight: 700; }
+.quiz .bar { width: 100%; }
+
+.album { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; }
+.sticker {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: 10px 4px;
+  border-radius: 16px; background: var(--bg); border: 2px dashed var(--line); color: var(--muted);
+}
+.sticker span { font-size: 2rem; line-height: 1.1; }
+.sticker small { font-size: 0.72rem; line-height: 1.2; overflow-wrap: anywhere; }
+.sticker.earned { border: 2px solid var(--sun); background: var(--sun-soft); color: var(--ink); }
+.sticker.earned span { transform: rotate(-6deg); }
+
+.sticker-pop {
+  position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: rgba(0, 0, 0, .45);
+  padding: max(16px, env(safe-area-inset-left, 0px));
+}
+.sticker-pop-card {
+  background: var(--surface); border-radius: 24px; padding: 24px; max-width: 360px; width: 100%;
+  display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+.sticker-pop-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.sticker-pop-list .sticker { width: 96px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sticker-pop-card { animation: pop .45s cubic-bezier(.2, 1.6, .4, 1); }
+}

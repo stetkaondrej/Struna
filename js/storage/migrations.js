@@ -5,7 +5,7 @@
 // 2. Krok N dostane snapshot ve verzi N-1 a vrátí ho ve verzi N.
 // 3. Ke každému kroku napiš test v tests/unit/migrations.test.js.
 
-export const CURRENT_SCHEMA = 5;
+export const CURRENT_SCHEMA = 6;
 
 const STEPS = {
   // 0 → 1: první verze dat. Zajistí, že existuje úložiště kv.
@@ -52,6 +52,14 @@ const STEPS = {
 
   // 4 → 5 (krok 4a): úložiště odeslaných reportů pro učitele.
   5: (s) => ({ ...s, stores: { ...s.stores, reports: s.stores.reports ?? [] } }),
+
+  // 5 → 6 (krok 4b): pokrok na mapě výprav a už ukázané samolepky.
+  6: (s) => {
+    let kv = s.stores.kv ?? [];
+    if (!kv.some(([k]) => k === 'worlds')) kv = [...kv, ['worlds', { lessons: {}, bosses: {}, skipped: [] }]];
+    if (!kv.some(([k]) => k === 'stickersSeen')) kv = [...kv, ['stickersSeen', {}]];
+    return { ...s, stores: { ...s.stores, kv } };
+  },
 };
 
 export function migrate(snapshot, target = CURRENT_SCHEMA) {

@@ -4,6 +4,12 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-021 · Mapa výprav a samolepky
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** 7 světů v pořadí učitele, obsah v `content/worlds.json`. Lekce +5 XP, výzva +100 XP (schválil vlastník). Další svět se odemkne po výzvě předchozího. Rodič může svět za PINem přeskočit (bez XP). Dcera prochází od začátku. 21 samolepek se počítá z historie; jednou získaná zůstává (`stickersSeen`), i kdyby se třeba smazala nahrávka.
+**Proč:** Viditelná cesta a sbírání motivují. Výpočet z historie (D-008) znamená, že se po obnově zálohy vše vrátí.
+**Pozn.:** Výzvy světů 5 a 6 zatím dcera potvrdí sama, od kroku 4c je ověří metronom a počítadlo.
+
 ## D-020 · Report odchází jako jedno sdílení: text + nahrávky
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** Nahrávky z týdne jsou v reportu předem zaškrtnuté (nejvýš 3). Struna předá iPhonu text i soubory v jednom sdílení. Když to nejde, pošle nahrávky a text dá do schránky. Nahrávky se ukládají jako ArrayBuffer (ne Blob).

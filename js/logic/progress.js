@@ -2,6 +2,7 @@
 // takže čísla nikdy nemůžou „nesedět“ s historií.
 import { localDateString, addDays, mondayOf, parseLocalDate } from './dates.js';
 import { missionXp } from './mission.js';
+import { worldsXpByDate } from './worlds.js';
 
 export const RULES = {
   practiceDayMinSec: 5 * 60,  // den se počítá od 5 minut
@@ -28,12 +29,13 @@ export function summarizeDays(sessions) {
 
 // Projde všechny dny od prvního záznamu do dneška a spočítá sérii, body a čísla.
 // extras: { missions: [...], journal: [...] } (od kroku 2)
-export function computeProgress(sessions, today = new Date(), { missions = [], journal = [] } = {}) {
+export function computeProgress(sessions, today = new Date(), { missions = [], journal = [], worlds = null } = {}) {
   const days = summarizeDays(sessions);
   const todayKey = localDateString(today);
   const missionByDate = Object.fromEntries(missions.map((m) => [m.date, m]));
   const journalDates = new Set(journal.map((j) => j.date));
-  const keys = [...new Set([...Object.keys(days), ...Object.keys(missionByDate), ...journalDates])]
+  const worldXp = worlds ? worldsXpByDate(worlds) : {};
+  const keys = [...new Set([...Object.keys(days), ...Object.keys(missionByDate), ...journalDates, ...Object.keys(worldXp)])]
     .filter((k) => k <= todayKey).sort();
 
   const result = {
@@ -57,6 +59,7 @@ export function computeProgress(sessions, today = new Date(), { missions = [], j
     }
     result.xp += missionXp(missionByDate[key]);
     if (journalDates.has(key)) result.xp += RULES.xpJournal;
+    result.xp += worldXp[key] ?? 0;
 
     if (practised) {
       started = true;

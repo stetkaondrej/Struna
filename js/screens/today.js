@@ -31,7 +31,7 @@ export default {
     ]);
     const mission = await store.getOrCreateMission(date, buildMission({ date, chords: content.chords, chordProgress, homework }));
     const missions = [...data.missions.filter((m) => m.date !== date), mission];
-    const progress = computeProgress(data.sessions, now, { missions, journal: data.journal });
+    const progress = computeProgress(data.sessions, now, { missions, journal: data.journal, worlds: data.worlds });
     const sessions = data.sessions;
     const doneCount = mission.quests.filter((q) => q.done).length;
     const goal = settings.dailyGoalMin;
@@ -116,7 +116,7 @@ export default {
     el.querySelectorAll('[data-quest]').forEach((b) => b.addEventListener('click', async () => {
       try {
         const updated = await store.toggleQuest(date, b.dataset.quest);
-        const after = computeProgress(data.sessions, now, { missions: [...missions.filter((m) => m.date !== date), updated], journal: data.journal });
+        const after = computeProgress(data.sessions, now, { missions: [...missions.filter((m) => m.date !== date), updated], journal: data.journal, worlds: data.worlds });
         const newLevel = levelFor(after.xp).level;
         const justDone = updated.quests.find((q) => q.id === b.dataset.quest).done;
         if (newLevel > level.level) {

@@ -76,6 +76,7 @@ export default {
       try {
         progress = await store.setChordProgress(id, patch);
         drawDetail();
+        ctx.checkStickers();
       } catch (err) {
         console.error(err);
         toast(t('error.save'), 'error');

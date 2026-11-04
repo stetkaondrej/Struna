@@ -9,14 +9,16 @@ import { avatarEmoji } from '../avatars.js';
 import { formatBytes } from '../i18n.js';
 import { clipRecorder, clipFile, suggestTitle } from './clip-recorder.js';
 import { requirePin } from './pin-gate.js';
+import { STICKERS } from '../logic/stickers.js';
+import { stickerData } from '../stickers-ui.js';
 
 const CLIPS_WARN_BYTES = 200 * 1024 * 1024;
 
 export default {
   async render(el, ctx) {
     const { t, store, toast, rerender, go } = ctx;
-    const [homework, data, profile, clips] = await Promise.all([
-      store.listHomework(), store.loadProgressData(), store.getProfile(), store.listClips(),
+    const [homework, data, profile, clips, stickers] = await Promise.all([
+      store.listHomework(), store.loadProgressData(), store.getProfile(), store.listClips(), stickerData(store),
     ]);
     const clipBytes = clips.reduce((n, c) => n + (c.bytes || 0), 0);
     const progress = computeProgress(data.sessions, new Date(), data);
@@ -33,6 +35,16 @@ export default {
           <p class="muted">${esc(t('level.title', { n: levelFor(progress.xp).level }))} · ${progress.xp} XP</p>
         </div>
         <button type="button" class="link" id="edit-profile">${esc(t('me.profile.edit'))}</button>
+      </section>
+
+      <section class="card" id="album">
+        <div class="row-between"><h3>${esc(t('album.title'))}</h3>
+          <span class="pill">${esc(t('album.count', { n: stickers.earned.size, total: STICKERS.length }))}</span></div>
+        <div class="album">
+          ${STICKERS.map((s) => stickers.earned.has(s.id)
+            ? `<div class="sticker earned" data-sticker="${s.id}"><span aria-hidden="true">${s.emoji}</span><small>${esc(t(`sticker.${s.id}`))}</small></div>`
+            : `<div class="sticker" data-sticker="${s.id}"><span aria-hidden="true">?</span><small>${esc(t(`sticker.${s.id}.hint`))}</small></div>`).join('')}
+        </div>
       </section>
 
       <section class="card" id="homework">

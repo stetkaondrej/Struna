@@ -40,6 +40,17 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Po odeslání: „Odesláno …“ u týdne
 - [ ] Zálohuj a obnov: nahrávky v telefonu zůstanou
 
+## Mapa a samolepky (krok 4b)
+- [ ] Záložka Mapa: 7 světů, Kytarový tábor „Právě tady“ (s avatarem, pokud ho dcera má), ostatní zamčené
+- [ ] Svět 1: lekce odškrtnout (+5 XP), pak se odemkne výzva. Po výzvě fanfára, +100 XP a odemkne se svět 2
+- [ ] Svět 2: hra „Která struna?“. Špatná odpověď vynuluje počítání, 10 správně za sebou splní výzvu
+- [ ] Svět 3: výzva s nahrávkou. Po uložení nahrávky je výzva splněná
+- [ ] Svět 4: výzva se splní sama, když mají 3 akordy aspoň ★★
+- [ ] Pro rodiče: označit svět jako hotový chce PIN
+- [ ] Já → Album samolepek: získané samolepky barevně, ostatní „?“ s nápovědou
+- [ ] Nová samolepka ukáže oslavu se zvukem
+- [ ] Zálohuj a obnov: pokrok na mapě i samolepky se vrátí
+
 ## Cvičení a časovač
 - [ ] Dnes → **Začít cvičit**. Otevře se Cvičení a čas běží
 - [ ] Během cvičení displej nezhasne (počkej déle, než je nastavené automatické zamčení)
@@ -104,5 +115,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] (0.2.0 → 0.3.0) Minuty, série a XP zůstaly; v Akordech jsou Em a Am „Učím se“
 - [ ] (0.3.1 → 1.0.0) Krátký průvodce, pak vše jako předtím
 - [ ] (1.0.x → 1.1.0) Vše zůstalo, v Já přibyly Nahrávky a Pro rodiče
+- [ ] (1.1.x → 1.2.0) Vše zůstalo, oslava samolepek za to, co už dcera zvládla
 
 **Poznámky:**

@@ -1,0 +1,135 @@
+{
+  "_info": "Mapa výprav: 7 světů v pořadí, které potvrdil učitel (D-003). boss.type: confirm = dcera potvrdí, quiz = hra Která struna?, chords = 3 akordy s ★★ a víc, record = nahrávka.",
+  "worlds": [
+    {
+      "id": 1, "emoji": "🏕️",
+      "cs": { "name": "Kytarový tábor", "desc": "Seznam se s kytarou." },
+      "en": { "name": "Guitar Camp", "desc": "Get to know your guitar." },
+      "lessons": [
+        { "id": "w1-parts",
+          "cs": { "title": "Části kytary", "text": "Kytara má tělo s ozvučným otvorem, krk s pražci a hlavu s ladicími kolíky. Struny vedou od kobylky na těle až k hlavě. Ukaž každou část a řekni ji nahlas." },
+          "en": { "title": "Parts of the guitar", "text": "A guitar has a body with a sound hole, a neck with frets and a head with tuning pegs. The strings run from the bridge on the body up to the head. Point to each part and say its name out loud." } },
+        { "id": "w1-posture",
+          "cs": { "title": "Jak sedět a držet kytaru", "text": "Sedni si rovně na židli bez opěrek. Kytaru opři o stehno, krk mírně nahoru. Pravá ruka leží na těle kytary nad ozvučným otvorem. Ramena nech uvolněná." },
+          "en": { "title": "How to sit and hold the guitar", "text": "Sit up straight on a chair without armrests. Rest the guitar on your thigh with the neck slightly up. Your right arm rests on the body above the sound hole. Keep your shoulders relaxed." } },
+        { "id": "w1-pick",
+          "cs": { "title": "Jak držet trsátko", "text": "Trsátko drž mezi palcem a bokem ukazováčku. Ven vyčuhuje jen špička. Drž ho pevně, ale ne křečovitě." },
+          "en": { "title": "How to hold a pick", "text": "Hold the pick between your thumb and the side of your index finger. Only the tip sticks out. Hold it firmly, but not too tight." } },
+        { "id": "w1-tuning",
+          "cs": { "title": "Ladění", "text": "Kytara se ladí od nejtlustší struny: E A D G H e. Použij ladičku a otáčej kolíkem pomalu, dokud ladička neukáže, že struna sedí." },
+          "en": { "title": "Tuning", "text": "Tune from the thickest string: E A D G B e. Use a tuner and turn the peg slowly until the tuner shows the string is right." } }
+      ],
+      "boss": { "type": "confirm",
+        "cs": { "title": "Nalaď všech 6 strun sama", "text": "Nalaď kytaru bez pomoci. Pak ji ukaž rodiči nebo učiteli a potvrď." },
+        "en": { "title": "Tune all 6 strings on your own", "text": "Tune the guitar without help. Then show it to a parent or your teacher and confirm." } }
+    },
+    {
+      "id": 2, "emoji": "🛣️",
+      "cs": { "name": "Strunová ulice", "desc": "Struny, pražce a prsty." },
+      "en": { "name": "String Street", "desc": "Strings, frets and fingers." },
+      "lessons": [
+        { "id": "w2-strings",
+          "cs": { "title": "Jména strun", "text": "Struny se jmenují od nejtlustší po nejtenčí: E A D G H e. Vymysli si pomůcku z počátečních písmen a řekni je nahlas třikrát za sebou." },
+          "en": { "title": "String names", "text": "From the thickest to the thinnest the strings are: E A D G B e. Make up a memory trick from the first letters and say them out loud three times." } },
+        { "id": "w2-frets",
+          "cs": { "title": "Pražce", "text": "Pražce jsou kovové proužky na krku. Prst dávej těsně za pražec, blíž k tělu kytary. Tón pak zní čistě a nedrnčí." },
+          "en": { "title": "Frets", "text": "Frets are the metal strips on the neck. Put your finger just behind a fret, closer to the body. Then the note sounds clear and doesn't buzz." } },
+        { "id": "w2-fingers",
+          "cs": { "title": "Čísla prstů", "text": "Prsty levé ruky mají čísla: 1 ukazováček, 2 prostředníček, 3 prsteníček, 4 malíček. Palec nemá číslo, je vzadu za krkem." },
+          "en": { "title": "Finger numbers", "text": "Left-hand fingers have numbers: 1 index, 2 middle, 3 ring, 4 little finger. The thumb has no number; it stays behind the neck." } }
+      ],
+      "boss": { "type": "quiz",
+        "cs": { "title": "Hra „Která struna?“", "text": "Struna ti ukáže strunu a ty řekneš její jméno. Potřebuješ 10 správně za sebou." },
+        "en": { "title": "Game “Which string?”", "text": "Struna shows you a string and you name it. You need 10 right in a row." } }
+    },
+    {
+      "id": 3, "emoji": "🐸",
+      "cs": { "name": "Rybníček prvních tónů", "desc": "Melodie po jednom tónu." },
+      "en": { "name": "First Notes Pond", "desc": "Melodies one note at a time." },
+      "lessons": [
+        { "id": "w3-notes",
+          "cs": { "title": "Tóny na strunách e a H", "text": "Struna e: prázdná zní E, 1. pražec F, 3. pražec G. Struna H: prázdná zní H, 1. pražec C, 3. pražec D. Zahraj si je pomalu nahoru a dolů." },
+          "en": { "title": "Notes on the e and B strings", "text": "e string: open is E, 1st fret F, 3rd fret G. B string: open is B, 1st fret C, 3rd fret D. Play them slowly up and down." } },
+        { "id": "w3-melody",
+          "cs": { "title": "Melodie po jednom tónu", "text": "Melodie se hraje po jednom tónu. Hraj pomalu a každý tón nech doznít. Melodii vybere učitel." },
+          "en": { "title": "One note at a time", "text": "A melody is played one note at a time. Play slowly and let each note ring. Your teacher chooses the melody." } }
+      ],
+      "boss": { "type": "record",
+        "cs": { "title": "1. řádek melodie bez zastavení", "text": "Zahraj první řádek melodie bez zastavení a nahraj ho. Učitel si ho poslechne v reportu." },
+        "en": { "title": "First line of the melody without stopping", "text": "Play the first line of the melody without stopping and record it. Your teacher can listen to it in the report." } }
+    },
+    {
+      "id": 4, "emoji": "🌲",
+      "cs": { "name": "Akordový les", "desc": "Tvoje první akordy." },
+      "en": { "name": "Chord Forest", "desc": "Your first chords." },
+      "lessons": [
+        { "id": "w4-em-am",
+          "cs": { "title": "Em a Am", "text": "Otevři Akordy, zkus Em a Am a zapni u nich „Učím se“. Dej si hvězdičky podle toho, jak ti jdou." },
+          "en": { "title": "Em and Am", "text": "Open Chords, try Em and Am and switch on “Learning”. Give yourself stars for how well they go." } },
+        { "id": "w4-e-d",
+          "cs": { "title": "E a D", "text": "E má stejný tvar jako Am, jen o strunu výš. D hraješ jen na 4 nejtenčí struny." },
+          "en": { "title": "E and D", "text": "E has the same shape as Am, one string higher. D is played on the 4 thinnest strings only." } },
+        { "id": "w4-g-c",
+          "cs": { "title": "G a C", "text": "G je natažený přes celý krk. U C jdou prsty po schodech 3, 2, 1. Na obojí si dej čas." },
+          "en": { "title": "G and C", "text": "G stretches across the whole neck. For C your fingers go down like stairs: 3, 2, 1. Take your time with both." } }
+      ],
+      "boss": { "type": "chords", "count": 3, "stars": 2,
+        "cs": { "title": "3 akordy s ★★", "text": "Výzva se splní sama, až budeš mít 3 akordy aspoň se dvěma hvězdičkami." },
+        "en": { "title": "3 chords with ★★", "text": "This challenge completes itself when you have 3 chords with at least two stars." } }
+    },
+    {
+      "id": 5, "emoji": "🌊",
+      "cs": { "name": "Řeka rytmu", "desc": "Brnkání v rytmu." },
+      "en": { "name": "Strum River", "desc": "Strumming in rhythm." },
+      "lessons": [
+        { "id": "w5-down",
+          "cs": { "title": "Údery dolů", "text": "Brnkej jen dolů a počítej raz, dva, tři, čtyři. Každý úder stejně dlouhý, rovnoměrně jako hodiny." },
+          "en": { "title": "Down strums", "text": "Strum only down and count one, two, three, four. Every strum the same length, steady like a clock." } },
+        { "id": "w5-pattern",
+          "cs": { "title": "↓ ↓ ↑ ↑ ↓ ↑", "text": "Teď i nahoru. Rytmus ↓ ↓ ↑ ↑ ↓ ↑ zkus nejdřív pomalu na prázdných strunách, pak na akordu Em." },
+          "en": { "title": "↓ ↓ ↑ ↑ ↓ ↑", "text": "Now up as well. Try the pattern ↓ ↓ ↑ ↑ ↓ ↑ slowly on open strings first, then on Em." } },
+        { "id": "w5-count",
+          "cs": { "title": "Počítání nahlas", "text": "Počítej nahlas „raz a dva a tři a čtyři a“. Dolů hraješ na čísla, nahoru na „a“." },
+          "en": { "title": "Counting out loud", "text": "Count out loud “one and two and three and four and”. Strum down on the numbers and up on “and”." } }
+      ],
+      "boss": { "type": "confirm",
+        "cs": { "title": "30 sekund v rytmu", "text": "Brnkej ↓ ↓ ↑ ↑ ↓ ↑ 30 sekund bez zastavení a rovnoměrně. Pak potvrď." },
+        "en": { "title": "30 seconds in rhythm", "text": "Strum ↓ ↓ ↑ ↑ ↓ ↑ for 30 seconds without stopping and keep it steady. Then confirm." } }
+    },
+    {
+      "id": 6, "emoji": "🏜️",
+      "cs": { "name": "Kaňon přechodů", "desc": "Rychlé přehazování akordů." },
+      "en": { "name": "Change Canyon", "desc": "Quick chord changes." },
+      "lessons": [
+        { "id": "w6-em-g",
+          "cs": { "title": "Em ↔ G", "text": "Střídej Em a G pomalu. Dívej se, kam prsty míří, ještě než je zvedneš." },
+          "en": { "title": "Em ↔ G", "text": "Switch between Em and G slowly. Look where your fingers are going before you lift them." } },
+        { "id": "w6-am-c",
+          "cs": { "title": "Am ↔ C", "text": "Prsty 1 a 2 zůstávají skoro na místě. Přesouvá se hlavně prsteníček." },
+          "en": { "title": "Am ↔ C", "text": "Fingers 1 and 2 stay almost in place. Mostly your ring finger moves." } },
+        { "id": "w6-d-g",
+          "cs": { "title": "D ↔ G", "text": "Zvedni všechny prsty najednou a polož je najednou. Nejdřív pomalu, pak rychleji." },
+          "en": { "title": "D ↔ G", "text": "Lift all fingers together and put them down together. Slowly first, then faster." } }
+      ],
+      "boss": { "type": "confirm",
+        "cs": { "title": "20 čistých přechodů za minutu", "text": "Střídej dva akordy jednu minutu a počítej čisté přechody. Potřebuješ 20. Pak potvrď." },
+        "en": { "title": "20 clean changes in a minute", "text": "Switch between two chords for one minute and count the clean changes. You need 20. Then confirm." } }
+    },
+    {
+      "id": 7, "emoji": "🎤",
+      "cs": { "name": "Velké pódium", "desc": "Tvoje první písnička." },
+      "en": { "name": "Big Stage", "desc": "Your first song." },
+      "lessons": [
+        { "id": "w7-song",
+          "cs": { "title": "Písnička se 2–4 akordy", "text": "Vyber s učitelem písničku s akordy, které už znáš. Nejdřív hraj jen akordy, pak přidej rytmus." },
+          "en": { "title": "A song with 2–4 chords", "text": "Choose a song with your teacher that uses chords you already know. Play just the chords first, then add the rhythm." } },
+        { "id": "w7-sing",
+          "cs": { "title": "Hrát a zpívat", "text": "Zpívej potichu a hraj jednoduché údery dolů. Když se ztratíš, nezastavuj se a naskoč na další akord." },
+          "en": { "title": "Play and sing", "text": "Sing softly and play simple down strums. If you get lost, don't stop: jump in at the next chord." } }
+      ],
+      "boss": { "type": "record",
+        "cs": { "title": "Celá písnička", "text": "Zahraj celou písničku a nahraj ji. Je to tvůj první koncert!" },
+        "en": { "title": "The whole song", "text": "Play the whole song and record it. It's your first concert!" } }
+    }
+  ]
+}

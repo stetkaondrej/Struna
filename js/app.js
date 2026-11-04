@@ -9,7 +9,8 @@ import practice from './screens/practice.js';
 import chords from './screens/chords.js';
 import me from './screens/me.js';
 import report from './screens/report.js';
-import { soonScreen } from './screens/soon.js';
+import map from './screens/map.js';
+import { checkStickers } from './stickers-ui.js';
 import { onboarding } from './screens/onboarding.js';
 import { setSoundsEnabled } from './sounds.js';
 
@@ -17,7 +18,7 @@ import { setSoundsEnabled } from './sounds.js';
 const TABS = ['dnes', 'mapa', 'cviceni', 'akordy', 'ja'];
 const SCREENS = {
   dnes: today,
-  mapa: soonScreen('mapa', 4),
+  mapa: map,
   cviceni: practice,
   akordy: chords,
   ja: me,
@@ -57,6 +58,7 @@ const ctx = {
     setSoundsEnabled(s.sounds);
     render();
   },
+  checkStickers: () => checkStickers(ctx),
   async setSounds(on) {
     await store.setSetting('sounds', on);
     setSoundsEnabled(on);
@@ -113,6 +115,7 @@ async function render() {
   cleanup = typeof nextCleanup === 'function' ? nextCleanup : null;
   main.replaceChildren(container);
   window.scrollTo(0, 0);
+  checkStickers(ctx); // nové samolepky (např. po splnění úkolu) se oslaví hned
 }
 
 function showFatal(key) {

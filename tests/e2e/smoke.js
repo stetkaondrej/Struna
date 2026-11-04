@@ -39,6 +39,13 @@ const context = await browser.newContext({
   permissions: ['microphone', 'clipboard-read', 'clipboard-write'],
 });
 const page = await context.newPage();
+// Okno „Nová samolepka!“ se v testu zavře samo, aby nepřekáželo dalším klepnutím.
+let stickerPopups = 0;
+const autoCloseStickers = (p) => p.addLocatorHandler(p.locator('#sticker-pop'), async () => {
+  stickerPopups += 1;
+  await p.click('#sticker-close');
+});
+await autoCloseStickers(page);
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
@@ -521,6 +528,79 @@ try {
     await page.waitForSelector('#report-text');
   });
 
+  await step('mapa: 7 světů, na začátku jen Kytarový tábor', async () => {
+    await tab('mapa');
+    assert.equal(await page.locator('.map-world').count(), 7);
+    assert.deepEqual(await page.$$eval('.map-world', (els) => els.map((e) => e.className.replace('map-world ', ''))),
+      ['current', 'locked', 'locked', 'locked', 'locked', 'locked', 'locked']);
+    await page.screenshot({ path: path.join(outDir, 'mapa.png'), fullPage: true });
+  });
+
+  await step('svět 1: lekce, potom výzva, odemkne se svět 2', async () => {
+    await page.click('.map-text[data-world="1"]');
+    await waitText('#boss', 'Výzva se odemkne po všech lekcích');
+    for (let i = 0; i < 4; i++) await page.click('[data-lesson] >> nth=0');
+    await page.click('#boss-confirm');
+    await waitText('#toast', 'Kytarový tábor je hotový');
+    await page.click('#back');
+    await page.waitForSelector('.map-world.done .map-node[data-world="1"]');
+    await page.waitForSelector('.map-world.current .map-node[data-world="2"]');
+  });
+
+  await step('hra „Která struna?“: chyba vynuluje, 10 správně splní výzvu', async () => {
+    await page.click('.map-text[data-world="2"]');
+    for (let i = 0; i < 3; i++) await page.click('[data-lesson] >> nth=0');
+    await page.click('#boss-quiz');
+    await page.waitForSelector('#quiz');
+    await page.screenshot({ path: path.join(outDir, 'hra-struna.png'), fullPage: true });
+    const answer = async () => Number(await page.getAttribute('#quiz', 'data-answer'));
+    await page.click(`[data-answer="${(await answer() + 1) % 6}"]`); // schválně špatně
+    await waitText('#quiz-msg', 'Byla to struna');
+    await waitText('#quiz-streak', '0 z 10');
+    for (let i = 0; i < 10; i++) await page.click(`[data-answer="${await answer()}"]`);
+    await waitText('#toast', 'Strunová ulice je hotový');
+    await waitText('#boss', 'Výzva splněna');
+  });
+
+  await step('rodič přeskočí svět 3 (PIN), Akordový les se splní sám podle hvězdiček', async () => {
+    await page.click('#back');
+    await page.click('.map-text[data-world="3"]');
+    await page.click('#skip');
+    if (await page.locator('#pin').count()) {
+      await page.fill('#pin', '5678');
+      await page.click('#pin-form button[type="submit"]');
+    }
+    await waitText('#toast', 'označený jako hotový');
+    await page.click('#back');
+    await page.click('.map-text[data-world="4"]');
+    for (let i = 0; i < 3; i++) await page.click('[data-lesson] >> nth=0');
+    await waitText('#boss', 'z 3');
+    await tab('akordy');
+    for (const id of ['E', 'G']) {
+      await page.click(`[data-chord="${id}"]`);
+      await page.click('[data-stars="2"]');
+      await page.waitForSelector('[data-stars="2"][aria-pressed="true"]');
+      await page.click('#back');
+    }
+    await tab('mapa');
+    await waitText('#toast', 'Akordový les je hotový');
+    await page.waitForSelector('.map-world.done .map-node[data-world="4"]');
+    await page.waitForSelector('.map-world.current .map-node[data-world="5"]');
+  });
+
+  await step('album samolepek a oslava nových samolepek', async () => {
+    await tab('ja');
+    await page.waitForSelector('#album');
+    const earned = await page.$$eval('#album .sticker.earned', (els) => els.map((e) => e.dataset.sticker));
+    for (const id of ['practice1', 'mission1', 'journal1', 'clip1', 'world1', 'world2', 'world3', 'world4']) {
+      assert.ok(earned.includes(id), `chybí samolepka ${id} (má: ${earned.join(', ')})`);
+    }
+    assert.ok(!earned.includes('world5'));
+    await waitText('#album', `${earned.length} z 21`);
+    assert.ok(stickerPopups > 0, 'oslava nové samolepky se ukázala');
+    await page.screenshot({ path: path.join(outDir, 'album.png'), fullPage: true });
+  });
+
   await step('záloha obsahuje cvičení, mise, úkoly a deník', async () => {
     await tab('dnes');
     await page.click('#top-action');
@@ -528,7 +608,9 @@ try {
     backupPath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(backupPath);
     const data = JSON.parse(await readFile(backupPath, 'utf8'));
-    assert.equal(data.schemaVersion, 5);
+    assert.equal(data.schemaVersion, 6);
+    const kv = Object.fromEntries(data.stores.kv);
+    assert.ok(kv.worlds.bosses[1] && kv.worlds.bosses[2], 'pokrok na mapě je v záloze');
     assert.ok(!('clips' in data.stores), 'nahrávky nejsou v záloze');
     assert.ok(Array.isArray(data.stores.reports));
     assert.equal(data.stores.sessions.length, 4);
@@ -592,6 +674,7 @@ try {
   await step('aktualizace z 0.3.1: krátký průvodce, data zůstanou', async () => {
     const ctx2 = await browser.newContext({ ...iphone, deviceScaleFactor: 1, locale: 'cs-CZ', timezoneId: 'Europe/Prague' });
     const p2 = await ctx2.newPage();
+    await autoCloseStickers(p2);
     p2.on('pageerror', (e) => errors.push(e.message));
     await p2.goto(`${base}priprava`);
     await p2.evaluate(() => new Promise((res, rej) => {
@@ -626,6 +709,7 @@ try {
       const { defaultBrowserType: _, ...d } = devices[device];
       const ctx3 = await browser.newContext({ ...d, deviceScaleFactor: 1, locale: 'cs-CZ' });
       const p3 = await ctx3.newPage();
+      await autoCloseStickers(p3);
       p3.on('pageerror', (e) => errors.push(e.message));
       await p3.goto(base);
       await assertNoSideScroll(p3, `${device} průvodce`);
@@ -648,6 +732,7 @@ try {
   await step('větší písmo (Zpřístupnění): nic nepřetéká do stran', async () => {
     const ctx4 = await browser.newContext({ ...iphone, deviceScaleFactor: 1, locale: 'cs-CZ' });
     const p4 = await ctx4.newPage();
+    await autoCloseStickers(p4);
     p4.on('pageerror', (e) => errors.push(e.message));
     await p4.addInitScript(() => {
       document.addEventListener('DOMContentLoaded', () => {

@@ -108,6 +108,7 @@ export default {
           else if (!payload.text) toast(t('report.textInClipboard'), 'ok');
           await store.markReportSent(week, payload.files ? clips.map((c) => c.id) : []);
           reports = await store.listReports();
+          ctx.checkStickers();
           if (payload.text && (payload.files || !files.length)) toast(t('report.sent'), 'ok');
           draw();
         } catch (err) {

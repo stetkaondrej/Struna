@@ -23,7 +23,8 @@ function mediaDuration(blob, kind) {
 }
 
 // onDone(saved) se zavolá po uložení nebo zrušení.
-export function clipRecorder(el, { t, store, toast }, { defaultTitle, onDone }) {
+export function clipRecorder(el, ctx, { defaultTitle, onDone }) {
+  const { t, store, toast } = ctx;
   let stream = null;
   let recorder = null;
   let ticker = null;
@@ -131,6 +132,7 @@ export function clipRecorder(el, { t, store, toast }, { defaultTitle, onDone }) 
         stopAll();
         toast(t('clips.saved'), 'ok');
         onDone(true);
+        ctx.checkStickers?.();
       } catch (err) {
         console.error(err);
         toast(t('clips.saveFailed', { size: formatBytes(blob.size) }), 'error');

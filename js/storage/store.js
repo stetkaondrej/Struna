@@ -112,6 +112,33 @@ export async function markReportSent(week, clipIds) {
 export const getPinHash = () => db.get(META_STORE, 'parentPin');
 export const setPinHash = (hash) => db.put(META_STORE, 'parentPin', hash);
 
+// --- Mapa výprav ---
+const EMPTY_WORLDS = { lessons: {}, bosses: {}, skipped: [] };
+
+export async function getWorlds() {
+  return { ...EMPTY_WORLDS, ...((await db.get('kv', 'worlds')) ?? {}) };
+}
+
+const updateWorlds = (fn) => db.update('kv', 'worlds', (w) => fn({ ...EMPTY_WORLDS, ...(w ?? {}) }));
+
+export const completeLesson = (lessonId, date) =>
+  updateWorlds((w) => (w.lessons[lessonId] ? w : { ...w, lessons: { ...w.lessons, [lessonId]: date } }));
+
+export const completeBoss = (worldId, date) =>
+  updateWorlds((w) => (w.bosses[worldId] ? w : { ...w, bosses: { ...w.bosses, [worldId]: date } }));
+
+export const skipWorld = (worldId) =>
+  updateWorlds((w) => (w.skipped.includes(worldId) ? w : { ...w, skipped: [...w.skipped, worldId] }));
+
+// --- Samolepky (už ukázané) ---
+export async function getStickersSeen() {
+  return (await db.get('kv', 'stickersSeen')) ?? {};
+}
+
+export async function markStickersSeen(ids, date) {
+  return db.update('kv', 'stickersSeen', (seen) => ({ ...(seen ?? {}), ...Object.fromEntries(ids.map((id) => [id, date])) }));
+}
+
 // --- Akordy: hvězdičky a „učím se“ ---
 export async function getChordProgress() {
   return (await db.get('kv', 'chords')) ?? {};
@@ -181,8 +208,8 @@ export async function addJournal({ date, learned, stuck, feeling }) {
 
 // Vše, co potřebuje výpočet bodů a série (js/logic/progress.js).
 export async function loadProgressData() {
-  const [sessions, missions, journal] = await Promise.all([listSessions(), listMissions(), listJournal()]);
-  return { sessions, missions, journal };
+  const [sessions, missions, journal, worlds] = await Promise.all([listSessions(), listMissions(), listJournal(), getWorlds()]);
+  return { sessions, missions, journal, worlds };
 }
 
 // --- Zálohy ---

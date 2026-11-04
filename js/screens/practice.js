@@ -127,8 +127,9 @@ export default {
       const streakBonus = Math.floor(after.streak / 7) > Math.floor(before.streak / 7);
       const levelUp = levelFor(after.xp).level > levelFor(before.xp).level;
       play(levelUp ? 'level' : 'done');
+      setTimeout(() => ctx.checkStickers(), 1200); // samolepka až po oslavě
       el.innerHTML = `
-        <section class="card done" id="done">
+        <section class="card done-card" id="done">
           <h2>${esc(t('practice.done.title'))}</h2>
           <p class="xp-big">${esc(t('practice.done.xp', { xp: after.xp - before.xp }))}</p>
           <p>${esc(t('practice.done.minutes', { min: Math.floor(session.seconds / 60) }))}</p>

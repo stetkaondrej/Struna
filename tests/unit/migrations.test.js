@@ -93,9 +93,17 @@ test('nová instalace (od nuly) má výchozí nastavení, profil i akordy', () =
 
 test('migrace 4 → 5 přidá úložiště reportů a nic jiného nemění', () => {
   const v4 = { app: 'struna', schemaVersion: 4, stores: { kv: [['a', 1]], sessions: [['s', {}]], missions: [], homework: [], journal: [] } };
-  const out = migrate(v4);
+  const out = migrate(v4, 5);
   assert.equal(out.schemaVersion, 5);
   assert.deepEqual(out.stores.reports, []);
   assert.deepEqual(out.stores.kv, [['a', 1]]);
   assert.ok(!('clips' in out.stores), 'nahrávky nejsou v záloze');
+});
+
+test('migrace 5 → 6 přidá prázdnou mapu a samolepky', () => {
+  const out = migrate({ app: 'struna', schemaVersion: 5, stores: { kv: [], sessions: [], missions: [], homework: [], journal: [], reports: [] } });
+  assert.equal(out.schemaVersion, 6);
+  const kv = Object.fromEntries(out.stores.kv);
+  assert.deepEqual(kv.worlds, { lessons: {}, bosses: {}, skipped: [] });
+  assert.deepEqual(kv.stickersSeen, {});
 });

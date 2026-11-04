@@ -2,6 +2,19 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.2.0 · 2026-11-05 · Krok 4b: Hra
+
+- **Mapa výprav** (záložka Mapa): 7 světů od Kytarového tábora po Velké pódium, s lekcemi a výzvou na konci
+  - stav světa: hotovo / právě tady (s avatarem) / zamčeno; další svět se odemkne po výzvě
+  - lekce +5 XP, výzva +100 XP
+  - výzvy: potvrzení, **hra „Která struna?“** (10 správně za sebou), automatická výzva Akordového lesa (3 akordy s ★★), nahrávka
+  - rodič může za PINem označit svět jako hotový (bez XP)
+- **Album samolepek** (záložka Já): 21 samolepek za cvičení, série, mise, akordy, deník, nahrávky, report a světy
+  - oslava nové samolepky se zvukem; jednou získaná samolepka zůstává
+- Obsah mapy je v `content/worlds.json` (česky i anglicky), melodie vybere učitel
+- Migrace dat 5 → 6; zástupná obrazovka „Brzy tu bude…“ odstraněna (všechny záložky už fungují)
+- Testy: 91 automatických testů, 39 kroků v prohlížeči (mapa, hra, automatická výzva, přeskočení za PINem, album)
+
 ## 1.1.1 · 2026-11-05 · Report: text a nahrávky v jedné zprávě
 
 - Nahrávky z týdne jsou v reportu **předem zaškrtnuté** (nejvýš 3 nejnovější) a odejdou **v jednom sdílení s textem**
