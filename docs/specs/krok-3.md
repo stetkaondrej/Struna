@@ -1,6 +1,6 @@
 # Krok 3 · Do telefonu – specifikace
 
-> Stav: **postaveno ve verzi 1.0.0** (schváleno 4. 11. 2026: zvuky ano, avatary podle návrhu, ikona zůstává) · čeká na test na iPhonu · Cílová verze: **1.0.0** · Metaplán v1.1, kap. 8
+> Stav: **✅ hotovo** · verze 1.0.0, otestováno na iPhonu (přezdívku a avatara si dcera vybere později v Nastavení)
 
 ## Cíl
 

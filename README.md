@@ -42,8 +42,8 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 0 · Základy | Kostra, offline, ukládání, zálohy, jazyky | ✅ verze 0.1.0, otestováno na iPhonu |
 | 1 · Jádro MVP | Dnes, časovač, streak, XP | ✅ verze 0.2.0, otestováno na iPhonu |
 | 2 · MVP komplet | Akordy, denní mise, domácí úkol, deník | ✅ verze 0.3.1, otestováno na iPhonu |
-| 3 · Do telefonu | Úvodní průvodce, profil, zvuky, doladění | 🧪 verze 1.0.0, čeká na test na iPhonu |
-| 4 · Verze 2 | Nahrávky, report pro učitele, mapa, metronom | – |
+| 3 · Do telefonu | Úvodní průvodce, profil, zvuky, doladění | ✅ verze 1.0.0, otestováno na iPhonu |
+| 4 · Verze 2 | Nahrávky, report pro učitele, mapa, samolepky, metronom | 📝 specifikace čeká na schválení |
 | 5 · Verze 3 | Ladička, zvukový deník, rodičovský pohled | – |
 
 Podrobnosti: [docs/metaplan.md](docs/metaplan.md) · rozhodnutí: [docs/decisions.md](docs/decisions.md) · změny: [CHANGELOG.md](CHANGELOG.md)
