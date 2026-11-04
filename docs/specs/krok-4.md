@@ -1,6 +1,6 @@
 # Krok 4 · Verze 2 – specifikace
 
-> Stav: **4a postaveno ve verzi 1.1.0** · schváleno 5. 11. 2026: rozdělení 4a → 4b → 4c, zvuk i video, PIN ano, report přes WhatsApp, nahrávky mimo zálohu (doporučení, D-017) · 4b a 4c čekají na vlastní specifikaci
+> Stav: **4a ✅ hotovo** (verze 1.1.1, otestováno na iPhonu) · schváleno 5. 11. 2026: rozdělení 4a → 4b → 4c, zvuk i video, PIN ano, report přes WhatsApp, nahrávky mimo zálohu (D-017) · 4b: `docs/specs/krok-4b.md` · 4c čeká na vlastní specifikaci
 
 ## Návrh: rozdělit krok 4 na 3 menší části
 

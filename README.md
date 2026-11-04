@@ -48,8 +48,8 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 1 · Jádro MVP | Dnes, časovač, streak, XP | ✅ verze 0.2.0, otestováno na iPhonu |
 | 2 · MVP komplet | Akordy, denní mise, domácí úkol, deník | ✅ verze 0.3.1, otestováno na iPhonu |
 | 3 · Do telefonu | Úvodní průvodce, profil, zvuky, doladění | ✅ verze 1.0.0, otestováno na iPhonu |
-| 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | 🧪 verze 1.1.1, čeká na test na iPhonu |
-| 4b · Hra | Mapa 7 světů, samolepky | – |
+| 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | ✅ verze 1.1.1, otestováno na iPhonu |
+| 4b · Hra | Mapa 7 světů, samolepky | 📝 specifikace čeká na schválení |
 | 4c · Nástroje | Metronom, výzva 1 minuta | – |
 | 5 · Verze 3 | Ladička, zvukový deník, rodičovský pohled | – |
 
