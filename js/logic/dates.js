@@ -13,3 +13,20 @@ export function daysBetween(a, b) {
   const db = new Date(b.getFullYear(), b.getMonth(), b.getDate());
   return Math.round((db - da) / 86400000);
 }
+
+// Den posunutý o n dní (místní kalendář, bezpečné i přes změnu času).
+export function addDays(date, n) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + n);
+}
+
+// Pondělí týdne, do kterého patří datum.
+export function mondayOf(date) {
+  const dayIndex = (date.getDay() + 6) % 7; // Po = 0 … Ne = 6
+  return addDays(date, -dayIndex);
+}
+
+// "2026-11-04" → Date (místní půlnoc)
+export function parseLocalDate(text) {
+  const [y, m, d] = text.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}

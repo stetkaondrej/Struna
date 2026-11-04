@@ -66,6 +66,16 @@ export async function update(store, key, fn) {
   return next;
 }
 
+// Více zápisů a mazání najednou: buď se provede všechno, nebo nic.
+export async function replace({ put: puts = [], remove = [] }) {
+  const db = await openDB();
+  const names = [...new Set([...puts, ...remove].map(([store]) => store))];
+  const tx = db.transaction(names, 'readwrite');
+  for (const [store, key, value] of puts) tx.objectStore(store).put(value, key);
+  for (const [store, key] of remove) tx.objectStore(store).delete(key);
+  return finished(tx);
+}
+
 export async function readStores(names = DATA_STORES) {
   const db = await openDB();
   const tx = db.transaction(names);

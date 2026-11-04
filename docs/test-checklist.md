@@ -15,21 +15,36 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Nic se nepřekrývá s hodinami nahoře ani s lištou dole
 - [ ] Tmavý režim iPhonu (Nastavení → Displej) změní barvy a vše je čitelné
 
+## Cvičení a časovač
+- [ ] Dnes → **Začít cvičit**. Otevře se Cvičení a čas běží
+- [ ] Během cvičení displej nezhasne (počkej déle, než je nastavené automatické zamčení)
+- [ ] **Pauza**: čas se zastaví. **Pokračovat**: běží dál
+- [ ] Během cvičení zavři aplikaci (přejeď nahoru a odhoď ji), počkej 2 minuty, otevři ji. Časovač běží a čas je o 2 minuty vyšší
+- [ ] Zamkni telefon tlačítkem, počkej minutu, odemkni. Čas sedí
+- [ ] **Hotovo** po aspoň 1 minutě: oslava s XP. **Zpět na Dnes**: minuty v kroužku přibyly
+- [ ] Začni a hned dej Hotovo: hláška „kratší než minuta se neukládá“
+
+## Série, body a cíl
+- [ ] Po cvičení aspoň 5 minut: na Dnes „🔥 1 den v řadě“ a dnešní kolečko je zelené s fajfkou
+- [ ] Úroveň 1 a XP odpovídají minutám (např. 7 minut = 7 / 100 XP)
+- [ ] Po splnění denního cíle: „Dnešní cíl splněn!“ a +20 XP
+- [ ] Nastavení → Denní cíl 10 min. Na Dnes je „z 10 min“
+- [ ] Zítra a pozítří: série roste (zkontroluj průběžně v dalších dnech)
+
 ## Ukládání dat
-- [ ] Na Dnes klepni na „Klepnutí“ 5×
-- [ ] Zavři aplikaci (přejeď nahoru a odhoď ji) a otevři znovu. Číslo zůstalo
-- [ ] Restartuj telefon a otevři Strunu. Číslo zůstalo
+- [ ] Zavři aplikaci a otevři znovu. Minuty, série i XP zůstaly
+- [ ] Restartuj telefon a otevři Strunu. Vše zůstalo
 
 ## Offline
 - [ ] Zapni režim letadlo
-- [ ] Zavři a otevři Strunu. Otevře se, počitadlo funguje
+- [ ] Zavři a otevři Strunu. Otevře se a jde odcvičit krátké cvičení
 - [ ] Vypni režim letadlo
 
 ## Záloha a obnova
 - [ ] Nastavení → Zálohovat → Uložit do Souborů (nebo Google Drive). Objeví se „Záloha je hotová.“
-- [ ] Na Dnes klepni na počitadlo ještě 3× (číslo je teď vyšší)
+- [ ] Odcvičit další krátké cvičení (minuty na Dnes přibydou)
 - [ ] Nastavení → Obnovit ze zálohy → vyber soubor `struna-zaloha-…json` → Obnovit
-- [ ] Počitadlo je zpět na čísle ze zálohy
+- [ ] Minuty na Dnes jsou zpět na stavu ze zálohy
 - [ ] Zkus obnovit jiný soubor (např. fotku). Objeví se srozumitelná chyba, data zůstanou
 
 ## Jazyk
@@ -40,5 +55,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 ## Aktualizace (jen když Claude vydal novou verzi)
 - [ ] Po otevření se objeví „Je k dispozici nová verze“ → Aktualizovat
 - [ ] V Nastavení je nové číslo verze a data zůstala
+- [ ] (0.1.0 → 0.2.0) Testovací počitadlo zmizelo, jazyk zůstal
 
 **Poznámky:**

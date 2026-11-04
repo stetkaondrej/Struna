@@ -3,10 +3,12 @@ import { esc } from '../ui.js';
 import { LANGS, TEXTS, formatDate, formatBytes } from '../i18n.js';
 import { VERSION } from '../version.js';
 
+const GOALS = [10, 15, 20];
+
 export default {
   async render(el, ctx) {
     const { t, store, toast, lang, setLanguage, rerender } = ctx;
-    const [lastBackup, info] = await Promise.all([store.getLastBackup(), store.storageInfo()]);
+    const [lastBackup, info, settings] = await Promise.all([store.getLastBackup(), store.storageInfo(), store.getSettings()]);
 
     const storageText = info.persisted === true ? t('settings.storage.persisted')
       : info.persisted === false ? t('settings.storage.notPersisted')
@@ -17,6 +19,14 @@ export default {
         <h3>${esc(t('settings.language'))}</h3>
         <div class="segmented" role="group" aria-label="${esc(t('settings.language'))}">
           ${LANGS.map((l) => `<button type="button" data-lang="${l}" aria-pressed="${l === lang}">${esc(TEXTS[l]['lang.name'])}</button>`).join('')}
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>${esc(t('settings.goal'))}</h3>
+        <p class="muted">${esc(t('settings.goal.text'))}</p>
+        <div class="segmented three" role="group" aria-label="${esc(t('settings.goal'))}">
+          ${GOALS.map((n) => `<button type="button" data-goal="${n}" aria-pressed="${n === settings.dailyGoalMin}">${esc(t('settings.goal.option', { n }))}</button>`).join('')}
         </div>
       </section>
 
@@ -46,6 +56,16 @@ export default {
     el.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', async () => {
       try {
         await setLanguage(b.dataset.lang);
+      } catch (err) {
+        console.error(err);
+        toast(t('error.save'), 'error');
+      }
+    }));
+
+    el.querySelectorAll('[data-goal]').forEach((b) => b.addEventListener('click', async () => {
+      try {
+        await store.setSetting('dailyGoalMin', Number(b.dataset.goal));
+        rerender();
       } catch (err) {
         console.error(err);
         toast(t('error.save'), 'error');

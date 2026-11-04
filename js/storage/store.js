@@ -5,7 +5,7 @@ import { CURRENT_SCHEMA, migrate } from './migrations.js';
 import { buildSnapshot, parseBackupText, hasOnlyKnownStores, backupFileName } from './format.js';
 import { VERSION } from '../version.js';
 
-const DEFAULT_SETTINGS = { lang: 'cs' };
+const DEFAULT_SETTINGS = { lang: 'cs', dailyGoalMin: 15 };
 
 // Spustí se při startu aplikace: otevře databázi a případně převede data na nový tvar.
 export async function init() {
@@ -40,13 +40,23 @@ export async function setSetting(key, value) {
   return db.update('kv', 'settings', (s) => ({ ...DEFAULT_SETTINGS, ...(s ?? {}), [key]: value }));
 }
 
-// --- Testovací počitadlo (jen krok 0, v kroku 1 se odstraní) ---
-export async function getCounter() {
-  return (await db.get('kv', 'testCounter')) ?? 0;
+// --- Cvičení ---
+export async function listSessions() {
+  return (await db.readStores(['sessions'])).sessions.map(([, value]) => value);
 }
 
-export async function incrementCounter() {
-  return db.update('kv', 'testCounter', (n) => (n ?? 0) + 1);
+// Běžící (nebo pozastavený) časovač. Ukládá se, aby přežil zavření aplikace.
+export async function getActiveSession() {
+  return (await db.get('kv', 'activeSession')) ?? null;
+}
+
+export async function setActiveSession(active) {
+  await db.put('kv', 'activeSession', active);
+}
+
+// Uloží cvičení a zároveň smaže běžící časovač, v jedné transakci.
+export async function finishActiveSession(session) {
+  await db.replace({ put: session ? [['sessions', session.id, session]] : [], remove: [['kv', 'activeSession']] });
 }
 
 // --- Zálohy ---

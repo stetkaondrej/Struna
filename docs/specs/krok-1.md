@@ -1,6 +1,6 @@
 # Krok 1 · Jádro MVP – specifikace
 
-> Stav: **čeká na schválení** · Cílová verze: **0.2.0** · Metaplán v1.1, kap. 8
+> Stav: **postaveno ve verzi 0.2.0** (schváleno 4. 11. 2026, denní mise přesunuty do kroku 2) · čeká na test na iPhonu · Cílová verze: **0.2.0** · Metaplán v1.1, kap. 8
 
 ## Cíl
 
@@ -65,9 +65,9 @@ Shora dolů:
 
 | Úložiště | Záznam | Pole |
 |---|---|---|
-| `sessions` (nové) | jedno cvičení | `id`, `date` (RRRR-MM-DD), `startedAt`, `endedAt`, `seconds` |
+| `sessions` (nové) | jedno cvičení | `id`, `date` (RRRR-MM-DD), `startedAt`, `endedAt`, `seconds`, `goalMin` (cíl platný v době cvičení, viz D-009) |
 | `kv` → `settings` | nastavení | `lang`, **`dailyGoalMin`** (nové) |
-| `kv` → `activeSession` | běžící časovač | `startedAt`, `pausedSeconds`, `pausedAt` |
+| `kv` → `activeSession` | běžící časovač | `startedAt`, `accumulatedSec`, `runningSince`, `confirmedUntilSec` |
 
 Změny verzí: `DB_VERSION` 1 → 2 (nové úložiště), `CURRENT_SCHEMA` 1 → 2 (migrace). Záloha z verze 0.1.0 půjde obnovit i ve verzi 0.2.0.
 

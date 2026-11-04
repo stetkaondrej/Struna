@@ -156,7 +156,7 @@ Každý krok roadmapy prochází stejnými šesti fázemi:
 |---|---|---|---|
 | **0 · Základy** | GitHub účet a repozitář, GitHub Pages, struktura složek, CLAUDE.md, README, prázdná aplikace na ploše iPhonu, vrstva `storage` se zálohou, obnovou a migracemi, testovací nástroj, offline režim | Prázdná, ale „neprůstřelná“ aplikace na telefonu | 0.1.0 |
 | **1 · Jádro MVP** | Obrazovka Dnes, časovač cvičení, streak (se 2 dny volna týdně) a XP | Dcera může začít denně cvičit | 0.2.0 |
-| **2 · MVP komplet** | Akordy s diagramy, domácí úkol od učitele, deník „Co jsem se naučila“ | První verze k reálnému používání | 0.3.0 |
+| **2 · MVP komplet** | Akordy s diagramy, denní mise se 3 úkoly, domácí úkol od učitele, deník „Co jsem se naučila“ | První verze k reálnému používání | 0.3.0 |
 | **3 · Do telefonu** | Ikona, název, úvodní nastavení (jméno, avatar, denní cíl), test na reálném iPhonu | Hotové MVP | **1.0.0** |
 | **4 · Verze 2** | Nahrát cvičení (video/audio), týdenní report pro učitele, mapa výprav, samolepky, metronom, 1minutové střídání akordů | Motivace + spojení s učitelem | 1.x |
 | **5 · Verze 3** | Ladička (mikrofon), zvukový deník, rodičovský pohled na druhém telefonu (cloud) | Plná verze | 2.0.0 |
@@ -232,4 +232,4 @@ Podrobnosti a důvody jsou v `docs/decisions.md`.
 
 ## 14. Další krok
 
-**Fáze 0 · Základy** je hotová a otestovaná na iPhonu (verze 0.1.0). **Krok 1 · Jádro MVP**: specifikace `docs/specs/krok-1.md` čeká na schválení.
+**Fáze 0 · Základy** je hotová a otestovaná na iPhonu (verze 0.1.0). **Krok 1 · Jádro MVP** je postavený (verze 0.2.0) a čeká na test na iPhonu. Denní mise se 3 úkoly patří do kroku 2.

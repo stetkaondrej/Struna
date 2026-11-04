@@ -5,6 +5,7 @@ import { registerServiceWorker } from './sw-register.js';
 import { toast, icon, esc } from './ui.js';
 import today from './screens/today.js';
 import settings from './screens/settings.js';
+import practice from './screens/practice.js';
 import { soonScreen } from './screens/soon.js';
 
 // Adresa obrazovky je v části za # (např. …/#akordy).
@@ -12,7 +13,7 @@ const TABS = ['dnes', 'mapa', 'cviceni', 'akordy', 'ja'];
 const SCREENS = {
   dnes: today,
   mapa: soonScreen('mapa', 4),
-  cviceni: soonScreen('cviceni', 1),
+  cviceni: practice,
   akordy: soonScreen('akordy', 2),
   ja: soonScreen('ja', '2–4'),
   nastaveni: settings,
@@ -64,19 +65,23 @@ function renderChrome(route) {
 }
 
 let renderId = 0;
+let cleanup = null; // úklid předchozí obrazovky (např. zastavit tikání časovače)
 async function render() {
   const id = ++renderId;
   const route = currentRoute();
   renderChrome(route);
   const container = document.createElement('div');
   container.className = 'screen';
+  let nextCleanup = null;
   try {
-    await SCREENS[route].render(container, ctx);
+    nextCleanup = await SCREENS[route].render(container, ctx);
   } catch (err) {
     console.error(err);
     container.innerHTML = `<p class="note warn">${esc(t('error.boot'))}</p>`;
   }
-  if (id !== renderId) return; // mezitím uživatel přepnul jinam
+  if (id !== renderId) { nextCleanup?.(); return; } // mezitím uživatel přepnul jinam
+  cleanup?.();
+  cleanup = typeof nextCleanup === 'function' ? nextCleanup : null;
   main.replaceChildren(container);
   window.scrollTo(0, 0);
 }

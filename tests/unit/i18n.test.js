@@ -18,9 +18,9 @@ test('žádný text není prázdný a zástupná místa {x} souhlasí', () => {
 
 test('doplnění hodnoty a přepnutí jazyka', () => {
   setLang('cs');
-  assert.equal(t('today.counter.button', { n: 7 }), 'Klepnutí: 7');
+  assert.equal(t('level.title', { n: 7 }), 'Úroveň 7');
   setLang('en');
-  assert.equal(t('today.counter.button', { n: 7 }), 'Taps: 7');
+  assert.equal(t('level.title', { n: 7 }), 'Level 7');
   setLang('xx');
   assert.equal(t('tab.dnes'), 'Dnes', 'neznámý jazyk → čeština');
 });
@@ -34,4 +34,17 @@ test('každý klíč použitý v kódu existuje', () => {
     const src = readFileSync(file, 'utf8');
     for (const [, key] of src.matchAll(/\bt\('([\w.]+)'/g)) assert.ok(key in TEXTS.cs, `${file}: chybí text ${key}`);
   }
+});
+
+test('správné tvary: 1 den, 2 dny, 5 dní', async () => {
+  const { tn } = await import('../../js/i18n.js');
+  setLang('cs');
+  assert.equal(tn('streak', 1), '🔥 1 den v řadě');
+  assert.equal(tn('streak', 3), '🔥 3 dny v řadě');
+  assert.equal(tn('streak', 5), '🔥 5 dní v řadě');
+  assert.equal(tn('streak', 22), '🔥 22 dní v řadě');
+  setLang('en');
+  assert.equal(tn('streak', 1), '🔥 1 day in a row');
+  assert.equal(tn('streak', 3), '🔥 3 days in a row');
+  setLang('cs');
 });

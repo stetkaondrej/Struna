@@ -30,3 +30,26 @@ export const ICONS = {
 
 export const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+
+// Kruhový ukazatel pokroku (0 až 1). Uvnitř může být libovolný obsah.
+export function ring(fraction, { size = 120, stroke = 12, inner = '', label = '' } = {}) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const f = Math.max(0, Math.min(1, fraction));
+  return `
+    <div class="ring" style="width:${size}px;height:${size}px" role="img" aria-label="${esc(label)}">
+      <svg viewBox="0 0 ${size} ${size}" aria-hidden="true">
+        <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--line)" stroke-width="${stroke}"/>
+        <circle class="ring-bar" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--teal)" stroke-width="${stroke}"
+          stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - f)}" transform="rotate(-90 ${size / 2} ${size / 2})"/>
+      </svg>
+      <div class="ring-inner">${inner}</div>
+    </div>`;
+}
+
+export function setRing(el, fraction) {
+  const bar = el.querySelector('.ring-bar');
+  if (!bar) return;
+  const c = Number(bar.getAttribute('stroke-dasharray'));
+  bar.setAttribute('stroke-dashoffset', String(c * (1 - Math.max(0, Math.min(1, fraction)))));
+}

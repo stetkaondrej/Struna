@@ -126,3 +126,49 @@ button:focus-visible, a:focus-visible, label:focus-visible { outline: 3px solid 
   .screen { animation: appear .18s ease-out; }
   @keyframes appear { from { opacity: .5; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 }
+
+/* --- Krok 1: pokrok, série, úroveň, časovač --- */
+.segmented.three { grid-template-columns: repeat(3, 1fr); }
+.btn.big { min-height: 56px; font-size: 19px; width: 100%; }
+.row-between { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.ring { position: relative; display: grid; place-items: center; flex: none; max-width: 100%; }
+.ring svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ring-bar { transition: stroke-dashoffset .6s ease; }
+.ring-inner { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 0 14px; }
+
+.today-card { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px 16px; }
+.today-card .ring-inner strong { font-family: var(--font-display); font-size: 18px; line-height: 1.1; }
+.today-card .btn { grid-column: 1 / -1; }
+.today-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+.week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.day { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; color: var(--muted); }
+.dot { width: 30px; height: 30px; border-radius: 50%; background: var(--line); display: grid; place-items: center; }
+.day.done .dot { background: var(--teal); }
+.day.done .dot::after { content: "✓"; color: var(--on-accent); font-weight: 800; font-size: 15px; }
+.day.rest .dot { background: var(--sun); }
+.day.missed .dot { background: var(--pick-soft); border: 2px solid var(--pick); }
+.day.today .dot { background: transparent; border: 3px solid var(--teal); }
+.day.today .dname { color: var(--teal); font-weight: 800; }
+.day.future .dot { background: transparent; border: 2px dashed var(--line); }
+
+.xp-num { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 700; font-size: 15px; }
+.bar { height: 12px; border-radius: 12px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--sun); border-radius: 12px; }
+
+.practice { align-items: center; text-align: center; gap: 14px; }
+.clock { font-family: var(--font-display); font-size: 52px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; width: 100%; }
+.practice .confirm { width: 100%; text-align: left; }
+
+.done { align-items: center; text-align: center; gap: 12px; }
+.done h2 { font-size: 30px; }
+.xp-big { font-family: var(--font-display); font-size: 56px; font-weight: 800; color: var(--teal); line-height: 1; }
+.badge { background: var(--teal-soft); color: var(--ink); font-weight: 700; border-radius: 999px; padding: 6px 14px; }
+.badge.sun { background: var(--sun); color: #1D2A2A; }
+@media (prefers-reduced-motion: no-preference) {
+  .xp-big { animation: pop .5s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+}

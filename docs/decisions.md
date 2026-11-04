@@ -4,6 +4,22 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-010 · Denní mise až v kroku 2
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Denní mise se 3 úkoly se staví v kroku 2 spolu s akordy.
+**Proč:** Úkoly potřebují obsah (akordy, cviky), který vzniká v kroku 2.
+
+## D-009 · Denní cíl se ukládá ke každému cvičení
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Každé cvičení si pamatuje denní cíl, který platil, když vzniklo (`goalMin`).
+**Proč:** Když se cíl později změní (např. z 15 na 10 minut), staré dny zůstanou hodnocené podle cíle, který tehdy platil. Bonusy za minulost se tak zpětně nemění.
+
+## D-008 · Body XP a série se počítají, neukládají
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** XP, úroveň a série dní se vždy spočítají z uložených cvičení (`js/logic/progress.js`). Nikde se neukládají jako číslo.
+**Proč:** Jediný zdroj pravdy jsou cvičení. Čísla nikdy nemůžou „nesedět“, obnova zálohy je automaticky správná a změna pravidel platí jednotně.
+**Schválená pravidla:** den od 5 minut, 2 dny volna týdně, 1 XP/min (max. 30 denně), +20 za cíl, +50 za každých 7 dní série, úrovně 100/250/450/700/1000…
+
 ## D-007 · Cílové zařízení: iPhone 12 Pro, iOS 26.6.1
 **Datum:** 4. 11. 2026
 **Rozhodnutí:** Navrhujeme a testujeme pro obrazovku 390 × 844 bodů (iPhone 12 Pro). Aplikace musí fungovat i na menších a větších iPhonech.
