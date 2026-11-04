@@ -4,6 +4,17 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-016 · Velikost písma podle iPhonu
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Velikosti písma jsou v `rem` a základ se řídí systémovým nastavením iPhonu (`-apple-system-body`).
+**Proč:** Když má někdo v iPhonu zapnuté větší písmo (Zpřístupnění), Struna ho respektuje. Test hlídá, že nic nepřetéká přes okraj ani se zvětšeným písmem.
+
+## D-015 · Profil, avatary a zvuky
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Přezdívka a avatar (8 emoji vybraných dcerou) jsou jen v telefonu a v zálohách (D-006). Zvuky se generují v aplikaci (Web Audio), jsou zapnuté a jdou vypnout. Ikona aplikace zůstává.
+**Proč:** Osobní aplikace víc motivuje. Emoji a generované zvuky fungují offline a nepřidávají soubory ani knihovny (P2).
+**Pozn.:** Přezdívka se píše rovnou v 5. pádě („Kytaristko“), protože aplikace neumí česky skloňovat.
+
 ## D-014 · Prstoklady potvrdil učitel
 **Datum:** 4. 11. 2026
 **Rozhodnutí:** Učitel prstoklady potvrdil s dvěma úpravami:

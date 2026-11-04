@@ -5,7 +5,8 @@ import { CURRENT_SCHEMA, migrate } from './migrations.js';
 import { buildSnapshot, parseBackupText, hasOnlyKnownStores, backupFileName } from './format.js';
 import { VERSION } from '../version.js';
 
-const DEFAULT_SETTINGS = { lang: 'cs', dailyGoalMin: 15 };
+const DEFAULT_SETTINGS = { lang: 'cs', dailyGoalMin: 15, sounds: true };
+const DEFAULT_PROFILE = { nickname: '', avatar: null, onboardedAt: null };
 
 // Spustí se při startu aplikace: otevře databázi a případně převede data na nový tvar.
 export async function init() {
@@ -61,6 +62,15 @@ export async function setActiveSession(active) {
 // Uloží cvičení a zároveň smaže běžící časovač, v jedné transakci.
 export async function finishActiveSession(session) {
   await db.replace({ put: session ? [['sessions', session.id, session]] : [], remove: [['kv', 'activeSession']] });
+}
+
+// --- Profil (přezdívka a avatar zůstávají jen v telefonu, D-006) ---
+export async function getProfile() {
+  return { ...DEFAULT_PROFILE, ...((await db.get('kv', 'profile')) ?? {}) };
+}
+
+export async function setProfile(patch) {
+  return db.update('kv', 'profile', (p) => ({ ...DEFAULT_PROFILE, ...(p ?? {}), ...patch }));
 }
 
 // --- Akordy: hvězdičky a „učím se“ ---

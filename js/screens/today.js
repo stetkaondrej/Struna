@@ -6,6 +6,8 @@ import { computeProgress, weekView, restUsedThisWeek, levelFor, RULES } from '..
 import { buildMission, missionXp, fillTemplate } from '../logic/mission.js';
 import { loadContent } from '../content.js';
 import * as timer from '../logic/timer.js';
+import { avatarEmoji } from '../avatars.js';
+import { play } from '../sounds.js';
 
 // Text úkolu v aktuálním jazyce.
 export function questTexts(quest, quests, lang) {
@@ -13,18 +15,19 @@ export function questTexts(quest, quests, lang) {
   return { title: fillTemplate(tpl.title, quest.params), text: fillTemplate(tpl.text, quest.params) };
 }
 
-function greeting(t, now) {
+function greeting(t, now, name) {
   const h = now.getHours();
-  return t(h >= 4 && h < 11 ? 'greet.morning' : h < 18 && h >= 11 ? 'greet.afternoon' : 'greet.evening');
+  const part = h >= 4 && h < 11 ? 'morning' : h >= 11 && h < 18 ? 'afternoon' : 'evening';
+  return name ? t(`greet.${part}Name`, { name }) : t(`greet.${part}`);
 }
 
 export default {
   async render(el, { t, store, toast, go, lang, rerender }) {
     const now = new Date();
     const date = localDateString(now);
-    const [content, data, settings, active, lastBackup, chordProgress, homework] = await Promise.all([
+    const [content, data, settings, active, lastBackup, chordProgress, homework, profile] = await Promise.all([
       loadContent(), store.loadProgressData(), store.getSettings(), store.getActiveSession(), store.getLastBackup(),
-      store.getChordProgress(), store.listHomework(),
+      store.getChordProgress(), store.listHomework(), store.getProfile(),
     ]);
     const mission = await store.getOrCreateMission(date, buildMission({ date, chords: content.chords, chordProgress, homework }));
     const missions = [...data.missions.filter((m) => m.date !== date), mission];
@@ -44,7 +47,10 @@ export default {
     const startLabel = active ? t('today.continue', { time: timer.formatClock(timer.elapsedSec(active, now)) }) : t('today.start');
 
     el.innerHTML = `
-      <h2 class="hello">${esc(greeting(t, now))}</h2>
+      <div class="hello-row">
+        ${profile.avatar ? `<span class="avatar-face" aria-hidden="true">${avatarEmoji(profile.avatar)}</span>` : ''}
+        <h2 class="hello">${esc(greeting(t, now, profile.nickname))}</h2>
+      </div>
 
       <section class="card mission" id="mission">
         <div class="row-between">
@@ -110,7 +116,18 @@ export default {
     el.querySelectorAll('[data-quest]').forEach((b) => b.addEventListener('click', async () => {
       try {
         const updated = await store.toggleQuest(date, b.dataset.quest);
-        if (updated.quests.every((q) => q.done)) toast(t('mission.allDone'), 'ok');
+        const after = computeProgress(data.sessions, now, { missions: [...missions.filter((m) => m.date !== date), updated], journal: data.journal });
+        const newLevel = levelFor(after.xp).level;
+        const justDone = updated.quests.find((q) => q.id === b.dataset.quest).done;
+        if (newLevel > level.level) {
+          play('level');
+          toast(t('practice.done.level', { n: newLevel }), 'ok');
+        } else if (justDone && updated.quests.every((q) => q.done)) {
+          play('mission');
+          toast(t('mission.allDone'), 'ok');
+        } else if (justDone) {
+          play('tick');
+        }
         rerender();
       } catch (err) {
         console.error(err);

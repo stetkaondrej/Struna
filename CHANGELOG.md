@@ -2,6 +2,21 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.0.0 · 2026-11-04 · Krok 3: Do telefonu 🎉
+
+První hotová verze Struny.
+
+- **Úvodní průvodce** při prvním otevření: vítání, přezdívka, avatar, denní cíl, návod „Přidat na plochu“
+  - po aktualizaci ze starší verze jen krátký průvodce (přezdívka a avatar), všechna data zůstávají
+- **Profil**: přezdívka a avatar (🎸 🦊 🐱 🦄 🐼 🦉 🐸 ⭐) v pozdravu na Dnes, karta v záložce Já, úprava v Nastavení
+- **Zvuky radosti** (generované v aplikaci, bez souborů): úkol, splněná mise, dokončené cvičení, nová úroveň; vypínač v Nastavení
+- **Větší písmo**: velikost textu se řídí nastavením iPhonu (Zpřístupnění → Větší text)
+- Kontrola rozložení na iPhonu SE, 12 Pro a 14 Pro Max
+- Nastavení → O aplikaci: odkaz na nápovědu
+- Migrace dat 3 → 4 (profil, zvuky)
+- Nápověda v README: instalace, body XP, záloha, obnova, aktualizace
+- Testy: 69 automatických testů, 29 kroků v prohlížeči (průvodce, aktualizace z 0.3.1, iPhone SE, 14 Pro Max, velké písmo)
+
 ## 0.3.1 · 2026-11-04 · Prstoklady podle učitele
 
 - **G dur**: malíček (4) na strunu e a prsteníček (3) na strunu H, oba ve 3. pražci (plnější zvuk)

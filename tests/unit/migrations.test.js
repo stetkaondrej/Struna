@@ -49,7 +49,7 @@ test('záloha z verze 0.1.0 (data verze 1) jde převést na aktuální', () => {
 
 test('migrace 2 → 3 přidá mise, úkoly, deník a výchozí akordy Em a Am', () => {
   const v2 = { app: 'struna', schemaVersion: 2, stores: { kv: [['settings', { lang: 'cs' }]], sessions: [['a', { seconds: 60 }]] } };
-  const out = migrate(v2);
+  const out = migrate(v2, 3);
   assert.equal(out.schemaVersion, 3);
   assert.deepEqual(out.stores.sessions, [['a', { seconds: 60 }]]);
   assert.deepEqual(out.stores.missions, []);
@@ -60,6 +60,33 @@ test('migrace 2 → 3 přidá mise, úkoly, deník a výchozí akordy Em a Am', 
 
 test('migrace 2 → 3 nepřepíše existující pokrok v akordech', () => {
   const mine = { G: { stars: 2, learning: true } };
-  const out = migrate({ app: 'struna', schemaVersion: 2, stores: { kv: [['chords', mine]], sessions: [] } });
+  const out = migrate({ app: 'struna', schemaVersion: 2, stores: { kv: [['chords', mine]], sessions: [] } }, 3);
   assert.deepEqual(out.stores.kv, [['chords', mine]]);
+});
+
+test('migrace 3 → 4 přidá prázdný profil a zapne zvuky, nastavení zachová', () => {
+  const v3 = { app: 'struna', schemaVersion: 3, stores: {
+    kv: [['settings', { lang: 'en', dailyGoalMin: 10 }]], sessions: [], missions: [], homework: [], journal: [] } };
+  const out = migrate(v3);
+  assert.equal(out.schemaVersion, 4);
+  const kv = Object.fromEntries(out.stores.kv);
+  assert.deepEqual(kv.settings, { lang: 'en', dailyGoalMin: 10, sounds: true });
+  assert.deepEqual(kv.profile, { nickname: '', avatar: null, onboardedAt: null });
+});
+
+test('migrace 3 → 4 nepřepíše existující profil ani vypnuté zvuky', () => {
+  const profile = { nickname: 'Kytaristko', avatar: 'fox', onboardedAt: '2026-11-05T10:00:00Z' };
+  const out = migrate({ app: 'struna', schemaVersion: 3, stores: {
+    kv: [['profile', profile], ['settings', { lang: 'cs', sounds: false }]], sessions: [], missions: [], homework: [], journal: [] } });
+  const kv = Object.fromEntries(out.stores.kv);
+  assert.deepEqual(kv.profile, profile);
+  assert.equal(kv.settings.sounds, false);
+});
+
+test('nová instalace (od nuly) má výchozí nastavení, profil i akordy', () => {
+  const out = migrate({ schemaVersion: 0, stores: {} });
+  const kv = Object.fromEntries(out.stores.kv);
+  assert.deepEqual(kv.settings, { lang: 'cs', dailyGoalMin: 15, sounds: true });
+  assert.equal(kv.profile.onboardedAt, null);
+  assert.ok(kv.chords.Em.learning);
 });

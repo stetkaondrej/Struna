@@ -2,19 +2,45 @@
 import { esc } from '../ui.js';
 import { LANGS, TEXTS, formatDate, formatBytes } from '../i18n.js';
 import { VERSION } from '../version.js';
+import { avatarPicker, wireAvatarPicker, NICKNAME_MAX } from './onboarding.js';
+import { play } from '../sounds.js';
+
+const HELP_URL = 'https://github.com/stetkaondrej/Struna#readme';
 
 const GOALS = [10, 15, 20];
 
 export default {
   async render(el, ctx) {
     const { t, store, toast, lang, setLanguage, rerender } = ctx;
-    const [lastBackup, info, settings] = await Promise.all([store.getLastBackup(), store.storageInfo(), store.getSettings()]);
+    const [lastBackup, info, settings, profile] = await Promise.all([
+      store.getLastBackup(), store.storageInfo(), store.getSettings(), store.getProfile(),
+    ]);
 
     const storageText = info.persisted === true ? t('settings.storage.persisted')
       : info.persisted === false ? t('settings.storage.notPersisted')
       : t('settings.storage.unknown');
 
     el.innerHTML = `
+      <section class="card" id="profile-settings">
+        <h3>${esc(t('settings.profile'))}</h3>
+        <form id="name-form" class="name-form" novalidate>
+          <label class="field"><span>${esc(t('settings.profile.name'))}</span>
+            <input type="text" id="nickname" maxlength="${NICKNAME_MAX}" autocomplete="nickname"
+              placeholder="${esc(t('onb.name.placeholder'))}" value="${esc(profile.nickname)}"></label>
+          <button type="submit" class="btn">${esc(t('settings.profile.save'))}</button>
+        </form>
+        <p class="field-label">${esc(t('settings.profile.avatar'))}</p>
+        ${avatarPicker(t, profile.avatar)}
+      </section>
+
+      <section class="card">
+        <h3>${esc(t('settings.sounds'))}</h3>
+        <p class="muted">${esc(t('settings.sounds.text'))}</p>
+        <button type="button" class="toggle" id="sounds" aria-pressed="${settings.sounds}">
+          <span class="switch" aria-hidden="true"></span>${esc(t('settings.sounds.toggle'))}
+        </button>
+      </section>
+
       <section class="card">
         <h3>${esc(t('settings.language'))}</h3>
         <div class="segmented" role="group" aria-label="${esc(t('settings.language'))}">
@@ -51,6 +77,8 @@ export default {
       <section class="card">
         <h3>${esc(t('settings.about'))}</h3>
         <p class="muted" id="version">${esc(t('settings.version', { v: VERSION }))}</p>
+        <p>${esc(t('settings.about.made'))} 🎸</p>
+        <a class="link" href="${HELP_URL}" target="_blank" rel="noopener">${esc(t('settings.about.help'))}</a>
       </section>`;
 
     el.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', async () => {
@@ -61,6 +89,35 @@ export default {
         toast(t('error.save'), 'error');
       }
     }));
+
+    const saveProfile = async (patch) => {
+      try {
+        await store.setProfile(patch);
+        toast(t('settings.profile.saved'), 'ok');
+      } catch (err) {
+        console.error(err);
+        toast(t('error.save'), 'error');
+      }
+    };
+    el.querySelector('#name-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      el.querySelector('#nickname').blur();
+      saveProfile({ nickname: el.querySelector('#nickname').value.trim() });
+    });
+    wireAvatarPicker(el, (avatar) => saveProfile({ avatar }));
+
+    const soundsBtn = el.querySelector('#sounds');
+    soundsBtn.addEventListener('click', async () => {
+      const on = soundsBtn.getAttribute('aria-pressed') !== 'true';
+      try {
+        await ctx.setSounds(on);
+        soundsBtn.setAttribute('aria-pressed', String(on));
+        if (on) play('tick');
+      } catch (err) {
+        console.error(err);
+        toast(t('error.save'), 'error');
+      }
+    });
 
     el.querySelectorAll('[data-goal]').forEach((b) => b.addEventListener('click', async () => {
       try {

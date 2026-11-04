@@ -5,11 +5,12 @@ import { localDateString, parseLocalDate } from '../logic/dates.js';
 import { computeProgress, levelFor } from '../logic/progress.js';
 import { activeHomework } from '../logic/mission.js';
 import { journalForm, faceFor } from './journal-form.js';
+import { avatarEmoji } from '../avatars.js';
 
 export default {
   async render(el, ctx) {
-    const { t, store, toast, rerender } = ctx;
-    const [homework, data] = await Promise.all([store.listHomework(), store.loadProgressData()]);
+    const { t, store, toast, rerender, go } = ctx;
+    const [homework, data, profile] = await Promise.all([store.listHomework(), store.loadProgressData(), store.getProfile()]);
     const progress = computeProgress(data.sessions, new Date(), data);
     const current = activeHomework(homework);
     const history = homework.filter((h) => h.doneAt).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 5);
@@ -17,6 +18,15 @@ export default {
     const lessonDate = (h) => formatDate(parseLocalDate(h.lessonDate));
 
     el.innerHTML = `
+      <section class="card profile-card" id="profile">
+        <span class="avatar-face big" aria-hidden="true">${avatarEmoji(profile.avatar) || '🎵'}</span>
+        <div class="profile-text">
+          <h2>${esc(profile.nickname || t('me.profile.noName'))}</h2>
+          <p class="muted">${esc(t('level.title', { n: levelFor(progress.xp).level }))} · ${progress.xp} XP</p>
+        </div>
+        <button type="button" class="link" id="edit-profile">${esc(t('me.profile.edit'))}</button>
+      </section>
+
       <section class="card" id="homework">
         <h3>${esc(t('me.homework'))}</h3>
         ${current ? `
@@ -64,6 +74,8 @@ export default {
           <div><dt>${esc(t('me.stats.level'))}</dt><dd>${levelFor(progress.xp).level}</dd></div>
         </dl>
       </section>`;
+
+    el.querySelector('#edit-profile').addEventListener('click', () => go('nastaveni'));
 
     const safely = (fn) => async (...args) => {
       try { await fn(...args); } catch (err) { console.error(err); toast(t('error.save'), 'error'); }

@@ -15,6 +15,16 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Nic se nepřekrývá s hodinami nahoře ani s lištou dole
 - [ ] Tmavý režim iPhonu (Nastavení → Displej) změní barvy a vše je čitelné
 
+## Průvodce a profil (krok 3)
+- [ ] Po aktualizaci z 0.3.1: krátký průvodce „Novinka: tvůj profil“ (přezdívka, avatar). Cvičení, série a XP zůstaly
+- [ ] Na Dnes je pozdrav s přezdívkou a avatar
+- [ ] Já: karta profilu nahoře. „Upravit profil“ otevře Nastavení
+- [ ] Nastavení → Profil: změna přezdívky a avatara se uloží
+- [ ] Zvuky: odškrtnutí úkolu „cinkne“, splněná mise zahraje melodii, Hotovo po cvičení zahraje krátký tón
+- [ ] Nastavení → Zvuky vypnout: nic nehraje. S tichým režimem iPhonu (přepínač na boku) také nic nehraje
+- [ ] iPhone Nastavení → Zpřístupnění → Displej a velikost textu → Větší text: Struna má větší písmo a nic nepřetéká
+- [ ] Nastavení → O aplikaci → Nápověda otevře návod
+
 ## Cvičení a časovač
 - [ ] Dnes → **Začít cvičit**. Otevře se Cvičení a čas běží
 - [ ] Během cvičení displej nezhasne (počkej déle, než je nastavené automatické zamčení)
@@ -77,5 +87,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] V Nastavení je nové číslo verze a data zůstala
 - [ ] (0.1.0 → 0.2.0) Testovací počitadlo zmizelo, jazyk zůstal
 - [ ] (0.2.0 → 0.3.0) Minuty, série a XP zůstaly; v Akordech jsou Em a Am „Učím se“
+- [ ] (0.3.1 → 1.0.0) Krátký průvodce, pak vše jako předtím
 
 **Poznámky:**

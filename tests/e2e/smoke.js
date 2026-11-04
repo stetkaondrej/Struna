@@ -51,11 +51,30 @@ async function step(name, fn) {
 const text = (sel) => page.locator(sel).first().textContent();
 const waitText = (sel, want) => page.waitForFunction(
   ([s, w]) => document.querySelector(s)?.textContent.includes(w), [sel, want], { timeout: 5000 });
+const waitTextOn = (p, sel, want) => p.waitForFunction(
+  ([s, w]) => document.querySelector(s)?.textContent.includes(w), [sel, want], { timeout: 5000 });
 const tab = async (route) => {
   await page.click(`#tabbar a[href="#${route}"]`);
   await page.waitForSelector(`#main .screen[data-route="${route}"]`);
 };
 const minutes = (n) => page.clock.fastForward(n * 60 * 1000);
+// Projde průvodce co nejrychleji (Přeskočit / Další), až se objeví obrazovka Dnes.
+async function skipOnboarding(p = page) {
+  await p.waitForSelector('.onb');
+  for (let i = 0; i < 10; i++) {
+    const step = await p.getAttribute('.onb', 'data-step');
+    const skip = p.locator('#onb-skip');
+    await (await skip.count() ? skip : p.locator('#onb-next')).click();
+    if (step === 'done') break;
+    await p.waitForFunction((prev) => document.querySelector('.onb')?.dataset.step !== prev, step);
+  }
+  await p.waitForSelector('#start');
+}
+// Stránka se nesmí posouvat do stran (nic nepřetéká přes okraj displeje).
+async function assertNoSideScroll(p, label) {
+  const { sw, iw } = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth }));
+  assert.ok(sw <= iw, `${label}: stránka je širší než displej (${sw} > ${iw})`);
+}
 const readKv = () => page.evaluate(() => new Promise((res) => {
   const r = indexedDB.open('struna');
   r.onsuccess = () => {
@@ -84,16 +103,43 @@ try {
       };
     }));
     await page.goto(base);
-    await page.waitForSelector('#start');
+    await page.waitForSelector('.onb');
     const keys = await readKv();
     assert.ok(!keys.includes('testCounter'), 'testovací počitadlo mělo zmizet');
     assert.ok(keys.includes('settings'));
+    assert.ok(keys.includes('profile'));
+  });
+
+  await step('úvodní průvodce: vítání, přezdívka, avatar, cíl, návod na plochu', async () => {
+    await page.waitForSelector('.onb[data-step="welcome"]');
+    assert.equal(await page.isHidden('#tabbar'), true, 'během průvodce se lišta schová');
+    await waitText('.onb', 'Krok 1 z 5');
+    await page.screenshot({ path: path.join(outDir, 'pruvodce-vitej.png') });
+    await page.click('#onb-next');
+    await page.fill('#onb-name', 'Kytaristko');
+    await page.click('#onb-next');
+    await page.click('[data-avatar="fox"]');
+    await page.screenshot({ path: path.join(outDir, 'pruvodce-avatar.png') });
+    await page.click('#onb-next');
+    await page.waitForSelector('.onb[data-step="goal"] [data-goal="15"][aria-pressed="true"]');
+    await page.click('#onb-back'); // zpět na avatar: výběr zůstal
+    await page.waitForSelector('[data-avatar="fox"][aria-checked="true"]');
+    await page.click('#onb-next');
+    await page.click('#onb-next');
+    await page.waitForSelector('.onb[data-step="install"]');
+    await page.click('#onb-next');
+    await waitText('.onb[data-step="done"]', 'Ahoj, Kytaristko!');
+    await page.screenshot({ path: path.join(outDir, 'pruvodce-hotovo.png') });
+    await page.click('#onb-next');
+    await page.waitForSelector('#start');
+    assert.equal(await page.isVisible('#tabbar'), true);
   });
 
   await step('Dnes: pozdrav, prázdný pokrok, výzva k sérii', async () => {
     assert.equal(await page.title(), 'Struna');
     assert.equal(await page.locator('#tabbar a').count(), 5);
-    assert.equal(await text('.hello'), 'Dobré odpoledne!');
+    assert.equal(await text('.hello'), 'Dobré odpoledne, Kytaristko!');
+    assert.equal(await text('.hello-row .avatar-face'), '🦊');
     await waitText('.today-card', '0 z 15 min');
     assert.equal(await text('#streak'), 'Začni sérii ještě dnes!');
     await page.screenshot({ path: path.join(outDir, 'dnes-prazdne.png') });
@@ -181,6 +227,29 @@ try {
     await page.click('#top-action');
     await page.click('[data-lang="cs"]');
     await page.waitForSelector('[data-lang="cs"][aria-pressed="true"]');
+  });
+
+  await step('profil a zvuky v Nastavení', async () => {
+    await tab('dnes');
+    await page.click('#top-action');
+    await page.waitForSelector('#profile-settings');
+    assert.equal(await page.inputValue('#nickname'), 'Kytaristko');
+    await page.fill('#nickname', 'Hvězdo');
+    await page.click('#name-form button[type="submit"]');
+    await waitText('#toast', 'Profil je uložený');
+    await page.click('[data-avatar="star"]');
+    await page.waitForSelector('[data-avatar="star"][aria-checked="true"]');
+    await page.click('#sounds');
+    await page.waitForSelector('#sounds[aria-pressed="false"]');
+    await page.reload();
+    await page.waitForSelector('#sounds[aria-pressed="false"]');
+    await page.waitForSelector('[data-avatar="star"][aria-checked="true"]');
+    await page.click('#sounds');
+    await page.waitForSelector('#sounds[aria-pressed="true"]');
+    await page.click('#top-action');
+    await waitText('.hello', 'Hvězdo');
+    await tab('ja');
+    await waitText('#profile', 'Hvězdo');
   });
 
   await step('denní mise: 3 úkoly, odškrtnutí dá XP, všechny tři bonus', async () => {
@@ -306,7 +375,7 @@ try {
     backupPath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(backupPath);
     const data = JSON.parse(await readFile(backupPath, 'utf8'));
-    assert.equal(data.schemaVersion, 3);
+    assert.equal(data.schemaVersion, 4);
     assert.equal(data.stores.sessions.length, 4);
     assert.equal(data.stores.missions.length, 2);
     assert.equal(data.stores.homework.length, 1);
@@ -320,7 +389,7 @@ try {
       buffer: Buffer.from(JSON.stringify(old)) });
     await page.click('#restore-yes');
     await waitText('#toast', 'obnovená');
-    await tab('dnes');
+    await skipOnboarding(); // stará záloha nemá profil: průvodce se ukáže hned znovu
     await waitText('.today-card', '0 z 15 min');
   });
 
@@ -361,6 +430,82 @@ try {
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.screenshot({ path: path.join(outDir, 'dnes-tmavy.png') });
     await page.emulateMedia({ colorScheme: 'light' });
+  });
+
+  await step('aktualizace z 0.3.1: krátký průvodce, data zůstanou', async () => {
+    const ctx2 = await browser.newContext({ ...iphone, deviceScaleFactor: 1, locale: 'cs-CZ', timezoneId: 'Europe/Prague' });
+    const p2 = await ctx2.newPage();
+    p2.on('pageerror', (e) => errors.push(e.message));
+    await p2.goto(`${base}priprava`);
+    await p2.evaluate(() => new Promise((res, rej) => {
+      const r = indexedDB.open('struna', 3);
+      r.onupgradeneeded = () => ['kv', 'sessions', 'missions', 'homework', 'journal', 'meta'].forEach((n) => r.result.createObjectStore(n));
+      r.onsuccess = () => {
+        const tx = r.result.transaction(['kv', 'sessions', 'meta'], 'readwrite');
+        const today = new Date();
+        const key = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        tx.objectStore('kv').put({ lang: 'cs', dailyGoalMin: 10 }, 'settings');
+        tx.objectStore('sessions').put({ id: 'a', date: key, startedAt: today.toISOString(), endedAt: today.toISOString(), seconds: 720, goalMin: 10 }, 'a');
+        tx.objectStore('meta').put(3, 'schemaVersion');
+        tx.oncomplete = () => { r.result.close(); res(); };
+        tx.onerror = () => rej(tx.error);
+      };
+    }));
+    await p2.goto(base);
+    await p2.waitForSelector('.onb[data-step="update"]');
+    await waitTextOn(p2, '.onb', 'Krok 1 z 3');
+    await p2.click('#onb-next');
+    await p2.fill('#onb-name', 'Kytaristko');
+    await p2.click('#onb-next');
+    await p2.click('#onb-skip'); // bez avatara
+    await waitTextOn(p2, '.onb[data-step="done"]', 'Ahoj, Kytaristko!');
+    await p2.click('#onb-next');
+    await waitTextOn(p2, '.today-card', '12 z 10 min');
+    await ctx2.close();
+  });
+
+  for (const device of ['iPhone SE', 'iPhone 14 Pro Max']) {
+    await step(`rozložení na ${device}: nic nepřetéká do stran`, async () => {
+      const { defaultBrowserType: _, ...d } = devices[device];
+      const ctx3 = await browser.newContext({ ...d, deviceScaleFactor: 1, locale: 'cs-CZ' });
+      const p3 = await ctx3.newPage();
+      p3.on('pageerror', (e) => errors.push(e.message));
+      await p3.goto(base);
+      await assertNoSideScroll(p3, `${device} průvodce`);
+      await skipOnboarding(p3);
+      for (const route of ['dnes', 'cviceni', 'akordy', 'ja', 'nastaveni']) {
+        await p3.goto(`${base}#${route}`);
+        await p3.waitForSelector(`#main .screen[data-route="${route}"]`);
+        await assertNoSideScroll(p3, `${device} #${route}`);
+      }
+      await p3.goto(`${base}#dnes`);
+      await p3.waitForSelector('#mission');
+      await p3.screenshot({ path: path.join(outDir, `velikost-${device.replace(/ /g, '-')}.png`) });
+      await ctx3.close();
+    });
+  }
+
+  await step('větší písmo (Zpřístupnění): nic nepřetéká do stran', async () => {
+    const ctx4 = await browser.newContext({ ...iphone, deviceScaleFactor: 1, locale: 'cs-CZ' });
+    const p4 = await ctx4.newPage();
+    p4.on('pageerror', (e) => errors.push(e.message));
+    await p4.addInitScript(() => {
+      document.addEventListener('DOMContentLoaded', () => {
+        const st = document.createElement('style');
+        st.textContent = 'html { font-size: 26px !important; }';
+        document.head.append(st);
+      });
+    });
+    await p4.goto(base);
+    await assertNoSideScroll(p4, 'velké písmo průvodce');
+    await skipOnboarding(p4);
+    for (const route of ['dnes', 'cviceni', 'akordy', 'ja', 'nastaveni']) {
+      await p4.goto(`${base}#${route}`);
+      await p4.waitForSelector(`#main .screen[data-route="${route}"]`);
+      await assertNoSideScroll(p4, `velké písmo #${route}`);
+      await p4.screenshot({ path: path.join(outDir, `velke-pismo-${route}.png`) });
+    }
+    await ctx4.close();
   });
 
   await step('žádné chyby v konzoli', async () => {

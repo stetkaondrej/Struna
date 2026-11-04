@@ -9,6 +9,8 @@ import practice from './screens/practice.js';
 import chords from './screens/chords.js';
 import me from './screens/me.js';
 import { soonScreen } from './screens/soon.js';
+import { onboarding } from './screens/onboarding.js';
+import { setSoundsEnabled } from './sounds.js';
 
 // Adresa obrazovky je v části za # (např. …/#akordy).
 const TABS = ['dnes', 'mapa', 'cviceni', 'akordy', 'ja'];
@@ -46,10 +48,27 @@ const ctx = {
     render();
   },
   async reloadSettings() {
-    setLang((await store.getSettings()).lang);
+    const s = await store.getSettings();
+    setLang(s.lang);
+    setSoundsEnabled(s.sounds);
     render();
   },
+  async setSounds(on) {
+    await store.setSetting('sounds', on);
+    setSoundsEnabled(on);
+  },
 };
+
+// Průvodce: plný pro novou instalaci, krátký pro toho, kdo už cvičil.
+async function renderOnboarding(container) {
+  const [sessions, settings] = await Promise.all([store.listSessions(), store.getSettings()]);
+  container.dataset.route = 'uvod';
+  onboarding(container, ctx, {
+    mode: sessions.length ? 'update' : 'full',
+    goal: settings.dailyGoalMin,
+    onFinish: () => { if (location.hash === '#dnes') render(); else go('dnes'); },
+  });
+}
 
 function renderChrome(route) {
   tabbar.innerHTML = TABS.map((name) => `
@@ -77,7 +96,10 @@ async function render() {
   container.dataset.route = route;
   let nextCleanup = null;
   try {
-    nextCleanup = await SCREENS[route].render(container, ctx);
+    const needsOnboarding = !(await store.getProfile()).onboardedAt;
+    document.body.dataset.mode = needsOnboarding ? 'onboarding' : '';
+    if (needsOnboarding) await renderOnboarding(container);
+    else nextCleanup = await SCREENS[route].render(container, ctx);
   } catch (err) {
     console.error(err);
     container.innerHTML = `<p class="note warn">${esc(t('error.boot'))}</p>`;
@@ -96,7 +118,9 @@ function showFatal(key) {
 async function boot() {
   try {
     await store.init();
-    setLang((await store.getSettings()).lang);
+    const settings = await store.getSettings();
+    setLang(settings.lang);
+    setSoundsEnabled(settings.sounds);
   } catch (err) {
     console.error(err);
     renderChrome('dnes');

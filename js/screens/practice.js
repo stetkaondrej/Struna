@@ -5,6 +5,7 @@ import { computeProgress, levelFor } from '../logic/progress.js';
 import * as timer from '../logic/timer.js';
 import { keepScreenOn } from '../wakelock.js';
 import { journalForm } from './journal-form.js';
+import { play } from '../sounds.js';
 
 export default {
   async render(el, ctx) {
@@ -123,6 +124,7 @@ export default {
       const goalNow = before.todaySec < goalSec && after.todaySec >= goalSec;
       const streakBonus = Math.floor(after.streak / 7) > Math.floor(before.streak / 7);
       const levelUp = levelFor(after.xp).level > levelFor(before.xp).level;
+      play(levelUp ? 'level' : 'done');
       el.innerHTML = `
         <section class="card done" id="done">
           <h2>${esc(t('practice.done.title'))}</h2>

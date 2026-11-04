@@ -5,7 +5,7 @@
 // 2. Krok N dostane snapshot ve verzi N-1 a vrátí ho ve verzi N.
 // 3. Ke každému kroku napiš test v tests/unit/migrations.test.js.
 
-export const CURRENT_SCHEMA = 3;
+export const CURRENT_SCHEMA = 4;
 
 const STEPS = {
   // 0 → 1: první verze dat. Zajistí, že existuje úložiště kv.
@@ -35,6 +35,19 @@ const STEPS = {
         journal: s.stores.journal ?? [],
       },
     };
+  },
+
+  // 3 → 4 (krok 3): prázdný profil (přezdívka, avatar) a zapnuté zvuky.
+  4: (s) => {
+    let kv = s.stores.kv ?? [];
+    if (!kv.some(([key]) => key === 'profile')) {
+      kv = [...kv, ['profile', { nickname: '', avatar: null, onboardedAt: null }]];
+    }
+    const hasSettings = kv.some(([key]) => key === 'settings');
+    kv = hasSettings
+      ? kv.map(([key, value]) => (key === 'settings' && value.sounds === undefined ? [key, { ...value, sounds: true }] : [key, value]))
+      : [...kv, ['settings', { lang: 'cs', dailyGoalMin: 15, sounds: true }]];
+    return { ...s, stores: { ...s.stores, kv } };
   },
 };
 
