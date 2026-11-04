@@ -31,6 +31,26 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Nastavení → Denní cíl 10 min. Na Dnes je „z 10 min“
 - [ ] Zítra a pozítří: série roste (zkontroluj průběžně v dalších dnech)
 
+## Denní mise (krok 2)
+- [ ] Na Dnes nahoře „Dnešní mise“ se 3 úkoly
+- [ ] Klepnutí na úkol ho odškrtne a přičte +10 XP. Další klepnutí odškrtnutí vrátí
+- [ ] Všechny 3 úkoly: hláška „Mise splněna! +10 XP navíc“
+- [ ] Zavři a otevři aplikaci: odškrtnuté úkoly zůstaly a mise je stejná
+
+## Akordy (krok 2)
+- [ ] Záložka Akordy: 7 akordů (Em, Am, E, A, D, G, C)
+- [ ] Klepni na akord: velký prstoklad s čísly prstů, tip, přepínač „Učím se“, hvězdičky
+- [ ] Nastav hvězdičky a „Učím se“, vrať se zpět. Na kartě akordu je vidět změna
+- [ ] Zítra: druhý úkol mise je akord „Učím se“ s nejméně hvězdičkami
+
+## Domácí úkol a deník (krok 2)
+- [ ] Já → Přidat úkol po lekci → napiš úkol → Uložit. Úkol je vidět v Já
+- [ ] Pokud dnešní rozcvička ještě není odškrtnutá, úkol se objeví v dnešní misi. Jinak zítra
+- [ ] Já → Úkol splněn. Úkol se přesune do „Starší úkoly“
+- [ ] Po cvičení na oslavě → Zapsat do deníku → vyplň a vyber smajlík → Uložit. „+5 XP“
+- [ ] Zápis je v Já → Deník. Druhý zápis téhož dne už XP nedá
+- [ ] Já → Moje čísla: minuty, dny, nejdelší série, úroveň
+
 ## Ukládání dat
 - [ ] Zavři aplikaci a otevři znovu. Minuty, série i XP zůstaly
 - [ ] Restartuj telefon a otevři Strunu. Vše zůstalo
@@ -56,5 +76,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Po otevření se objeví „Je k dispozici nová verze“ → Aktualizovat
 - [ ] V Nastavení je nové číslo verze a data zůstala
 - [ ] (0.1.0 → 0.2.0) Testovací počitadlo zmizelo, jazyk zůstal
+- [ ] (0.2.0 → 0.3.0) Minuty, série a XP zůstaly; v Akordech jsou Em a Am „Učím se“
 
 **Poznámky:**

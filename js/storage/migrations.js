@@ -5,7 +5,7 @@
 // 2. Krok N dostane snapshot ve verzi N-1 a vrátí ho ve verzi N.
 // 3. Ke každému kroku napiš test v tests/unit/migrations.test.js.
 
-export const CURRENT_SCHEMA = 2;
+export const CURRENT_SCHEMA = 3;
 
 const STEPS = {
   // 0 → 1: první verze dat. Zajistí, že existuje úložiště kv.
@@ -20,6 +20,22 @@ const STEPS = {
       sessions: s.stores.sessions ?? [],
     },
   }),
+
+  // 2 → 3 (krok 2): úložiště pro mise, domácí úkoly a deník; výchozí akordy „učím se“ Em a Am.
+  3: (s) => {
+    const kv = s.stores.kv ?? [];
+    const hasChords = kv.some(([key]) => key === 'chords');
+    return {
+      ...s,
+      stores: {
+        ...s.stores,
+        kv: hasChords ? kv : [...kv, ['chords', { Em: { stars: 0, learning: true }, Am: { stars: 0, learning: true } }]],
+        missions: s.stores.missions ?? [],
+        homework: s.stores.homework ?? [],
+        journal: s.stores.journal ?? [],
+      },
+    };
+  },
 };
 
 export function migrate(snapshot, target = CURRENT_SCHEMA) {

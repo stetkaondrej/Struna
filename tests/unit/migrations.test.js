@@ -32,7 +32,7 @@ test('data z novější verze aplikace se odmítnou', () => {
 
 test('migrace 1 → 2 smaže testovací počitadlo, ostatní nechá a přidá cvičení', () => {
   const v1 = { app: 'struna', schemaVersion: 1, stores: { kv: [['testCounter', 5], ['settings', { lang: 'en' }]] } };
-  const out = migrate(v1);
+  const out = migrate(v1, 2);
   assert.equal(out.schemaVersion, 2);
   assert.deepEqual(out.stores.kv, [['settings', { lang: 'en' }]]);
   assert.deepEqual(out.stores.sessions, []);
@@ -43,5 +43,23 @@ test('záloha z verze 0.1.0 (data verze 1) jde převést na aktuální', () => {
     stores: { kv: [['testCounter', 3]] } };
   const out = migrate(backup010);
   assert.equal(out.schemaVersion, CURRENT_SCHEMA);
-  assert.deepEqual(out.stores, { kv: [], sessions: [] });
+  assert.deepEqual(out.stores.sessions, []);
+  assert.ok(!out.stores.kv.some(([k]) => k === 'testCounter'));
+});
+
+test('migrace 2 → 3 přidá mise, úkoly, deník a výchozí akordy Em a Am', () => {
+  const v2 = { app: 'struna', schemaVersion: 2, stores: { kv: [['settings', { lang: 'cs' }]], sessions: [['a', { seconds: 60 }]] } };
+  const out = migrate(v2);
+  assert.equal(out.schemaVersion, 3);
+  assert.deepEqual(out.stores.sessions, [['a', { seconds: 60 }]]);
+  assert.deepEqual(out.stores.missions, []);
+  assert.deepEqual(out.stores.homework, []);
+  assert.deepEqual(out.stores.journal, []);
+  assert.deepEqual(out.stores.kv.find(([k]) => k === 'chords')[1], { Em: { stars: 0, learning: true }, Am: { stars: 0, learning: true } });
+});
+
+test('migrace 2 → 3 nepřepíše existující pokrok v akordech', () => {
+  const mine = { G: { stars: 2, learning: true } };
+  const out = migrate({ app: 'struna', schemaVersion: 2, stores: { kv: [['chords', mine]], sessions: [] } });
+  assert.deepEqual(out.stores.kv, [['chords', mine]]);
 });

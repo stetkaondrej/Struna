@@ -12,7 +12,8 @@ export async function init() {
   await db.openDB();
   const version = await db.get(META_STORE, 'schemaVersion');
   if (version === undefined) {
-    await db.put(META_STORE, 'schemaVersion', CURRENT_SCHEMA);
+    // Nová instalace projde všemi migracemi od nuly, takže má stejná výchozí data jako aktualizace.
+    await db.writeSnapshot(migrate({ schemaVersion: 0, stores: {} }));
     await db.put(META_STORE, 'createdAt', new Date().toISOString());
     return { fresh: true };
   }
@@ -40,10 +41,13 @@ export async function setSetting(key, value) {
   return db.update('kv', 'settings', (s) => ({ ...DEFAULT_SETTINGS, ...(s ?? {}), [key]: value }));
 }
 
-// --- Cvičení ---
-export async function listSessions() {
-  return (await db.readStores(['sessions'])).sessions.map(([, value]) => value);
+// Všechny záznamy z jednoho úložiště.
+async function listAll(store) {
+  return (await db.readStores([store]))[store].map(([, value]) => value);
 }
+
+// --- Cvičení ---
+export const listSessions = () => listAll('sessions');
 
 // Běžící (nebo pozastavený) časovač. Ukládá se, aby přežil zavření aplikace.
 export async function getActiveSession() {
@@ -57,6 +61,79 @@ export async function setActiveSession(active) {
 // Uloží cvičení a zároveň smaže běžící časovač, v jedné transakci.
 export async function finishActiveSession(session) {
   await db.replace({ put: session ? [['sessions', session.id, session]] : [], remove: [['kv', 'activeSession']] });
+}
+
+// --- Akordy: hvězdičky a „učím se“ ---
+export async function getChordProgress() {
+  return (await db.get('kv', 'chords')) ?? {};
+}
+
+export async function setChordProgress(chordId, patch) {
+  return db.update('kv', 'chords', (all) => {
+    const current = all ?? {};
+    return { ...current, [chordId]: { stars: 0, learning: false, ...current[chordId], ...patch } };
+  });
+}
+
+// --- Denní mise ---
+export const listMissions = () => listAll('missions');
+
+// Vrátí misi dne. Když ještě neexistuje, uloží „built“, takže se během dne nemění.
+export async function getOrCreateMission(date, built) {
+  return db.update('missions', date, (existing) => existing ?? built);
+}
+
+export async function toggleQuest(date, questId) {
+  return db.update('missions', date, (m) => ({
+    ...m,
+    quests: m.quests.map((q) => (q.id === questId ? { ...q, done: !q.done } : q)),
+  }));
+}
+
+// Nový domácí úkol nahradí v dnešní misi rozcvičku (nebo starý domácí úkol), pokud ještě není odškrtnutý.
+// Vrací true, když se dnešní mise změnila.
+export async function putHomeworkIntoMission(date, quest) {
+  let changed = false;
+  const existing = await db.get('missions', date);
+  if (!existing) return false;
+  await db.update('missions', date, (m) => ({
+    ...m,
+    quests: m.quests.map((q) => {
+      if (q.id === 'q1' && !q.done && (q.type === 'warmup' || q.type === 'homework')) { changed = true; return quest; }
+      return q;
+    }),
+  }));
+  return changed;
+}
+
+// --- Domácí úkoly ---
+export const listHomework = () => listAll('homework');
+
+export async function addHomework({ lessonDate, text }) {
+  const now = new Date().toISOString();
+  const item = { id: now, lessonDate, text, createdAt: now, doneAt: null };
+  await db.put('homework', item.id, item);
+  return item;
+}
+
+export async function completeHomework(id) {
+  return db.update('homework', id, (h) => ({ ...h, doneAt: new Date().toISOString() }));
+}
+
+// --- Deník ---
+export const listJournal = () => listAll('journal');
+
+export async function addJournal({ date, learned, stuck, feeling }) {
+  const now = new Date().toISOString();
+  const entry = { id: now, date, learned, stuck, feeling, createdAt: now };
+  await db.put('journal', entry.id, entry);
+  return entry;
+}
+
+// Vše, co potřebuje výpočet bodů a série (js/logic/progress.js).
+export async function loadProgressData() {
+  const [sessions, missions, journal] = await Promise.all([listSessions(), listMissions(), listJournal()]);
+  return { sessions, missions, journal };
 }
 
 // --- Zálohy ---

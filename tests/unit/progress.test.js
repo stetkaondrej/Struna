@@ -29,10 +29,17 @@ test('dnešek sérii nepřeruší, dokud den neskončí', () => {
   assert.equal(p.statusByDate[localDateString(WED)], 'today');
 });
 
-test('méně než 5 minut se jako den nepočítá', () => {
-  const p = computeProgress([s(day(-1), 4), s(day(0), 10)], WED);
+test('méně než 5 minut se jako den nepočítá (je to den volna)', () => {
+  const p = computeProgress([s(day(-2), 10), s(day(-1), 4), s(day(0), 10)], WED);
   assert.equal(p.statusByDate[localDateString(day(-1))], 'rest');
+  assert.equal(p.streak, 2);
+});
+
+test('dny před prvním cvičením nespotřebují volno', () => {
+  const p = computeProgress([s(day(-1), 4), s(day(0), 10)], WED);
+  assert.equal(p.statusByDate[localDateString(day(-1))], undefined);
   assert.equal(p.streak, 1);
+  assert.equal(restUsedThisWeek(p, WED), 0);
 });
 
 test('2 dny volna v týdnu sérii nepřeruší, třetí ano', () => {
@@ -104,4 +111,23 @@ test('pravidla odpovídají schválené specifikaci', () => {
   assert.equal(RULES.practiceDayMinSec, 300);
   assert.equal(RULES.restDaysPerWeek, 2);
   assert.equal(RULES.defaultGoalMin, 15);
+});
+
+test('XP z misí a deníku se počítají i bez cvičení', () => {
+  const key = localDateString(WED);
+  const mission = (done) => ({ date: key, quests: [0, 1, 2].map((i) => ({ id: `q${i + 1}`, done: i < done })) });
+  assert.equal(computeProgress([], WED, { missions: [mission(1)] }).xp, 10);
+  assert.equal(computeProgress([], WED, { missions: [mission(3)] }).xp, 40, '3 × 10 + bonus 10');
+  const journal = [{ date: key }, { date: key }];
+  assert.equal(computeProgress([], WED, { journal }).xp, 5, 'deník jen jednou denně');
+  assert.equal(computeProgress([], WED, { missions: [mission(1)] }).streak, 0, 'úkol bez cvičení sérii nedělá');
+});
+
+test('čísla pro záložku Já: minuty, dny, nejdelší série', () => {
+  const list = [s(day(-6), 10), s(day(-5), 10), s(day(-4), 10), s(day(-3), 10), s(day(0), 20)];
+  // Čt–Ne cvičí (4 dny), Po + Út volno, St cvičí → série pokračuje: 5
+  const p = computeProgress(list, WED);
+  assert.equal(p.totalSec, 60 * 60);
+  assert.equal(p.practiceDays, 5);
+  assert.equal(p.bestStreak, 5);
 });

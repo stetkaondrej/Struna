@@ -2,10 +2,10 @@
 // DB_VERSION zvyš jen tehdy, když přidáváš nebo odebíráš úložiště (store).
 // Změny tvaru dat řeší migrace v migrations.js, ne DB_VERSION.
 export const DB_NAME = 'struna';
-export const DB_VERSION = 2; // 2: přidáno úložiště sessions (krok 1)
+export const DB_VERSION = 3; // 2: sessions (krok 1) · 3: missions, homework, journal (krok 2)
 
 // Úložiště s daty uživatele. Ta se zálohují a obnovují.
-export const DATA_STORES = ['kv', 'sessions'];
+export const DATA_STORES = ['kv', 'sessions', 'missions', 'homework', 'journal'];
 
 // Technické údaje (verze dat, datum poslední zálohy, automatické zálohy).
 // Do zálohy se nezahrnují.

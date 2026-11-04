@@ -2,6 +2,20 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 0.3.0 · 2026-11-04 · Krok 2: MVP komplet
+
+- **Kniha akordů** (záložka Akordy): Em, Am, E, A, D, G, C s prstoklady, čísly prstů a tipy
+  - přepínač „Učím se“ (výchozí Em a Am) a hvězdičky ★ ★★ ★★★ podle toho, jak akord jde
+- **Denní mise** na Dnes: 3 úkoly (domácí úkol nebo rozcvička, akord, přehazování nebo brnkání)
+  - mise se vybere jednou za den a nemění se; +10 XP za úkol, +10 XP za všechny tři
+- **Domácí úkol od učitele** (záložka Já): zadání po lekci, ukáže se v misi do splnění
+- **Deník „Co jsem se naučila“**: po cvičení nebo v záložce Já; 3 otázky a smajlík; +5 XP jednou denně
+- **Záložka Já**: domácí úkol, deník, minuty celkem, dny cvičení, nejdelší série, úroveň
+- Obsah (akordy, úkoly) je v `content/*.json`, odděleně od kódu
+- Migrace dat 2 → 3. Nová instalace prochází všemi migracemi, takže má stejná výchozí data jako aktualizace
+- Dny před prvním cvičením se nepočítají jako dny volna
+- Testy: 62 automatických testů (včetně kontroly prstokladů), 23 kroků v prohlížeči
+
 ## 0.2.0 · 2026-11-04 · Krok 1: Jádro MVP
 
 - **Časovač cvičení** (záložka Cvičení): Start, Pauza, Pokračovat, Hotovo

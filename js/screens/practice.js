@@ -4,12 +4,15 @@ import { localDateString } from '../logic/dates.js';
 import { computeProgress, levelFor } from '../logic/progress.js';
 import * as timer from '../logic/timer.js';
 import { keepScreenOn } from '../wakelock.js';
+import { journalForm } from './journal-form.js';
 
 export default {
-  async render(el, { t, store, toast, go }) {
-    let [active, sessions, settings] = await Promise.all([
-      store.getActiveSession(), store.listSessions(), store.getSettings(),
+  async render(el, ctx) {
+    const { t, store, toast, go } = ctx;
+    let [active, data, settings] = await Promise.all([
+      store.getActiveSession(), store.loadProgressData(), store.getSettings(),
     ]);
+    let { sessions } = data;
     const goal = settings.dailyGoalMin;
     let tick = null;
     let checkShown = false;
@@ -109,9 +112,9 @@ export default {
       keepScreenOn(false);
       if (!session) { toast(t('practice.tooShort')); update(); return; }
 
-      const before = computeProgress(sessions, now);
+      const before = computeProgress(sessions, now, data);
       sessions = [...sessions, session];
-      const after = computeProgress(sessions, now);
+      const after = computeProgress(sessions, now, data);
       showDone(session, before, after);
     }
 
@@ -128,11 +131,21 @@ export default {
           ${goalNow ? `<p class="badge">${esc(t('practice.done.goal'))}</p>` : ''}
           ${streakBonus ? `<p class="badge">${esc(t('practice.done.streak'))}</p>` : ''}
           ${levelUp ? `<p class="badge sun">${esc(t('practice.done.level', { n: levelFor(after.xp).level }))}</p>` : ''}
+          <div id="journal-slot" class="journal-slot">
+            <button type="button" class="btn primary big" id="journal">${esc(t('me.journal.add'))}</button>
+          </div>
           <div class="controls">
-            <button type="button" class="btn primary big" id="home">${esc(t('practice.done.home'))}</button>
+            <button type="button" class="btn big" id="home">${esc(t('practice.done.home'))}</button>
             <button type="button" class="btn big" id="again">${esc(t('practice.done.again'))}</button>
           </div>
         </section>`;
+      el.querySelector('#journal').addEventListener('click', () => {
+        journalForm(el.querySelector('#journal-slot'), ctx, (saved) => {
+          if (saved) go('dnes');
+          else el.querySelector('#journal-slot').innerHTML = '';
+        });
+        el.querySelector('#journal-slot textarea').focus();
+      });
       el.querySelector('#home').addEventListener('click', () => go('dnes'));
       el.querySelector('#again').addEventListener('click', () => update());
     }

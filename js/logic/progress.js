@@ -1,6 +1,7 @@
 // Série dní, body XP a úrovně. Vše se počítá z uložených cvičení,
 // takže čísla nikdy nemůžou „nesedět“ s historií.
 import { localDateString, addDays, mondayOf, parseLocalDate } from './dates.js';
+import { missionXp } from './mission.js';
 
 export const RULES = {
   practiceDayMinSec: 5 * 60,  // den se počítá od 5 minut
@@ -10,6 +11,7 @@ export const RULES = {
   xpGoalBonus: 20,            // splněný denní cíl
   xpStreakBonus: 50,          // každých 7 dní série
   streakBonusEvery: 7,
+  xpJournal: 5,               // zápis do deníku, jednou denně
   defaultGoalMin: 15,
 };
 
@@ -24,14 +26,22 @@ export function summarizeDays(sessions) {
   return days;
 }
 
-// Projde všechny dny od prvního cvičení do dneška a spočítá sérii a body.
-export function computeProgress(sessions, today = new Date()) {
+// Projde všechny dny od prvního záznamu do dneška a spočítá sérii, body a čísla.
+// extras: { missions: [...], journal: [...] } (od kroku 2)
+export function computeProgress(sessions, today = new Date(), { missions = [], journal = [] } = {}) {
   const days = summarizeDays(sessions);
   const todayKey = localDateString(today);
-  const keys = Object.keys(days).filter((k) => k <= todayKey).sort();
+  const missionByDate = Object.fromEntries(missions.map((m) => [m.date, m]));
+  const journalDates = new Set(journal.map((j) => j.date));
+  const keys = [...new Set([...Object.keys(days), ...Object.keys(missionByDate), ...journalDates])]
+    .filter((k) => k <= todayKey).sort();
 
-  const result = { streak: 0, xp: 0, todaySec: days[todayKey]?.seconds ?? 0, statusByDate: {}, missesByWeek: {} };
+  const result = {
+    streak: 0, bestStreak: 0, xp: 0, todaySec: days[todayKey]?.seconds ?? 0,
+    totalSec: 0, practiceDays: 0, statusByDate: {}, missesByWeek: {},
+  };
   if (!keys.length) return result;
+  let started = false; // série se počítá až od prvního dne s cvičením
 
   let streak = 0;
   for (let d = parseLocalDate(keys[0]); localDateString(d) <= todayKey; d = addDays(d, 1)) {
@@ -43,12 +53,20 @@ export function computeProgress(sessions, today = new Date()) {
       const minutes = Math.floor(day.seconds / 60);
       result.xp += Math.min(minutes * RULES.xpPerMinute, RULES.xpMinutesCapPerDay);
       if (day.seconds >= day.goalMin * 60) result.xp += RULES.xpGoalBonus;
+      result.totalSec += day.seconds;
     }
+    result.xp += missionXp(missionByDate[key]);
+    if (journalDates.has(key)) result.xp += RULES.xpJournal;
 
     if (practised) {
+      started = true;
       streak += 1;
+      result.practiceDays += 1;
+      result.bestStreak = Math.max(result.bestStreak, streak);
       if (streak % RULES.streakBonusEvery === 0) result.xp += RULES.xpStreakBonus;
       result.statusByDate[key] = 'done';
+    } else if (!started) {
+      // před prvním cvičením (např. jen odškrtnutý úkol) se volno nepočítá
     } else if (key === todayKey) {
       result.statusByDate[key] = 'today'; // dnešek sérii nikdy nepřeruší
     } else {

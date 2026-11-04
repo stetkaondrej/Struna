@@ -4,6 +4,21 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-013 · Nový domácí úkol se objeví v dnešní misi
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Mise se během dne nemění, s jednou výjimkou: když se po lekci zadá nový domácí úkol a první úkol mise (rozcvička nebo starý domácí úkol) ještě není odškrtnutý, nahradí ho nový domácí úkol.
+**Proč:** Po lekci chce dcera cvičit nový úkol hned, ne až zítra. Odškrtnuté úkoly a získané XP se nikdy nemění.
+
+## D-012 · Dny před prvním cvičením nejsou dny volna
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Série a dny volna se počítají až od prvního dne, kdy dcera cvičila aspoň 5 minut.
+**Proč:** Odškrtnutý úkol mise nebo zápis v deníku bez cvičení by jinak „spotřeboval“ den volna, i když žádná série ještě neběží.
+
+## D-011 · Nová instalace prochází všemi migracemi
+**Datum:** 4. 11. 2026
+**Rozhodnutí:** Při první instalaci se prázdná data převedou všemi migracemi od verze 0 (`store.init`).
+**Proč:** Nová instalace a aktualizace pak mají vždy stejná výchozí data (např. akordy „učím se“ Em a Am). Výchozí hodnoty jsou jen na jednom místě: v migracích.
+
 ## D-010 · Denní mise až v kroku 2
 **Datum:** 4. 11. 2026
 **Rozhodnutí:** Denní mise se 3 úkoly se staví v kroku 2 spolu s akordy.

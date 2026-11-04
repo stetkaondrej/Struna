@@ -53,7 +53,7 @@ const waitText = (sel, want) => page.waitForFunction(
   ([s, w]) => document.querySelector(s)?.textContent.includes(w), [sel, want], { timeout: 5000 });
 const tab = async (route) => {
   await page.click(`#tabbar a[href="#${route}"]`);
-  await page.waitForFunction((r) => location.hash === `#${r}` && document.querySelector('#main .screen'), route);
+  await page.waitForSelector(`#main .screen[data-route="${route}"]`);
 };
 const minutes = (n) => page.clock.fastForward(n * 60 * 1000);
 const readKv = () => page.evaluate(() => new Promise((res) => {
@@ -183,14 +183,134 @@ try {
     await page.waitForSelector('[data-lang="cs"][aria-pressed="true"]');
   });
 
+  await step('denní mise: 3 úkoly, odškrtnutí dá XP, všechny tři bonus', async () => {
+    await tab('dnes');
+    await page.waitForSelector('#mission');
+    assert.equal(await page.locator('[data-quest]').count(), 3);
+    await waitText('[data-quest="q1"]', 'Rozcvička prstů');
+    assert.match(await text('[data-quest="q2"]'), /Akord (Em|Am)/);
+    await waitText('.xp-num', '50 /'); // 76 min dnes → 30 + cíl 20
+    await page.click('[data-quest="q1"]');
+    await waitText('#mission .pill', '1 ze 3 · +10 XP');
+    await waitText('.xp-num', '60 /');
+    await page.click('[data-quest="q2"]');
+    await page.waitForSelector('[data-quest="q2"][aria-pressed="true"]');
+    await page.click('[data-quest="q3"]');
+    await waitText('#toast', 'Mise splněna');
+    await waitText('.xp-num', '90 /');
+    await page.click('[data-quest="q3"]'); // omyl: vrátit
+    await waitText('.xp-num', '70 /');
+    await page.click('[data-quest="q3"]');
+    await waitText('.xp-num', '90 /');
+    await page.screenshot({ path: path.join(outDir, 'dnes-mise.png'), fullPage: true });
+  });
+
+  await step('kniha akordů: 7 akordů, hvězdičky a „Učím se“ se uloží', async () => {
+    await tab('akordy');
+    assert.equal(await page.locator('[data-chord]').count(), 7);
+    await page.screenshot({ path: path.join(outDir, 'akordy.png'), fullPage: true });
+    await page.click('[data-chord="Am"]');
+    await page.waitForSelector('.chord-detail');
+    await page.click('[data-stars="2"]');
+    await page.waitForSelector('[data-stars="2"][aria-pressed="true"]');
+    await page.screenshot({ path: path.join(outDir, 'akord-detail.png'), fullPage: true });
+    await page.click('#back');
+    await page.click('[data-chord="E"]');
+    await page.click('#learning');
+    await page.waitForSelector('#learning[aria-pressed="true"]');
+    await page.click('#back');
+    await page.click('[data-chord="Em"]');
+    await page.click('#learning');
+    await page.waitForSelector('#learning[aria-pressed="false"]');
+    await page.reload();
+    await page.waitForSelector('[data-chord="Am"]');
+    assert.equal((await text('[data-chord="Am"] .stars')).trim(), '★★☆');
+  });
+
+  await step('aspoň jeden akord musí zůstat „Učím se“', async () => {
+    for (const id of ['Am', 'E']) {
+      await page.click(`[data-chord="${id}"]`);
+      if (id === 'Am') {
+        await page.click('#learning');
+        await page.waitForSelector('#learning[aria-pressed="false"]');
+      } else {
+        await page.click('#learning');
+        await waitText('#toast', 'Aspoň jeden akord');
+        assert.equal(await page.getAttribute('#learning', 'aria-pressed'), 'true');
+      }
+      await page.click('#back');
+    }
+    await page.click('[data-chord="Am"]');
+    await page.click('#learning'); // Am zase zapnout
+    await page.waitForSelector('#learning[aria-pressed="true"]');
+    await page.click('#back');
+  });
+
+  await step('domácí úkol: prázdný se neuloží, nový se uloží', async () => {
+    await tab('ja');
+    await page.click('#hw-add');
+    await page.click('#hw-form button[type="submit"]');
+    await waitText('#hw-error', 'Napiš, co máš cvičit');
+    await page.fill('#hw-text', 'Ode to Joy, první řádek. Palec za krkem.');
+    await page.click('#hw-form button[type="submit"]');
+    await waitText('#toast', 'příští denní misi'); // dnešní rozcvička už je odškrtnutá
+    await waitText('#homework', 'Ode to Joy, první řádek');
+  });
+
+  await step('deník ze záložky Já: +5 XP jen jednou denně', async () => {
+    await page.click('#j-add');
+    await page.click('#journal-form button[type="submit"]');
+    await waitText('#j-error', 'Napiš aspoň slovo');
+    await page.fill('#j-learned', 'Em bez koukání na prsty');
+    await page.click('[data-feeling="great"]');
+    await page.click('#journal-form button[type="submit"]');
+    await waitText('#toast', '+5 XP');
+    await waitText('#journal', 'Em bez koukání na prsty');
+    await page.click('#j-add');
+    await page.fill('#j-stuck', 'C akord');
+    await page.click('#journal-form button[type="submit"]');
+    // druhý zápis téhož dne už XP nedává
+    await page.waitForFunction(() => document.getElementById('toast').textContent === 'Zapsáno do deníku.');
+    await page.screenshot({ path: path.join(outDir, 'ja.png'), fullPage: true });
+  });
+
+  await step('další den: nová mise s domácím úkolem a nejslabším akordem', async () => {
+    await page.clock.fastForward(24 * 60 * 60 * 1000);
+    await page.goto(`${base}#dnes`);
+    await page.reload();
+    await page.waitForSelector('#mission');
+    await waitText('#mission .pill', '0 ze 3');
+    await waitText('[data-quest="q1"]', 'Ode to Joy, první řádek');
+    await waitText('[data-quest="q2"]', 'Akord E'); // Am má 2 hvězdičky, E nula, Em se už neučí
+  });
+
+  await step('deník po cvičení', async () => {
+    await page.click('#start');
+    await minutes(2);
+    await page.click('#finish');
+    await page.waitForSelector('#done');
+    await page.click('#journal');
+    await page.fill('#j-learned', 'Akord E');
+    await page.click('[data-feeling="happy"]');
+    await page.click('#journal-form button[type="submit"]');
+    await waitText('#toast', '+5 XP');
+    await page.waitForSelector('#mission');
+    await tab('ja');
+    await waitText('#stat-minutes', '78');
+  });
+
   let backupPath;
-  await step('záloha obsahuje cvičení', async () => {
+  await step('záloha obsahuje cvičení, mise, úkoly a deník', async () => {
+    await page.click('#top-action');
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('#backup')]);
     backupPath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(backupPath);
     const data = JSON.parse(await readFile(backupPath, 'utf8'));
-    assert.equal(data.schemaVersion, 2);
-    assert.equal(data.stores.sessions.length, 3);
+    assert.equal(data.schemaVersion, 3);
+    assert.equal(data.stores.sessions.length, 4);
+    assert.equal(data.stores.missions.length, 2);
+    assert.equal(data.stores.homework.length, 1);
+    assert.equal(data.stores.journal.length, 3);
   });
 
   await step('záloha z verze 0.1.0 jde obnovit', async () => {
@@ -200,7 +320,7 @@ try {
       buffer: Buffer.from(JSON.stringify(old)) });
     await page.click('#restore-yes');
     await waitText('#toast', 'obnovená');
-    await page.click('#top-action');
+    await tab('dnes');
     await waitText('.today-card', '0 z 15 min');
   });
 
@@ -209,12 +329,14 @@ try {
     await page.setInputFiles('#restore-file', backupPath);
     await page.click('#restore-yes');
     await waitText('#toast', 'obnovená');
-    await page.click('#top-action');
-    await waitText('.today-card', 'Dnešní cíl splněn!');
+    await tab('ja');
+    await waitText('#stat-minutes', '78');
+    await waitText('#homework', 'Ode to Joy');
   });
 
   await step('cizí soubor se odmítne', async () => {
     await page.click('#top-action');
+    await page.waitForSelector('#restore-file', { state: 'attached' });
     await page.setInputFiles('#restore-file', { name: 'fotka.json', mimeType: 'application/json', buffer: Buffer.from('nesmysl') });
     await waitText('#toast', 'není záloha');
     assert.equal(await page.locator('#restore-confirm').isHidden(), true);
@@ -222,12 +344,16 @@ try {
   });
 
   await step('aplikace funguje offline', async () => {
+    await tab('dnes');
     await page.evaluate(() => navigator.serviceWorker.ready);
     await page.reload();
     await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
     await context.setOffline(true);
     await page.reload();
-    await waitText('.today-card', 'Dnešní cíl splněn!');
+    await waitText('[data-quest="q1"]', 'Ode to Joy'); // mise i obsah z content/ fungují offline
+    await tab('akordy');
+    assert.equal(await page.locator('[data-chord]').count(), 7);
+    await tab('dnes');
     await context.setOffline(false);
   });
 

@@ -1,0 +1,40 @@
+{
+  "_info": "Prstoklady akordů. frets: pražec na každé struně od nejtlustší (E) po nejtenčí (e); -1 = nehraje se, 0 = prázdná struna. fingers: který prst (1 = ukazovák … 4 = malík), 0 = žádný.",
+  "chords": [
+    {
+      "id": "Em", "frets": [0, 2, 2, 0, 0, 0], "fingers": [0, 2, 3, 0, 0, 0],
+      "cs": { "label": "E moll", "tip": "Nejsnazší první akord. Prsty 2 a 3 dej do 2. pražce, ostatní struny zní prázdné." },
+      "en": { "label": "E minor", "tip": "The easiest first chord. Put fingers 2 and 3 on the 2nd fret; all other strings ring open." }
+    },
+    {
+      "id": "Am", "frets": [-1, 0, 2, 2, 1, 0], "fingers": [0, 0, 2, 3, 1, 0],
+      "cs": { "label": "A moll", "tip": "Na nejtlustší strunu nehraj. Ukazovák patří do 1. pražce na strunu H." },
+      "en": { "label": "A minor", "tip": "Don’t play the thickest string. Your index finger goes on the 1st fret of the B string." }
+    },
+    {
+      "id": "E", "frets": [0, 2, 2, 1, 0, 0], "fingers": [0, 2, 3, 1, 0, 0],
+      "cs": { "label": "E dur", "tip": "Stejný tvar jako Am, jen o jednu strunu výš. Hrají všechny struny." },
+      "en": { "label": "E major", "tip": "The same shape as Am, moved up one string. All strings ring." }
+    },
+    {
+      "id": "A", "frets": [-1, 0, 2, 2, 2, 0], "fingers": [0, 0, 1, 2, 3, 0],
+      "cs": { "label": "A dur", "tip": "Tři prsty vedle sebe ve 2. pražci. Je to těsné, to je normální." },
+      "en": { "label": "A major", "tip": "Three fingers side by side on the 2nd fret. It feels tight, and that’s normal." }
+    },
+    {
+      "id": "D", "frets": [-1, -1, 0, 2, 3, 2], "fingers": [0, 0, 0, 1, 3, 2],
+      "cs": { "label": "D dur", "tip": "Hraj jen na 4 nejtenčí struny. Prsty tvoří malý trojúhelník." },
+      "en": { "label": "D major", "tip": "Play only the 4 thinnest strings. Your fingers make a little triangle." }
+    },
+    {
+      "id": "G", "frets": [3, 2, 0, 0, 0, 3], "fingers": [2, 1, 0, 0, 0, 3],
+      "cs": { "label": "G dur", "tip": "Prsty se natáhnou přes celý krk. Tři prostřední struny zní prázdné." },
+      "en": { "label": "G major", "tip": "Your fingers stretch across the whole neck. The three middle strings ring open." }
+    },
+    {
+      "id": "C", "frets": [-1, 3, 2, 0, 1, 0], "fingers": [0, 3, 2, 0, 1, 0],
+      "cs": { "label": "C dur", "tip": "Prsty jdou po schodech: 3, 2, 1. Na nejtlustší strunu nehraj." },
+      "en": { "label": "C major", "tip": "Your fingers go down like stairs: 3, 2, 1. Don’t play the thickest string." }
+    }
+  ]
+}

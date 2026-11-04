@@ -1,0 +1,25 @@
+{
+  "_info": "Texty úkolů denní mise. {chord}, {a}, {b} a {text} se doplní podle akordů a domácího úkolu. ↓ = úder dolů, ↑ = úder nahoru.",
+  "quests": {
+    "warmup": {
+      "cs": { "title": "Rozcvička prstů", "text": "Na každé struně zahraj pražce 1, 2, 3, 4 prsty 1, 2, 3, 4. Pomalu a čistě." },
+      "en": { "title": "Finger warm-up", "text": "On each string play frets 1, 2, 3, 4 with fingers 1, 2, 3, 4. Slowly and clearly." }
+    },
+    "homework": {
+      "cs": { "title": "Domácí úkol od učitele", "text": "{text}" },
+      "en": { "title": "Homework from your teacher", "text": "{text}" }
+    },
+    "chordHold": {
+      "cs": { "title": "Akord {chord}", "text": "Chyť {chord} a zahraj každou strunu zvlášť. Zní všechny čistě?" },
+      "en": { "title": "Chord {chord}", "text": "Hold {chord} and play each string on its own. Do they all ring clearly?" }
+    },
+    "chordChange": {
+      "cs": { "title": "Přehazování {a} ↔ {b}", "text": "Střídej {a} a {b} po dobu 1 minuty. Kolikrát to stihneš?" },
+      "en": { "title": "Switch {a} ↔ {b}", "text": "Switch between {a} and {b} for 1 minute. How many times can you do it?" }
+    },
+    "strum": {
+      "cs": { "title": "Brnkání na {chord}", "text": "Brnkej ↓ ↓ ↑ ↑ ↓ ↑ na akordu {chord}. Počítej nahlas a hraj rovnoměrně." },
+      "en": { "title": "Strumming on {chord}", "text": "Strum ↓ ↓ ↑ ↑ ↓ ↑ on {chord}. Count out loud and keep it steady." }
+    }
+  }
+}

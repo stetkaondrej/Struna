@@ -6,6 +6,8 @@ import { toast, icon, esc } from './ui.js';
 import today from './screens/today.js';
 import settings from './screens/settings.js';
 import practice from './screens/practice.js';
+import chords from './screens/chords.js';
+import me from './screens/me.js';
 import { soonScreen } from './screens/soon.js';
 
 // Adresa obrazovky je v části za # (např. …/#akordy).
@@ -14,8 +16,8 @@ const SCREENS = {
   dnes: today,
   mapa: soonScreen('mapa', 4),
   cviceni: practice,
-  akordy: soonScreen('akordy', 2),
-  ja: soonScreen('ja', '2–4'),
+  akordy: chords,
+  ja: me,
   nastaveni: settings,
 };
 
@@ -72,6 +74,7 @@ async function render() {
   renderChrome(route);
   const container = document.createElement('div');
   container.className = 'screen';
+  container.dataset.route = route;
   let nextCleanup = null;
   try {
     nextCleanup = await SCREENS[route].render(container, ctx);
