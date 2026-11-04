@@ -74,16 +74,21 @@ export async function setProfile(patch) {
 }
 
 // --- Nahrávky (jen v telefonu, D-017) ---
+// Nahrávka se ukládá jako surová data (ArrayBuffer), ne jako Blob: Safari na iPhonu
+// velké Bloby (video z kamery) do IndexedDB někdy neuloží. Starší záznamy s `blob` fungují dál.
+const withBlob = (c) => ({ ...c, blob: c.blob ?? new Blob([c.data], { type: c.mime }) });
+
 export async function listClips() {
-  return (await db.readStores(['clips'])).clips.map(([, value]) => value)
+  return (await db.readStores(['clips'])).clips.map(([, value]) => withBlob(value))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function addClip({ date, kind, mime, seconds, title, blob }) {
   const now = new Date().toISOString();
-  const clip = { id: now, date, kind, mime, seconds, bytes: blob.size, title, blob, createdAt: now };
-  await db.put('clips', clip.id, clip);
-  return clip;
+  const data = await blob.arrayBuffer();
+  const record = { id: now, date, kind, mime, seconds, bytes: data.byteLength, title, data, createdAt: now };
+  await db.put('clips', record.id, record);
+  return withBlob(record);
 }
 
 export async function renameClip(id, title) {

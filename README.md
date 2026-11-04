@@ -35,7 +35,7 @@ Doplňuje lekce s učitelem: krátké denní mise, viditelný pokrok a týdenní
 **Nahrávky nejsou v záloze** (jsou moc velké). Ty, které chceš uchovat, ulož v záložce Já tlačítkem **Uložit do Souborů**. Obnova zálohy nahrávky v telefonu nesmaže.
 
 ### Report pro učitele
-Já → **Pro rodiče** → **Report pro učitele** → rodičovský PIN → zkontroluj náhled → případně zaškrtni až 3 nahrávky → **Odeslat učiteli** → WhatsApp → učitel. Text reportu je zároveň ve schránce, kdyby ho WhatsApp u nahrávek vynechal (stačí ho vložit).
+Já → **Pro rodiče** → **Report pro učitele** → rodičovský PIN → zkontroluj náhled → nahrávky z týdne jsou předem zaškrtnuté (nejvýš 3) → **Odeslat učiteli · text + nahrávky** → WhatsApp → učitel. Text reportu je zároveň ve schránce, kdyby ho WhatsApp u nahrávek vynechal (stačí ho vložit).
 
 ### Aktualizace
 Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze“**. Klepni na **Aktualizovat**. Data zůstanou.
@@ -48,7 +48,7 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 1 · Jádro MVP | Dnes, časovač, streak, XP | ✅ verze 0.2.0, otestováno na iPhonu |
 | 2 · MVP komplet | Akordy, denní mise, domácí úkol, deník | ✅ verze 0.3.1, otestováno na iPhonu |
 | 3 · Do telefonu | Úvodní průvodce, profil, zvuky, doladění | ✅ verze 1.0.0, otestováno na iPhonu |
-| 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | 🧪 verze 1.1.0, čeká na test na iPhonu |
+| 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | 🧪 verze 1.1.1, čeká na test na iPhonu |
 | 4b · Hra | Mapa 7 světů, samolepky | – |
 | 4c · Nástroje | Metronom, výzva 1 minuta | – |
 | 5 · Verze 3 | Ladička, zvukový deník, rodičovský pohled | – |

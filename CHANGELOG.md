@@ -2,6 +2,14 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.1.1 · 2026-11-05 · Report: text a nahrávky v jedné zprávě
+
+- Nahrávky z týdne jsou v reportu **předem zaškrtnuté** (nejvýš 3 nejnovější) a odejdou **v jednom sdílení s textem**
+- Tlačítko ukazuje, co odejde: „Odeslat učiteli · text + 2 nahrávky“
+- Když iPhone neumí poslat text spolu se soubory, odejdou nahrávky a text je ve schránce (Struna to řekne)
+- Spolehlivější ukládání nahrávek: Safari na iPhonu někdy neuložilo velké video. Nahrávky se teď ukládají jako surová data
+- Když se nahrávku nepodaří uložit, Struna řekne proč a poradí kratší video nebo zvuk
+
 ## 1.1.0 · 2026-11-05 · Krok 4a: Pro učitele
 
 - **Nahrávky cvičení**: zvuk přímo ve Struně (max. 60 s), video kamerou iPhonu nebo z Fotek

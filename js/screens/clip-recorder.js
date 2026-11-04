@@ -1,6 +1,7 @@
 // Nahrání ukázky: zvuk přímo ve Struně (mikrofon), video kamerou iPhonu nebo z Fotek.
 import { esc } from '../ui.js';
 import { localDateString } from '../logic/dates.js';
+import { formatBytes } from '../i18n.js';
 
 export const MAX_AUDIO_SEC = 60;
 const AUDIO_TYPES = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm'];
@@ -132,7 +133,7 @@ export function clipRecorder(el, { t, store, toast }, { defaultTitle, onDone }) 
         onDone(true);
       } catch (err) {
         console.error(err);
-        toast(t('error.save'), 'error');
+        toast(t('clips.saveFailed', { size: formatBytes(blob.size) }), 'error');
       }
     });
   }

@@ -1,6 +1,6 @@
 // Report pro učitele (za rodičovským PINem): náhled týdne, výběr nahrávek, odeslání přes WhatsApp.
 import { esc } from '../ui.js';
-import { formatDate } from '../i18n.js';
+import { formatDate, tn } from '../i18n.js';
 import { localDateString, addDays, mondayOf } from '../logic/dates.js';
 import { buildWeekReport, reportText, weekRange, shortDate } from '../logic/report.js';
 import { loadContent } from '../content.js';
@@ -22,11 +22,12 @@ export default {
       let reports = await store.listReports();
       const thisMonday = mondayOf(new Date());
       let monday = thisMonday;
-      let selected = new Set();
+      let selected = null; // null = výchozí výběr: všechny nahrávky týdne (nejvýš 3 nejnovější)
 
       function draw() {
         const w = weekRange(monday);
         const weekClips = allClips.filter((c) => c.date >= w.startKey && c.date <= w.endKey);
+        selected ??= new Set(weekClips.slice(0, MAX_CLIPS).map((c) => c.id));
         const chosen = weekClips.filter((c) => selected.has(c.id));
         const report = buildWeekReport({
           monday, sessions: data.sessions, missions: data.missions, homework, journal: data.journal,
@@ -58,12 +59,12 @@ export default {
               </label></li>`).join('')}</ul>` : `<p class="muted">${esc(t('report.noClips'))}</p>`}
           </section>
 
-          <button type="button" class="btn primary big" id="send">${esc(t('report.send'))}</button>
+          <button type="button" class="btn primary big" id="send">${esc(chosen.length ? tn('report.sendWith', chosen.length) : t('report.send'))}</button>
           <p class="muted small">${esc(t('report.sendHint'))}</p>
           <button type="button" class="btn" id="copy">${esc(t('report.copy'))}</button>`;
 
-        el.querySelector('#prev').addEventListener('click', () => { monday = addDays(monday, -7); selected = new Set(); draw(); });
-        el.querySelector('#next').addEventListener('click', () => { if (!isCurrent) { monday = addDays(monday, 7); selected = new Set(); draw(); } });
+        el.querySelector('#prev').addEventListener('click', () => { monday = addDays(monday, -7); selected = null; draw(); });
+        el.querySelector('#next').addEventListener('click', () => { if (!isCurrent) { monday = addDays(monday, 7); selected = null; draw(); } });
         el.querySelectorAll('[data-clip]').forEach((box) => box.addEventListener('change', () => {
           if (box.checked && selected.size >= MAX_CLIPS) { box.checked = false; toast(t('report.maxClips')); return; }
           if (box.checked) selected.add(box.dataset.clip); else selected.delete(box.dataset.clip);
@@ -95,13 +96,19 @@ export default {
           toast(t('report.copied'), 'ok');
           return;
         }
+        // Text i nahrávky v jednom sdílení. Když to iPhone neumí, zkusí jen nahrávky (text je ve schránce),
+        // a nakonec jen text.
         const files = clips.map(clipFile);
-        const payload = files.length && navigator.canShare?.({ files }) ? { text, files } : { text };
+        const can = (p) => !navigator.canShare || navigator.canShare(p);
+        const options = files.length ? [{ text, files }, { files }, { text }] : [{ text }];
+        const payload = options.find(can) ?? { text };
         try {
           await navigator.share(payload);
-          await store.markReportSent(week, clips.map((c) => c.id));
+          if (files.length && !payload.files) toast(t('report.filesFailed'), 'error');
+          else if (!payload.text) toast(t('report.textInClipboard'), 'ok');
+          await store.markReportSent(week, payload.files ? clips.map((c) => c.id) : []);
           reports = await store.listReports();
-          toast(t('report.sent'), 'ok');
+          if (payload.text && (payload.files || !files.length)) toast(t('report.sent'), 'ok');
           draw();
         } catch (err) {
           if (err?.name === 'AbortError') toast(t('report.cancelled'));

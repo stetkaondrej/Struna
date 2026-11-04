@@ -449,13 +449,40 @@ try {
     assert.match(text, /📝 Domácí úkol \(lekce .*\): Ode to Joy, první řádek\. Palec za krkem\. – ještě se cvičí/);
     assert.match(text, /💡 Co jsem se naučila: Em bez koukání na prsty/);
     assert.match(text, /🤔 Kde jsem se zasekla: C akord/);
-    await page.check('[data-clip]:not([disabled]) >> nth=0');
-    await waitText('#report-text', '🎙 Nahrávky (1)');
+    // Nahrávky týdne jsou předem zaškrtnuté a odejdou spolu s textem
+    assert.equal(await page.locator('[data-clip]:checked').count(), 2);
+    await waitText('#report-text', '🎙 Nahrávky (2)');
+    await waitText('#send', 'text + 2 nahrávky');
     await page.screenshot({ path: path.join(outDir, 'report.png'), fullPage: true });
-    await page.click('#send'); // v prohlížeči bez nabídky Sdílet: text se zkopíruje
-    await waitText('#toast', 'zkopírovaný');
-    const clip = await page.evaluate(() => navigator.clipboard.readText());
-    assert.equal(clip, await page.textContent('#report-text'));
+
+    // Náhradní nabídka Sdílet: zapamatuje si, co dostala
+    await page.evaluate(() => {
+      window.__shares = [];
+      navigator.canShare = () => true;
+      navigator.share = async (d) => { window.__shares.push({ text: d.text, files: (d.files || []).map((f) => `${f.name}|${f.type}|${f.size}`) }); };
+    });
+    await page.click('#send');
+    await waitText('#toast', 'Report je odeslaný');
+    const shares = await page.evaluate(() => window.__shares);
+    assert.equal(shares.length, 1, 'jedno sdílení');
+    assert.equal(shares[0].text, await page.textContent('#report-text'), 'text reportu v témže sdílení');
+    assert.equal(shares[0].files.length, 2, 'obě nahrávky v témže sdílení');
+    assert.ok(shares[0].files.some((f) => f.startsWith('Ode to Joy')), shares[0].files.join(', '));
+    assert.ok(shares[0].files.some((f) => f.startsWith('Brnkání video.mp4|video/mp4')), shares[0].files.join(', '));
+    await waitText('#main', 'Odesláno');
+
+    // Když iPhone neumí poslat text spolu se soubory: odejdou nahrávky a text je ve schránce
+    await page.evaluate(() => { window.__shares = []; navigator.canShare = (d) => !(d.text && d.files); });
+    await page.click('#send');
+    await waitText('#toast', 'Text reportu je ve schránce');
+    assert.equal((await page.evaluate(() => window.__shares))[0].files.length, 2);
+    assert.equal(await page.evaluate(() => navigator.clipboard.readText()), await page.textContent('#report-text'));
+
+    // Odškrtnutí nahrávky ji ze zprávy vynechá
+    await page.uncheck('[data-clip] >> nth=1');
+    await waitText('#report-text', '🎙 Nahrávky (1)');
+    await waitText('#send', 'text + 1 nahrávka');
+    await page.evaluate(() => { delete navigator.share; delete navigator.canShare; });
     await page.click('#prev');
     await waitText('#report-text', 'Tento týden zatím bez cvičení');
     await page.click('#next');

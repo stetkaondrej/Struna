@@ -4,6 +4,12 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-020 · Report odchází jako jedno sdílení: text + nahrávky
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Nahrávky z týdne jsou v reportu předem zaškrtnuté (nejvýš 3). Struna předá iPhonu text i soubory v jednom sdílení. Když to nejde, pošle nahrávky a text dá do schránky. Nahrávky se ukládají jako ArrayBuffer (ne Blob).
+**Proč:** Přání vlastníka: učitel má dostat vše v jedné zprávě. Video se na iPhonu neuložilo, protože Safari má potíže s velkými Bloby v IndexedDB.
+**Pozn.:** Jak WhatsApp zobrazí text u souborů (popisek, nebo samostatná zpráva), určuje WhatsApp, ne Struna.
+
 ## D-019 · Krok 4 ve třech částech
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** Krok 4 se staví jako 4a Pro učitele (1.1.0) → 4b Hra (1.2.0) → 4c Nástroje (1.3.0). Každá část má vlastní specifikaci a test na iPhonu.

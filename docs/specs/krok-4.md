@@ -45,8 +45,8 @@ Učitel vidí před lekcí, jak dcera cvičila: kolik, co se naučila, kde se za
 | Období | Týden Po–Ne. Lze přepnout na předchozí týdny |
 | Obsah | Minuty a dny cvičení · série · splněné úkoly mise · domácí úkol a jestli je splněný · zápisy z deníku (co se naučila, kde se zasekla, smajlík) · akordy a hvězdičky · vybrané nahrávky |
 | Náhled | Rodič vidí přesně to, co odejde |
-| Výběr nahrávek | Zaškrtnout 0–3 nahrávky z týdne |
-| Odeslání | **Odeslat učiteli** otevře nabídku Sdílet na iPhonu → WhatsApp / Zprávy / e-mail. Odejde text reportu a vybrané nahrávky |
+| Výběr nahrávek | Nahrávky z týdne jsou předem zaškrtnuté (nejvýš 3 nejnovější), jdou odškrtnout (verze 1.1.1, D-020) |
+| Odeslání | **Odeslat učiteli · text + N nahrávek** otevře nabídku Sdílet → WhatsApp. Text i nahrávky odejdou **v jednom sdílení** |
 | Historie | Struna si pamatuje, kdy byl report odeslán („Odesláno 9. 11.“) |
 
 Ukázka textu reportu:

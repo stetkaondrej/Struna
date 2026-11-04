@@ -34,7 +34,9 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Smazat chce rodičovský PIN
 - [ ] Já → Pro rodiče → Report pro učitele: první otevření vytvoří PIN (2× zadat)
 - [ ] Náhled reportu ukazuje správná čísla týdne a zápisy z deníku
-- [ ] Zaškrtni 1 nahrávku → **Odeslat učiteli** → WhatsApp → učitel. **Učitel dostane text i nahrávku** (pokud text chybí, vlož ho, je ve schránce)
+- [ ] Nahrávky z týdne (zvuk i video) jsou v reportu předem zaškrtnuté. Tlačítko ukazuje „text + N nahrávek“
+- [ ] **Odeslat učiteli** → WhatsApp → učitel: **text i všechny zaškrtnuté nahrávky v jednom sdílení** (pokud by text chyběl, je ve schránce)
+- [ ] Natoč video (do 30 s) a ověř, že se v Já → Nahrávky objeví a v reportu je na výběr
 - [ ] Po odeslání: „Odesláno …“ u týdne
 - [ ] Zálohuj a obnov: nahrávky v telefonu zůstanou
 
