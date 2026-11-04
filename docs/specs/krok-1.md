@@ -1,6 +1,6 @@
 # Krok 1 · Jádro MVP – specifikace
 
-> Stav: **postaveno ve verzi 0.2.0** (schváleno 4. 11. 2026, denní mise přesunuty do kroku 2) · čeká na test na iPhonu · Cílová verze: **0.2.0** · Metaplán v1.1, kap. 8
+> Stav: **✅ hotovo** · verze 0.2.0, otestováno na iPhonu (denní mise přesunuty do kroku 2) · Cílová verze: **0.2.0** · Metaplán v1.1, kap. 8
 
 ## Cíl
 

@@ -232,4 +232,4 @@ Podrobnosti a důvody jsou v `docs/decisions.md`.
 
 ## 14. Další krok
 
-**Fáze 0 · Základy** je hotová a otestovaná na iPhonu (verze 0.1.0). **Krok 1 · Jádro MVP** je postavený (verze 0.2.0) a čeká na test na iPhonu. Denní mise se 3 úkoly patří do kroku 2.
+**Fáze 0 · Základy** je hotová a otestovaná na iPhonu (verze 0.1.0). **Krok 1 · Jádro MVP** je hotový a otestovaný (verze 0.2.0). **Krok 2 · MVP komplet**: specifikace `docs/specs/krok-2.md` čeká na schválení.
