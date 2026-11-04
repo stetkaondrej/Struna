@@ -67,7 +67,7 @@ test('migrace 2 → 3 nepřepíše existující pokrok v akordech', () => {
 test('migrace 3 → 4 přidá prázdný profil a zapne zvuky, nastavení zachová', () => {
   const v3 = { app: 'struna', schemaVersion: 3, stores: {
     kv: [['settings', { lang: 'en', dailyGoalMin: 10 }]], sessions: [], missions: [], homework: [], journal: [] } };
-  const out = migrate(v3);
+  const out = migrate(v3, 4);
   assert.equal(out.schemaVersion, 4);
   const kv = Object.fromEntries(out.stores.kv);
   assert.deepEqual(kv.settings, { lang: 'en', dailyGoalMin: 10, sounds: true });
@@ -89,4 +89,13 @@ test('nová instalace (od nuly) má výchozí nastavení, profil i akordy', () =
   assert.deepEqual(kv.settings, { lang: 'cs', dailyGoalMin: 15, sounds: true });
   assert.equal(kv.profile.onboardedAt, null);
   assert.ok(kv.chords.Em.learning);
+});
+
+test('migrace 4 → 5 přidá úložiště reportů a nic jiného nemění', () => {
+  const v4 = { app: 'struna', schemaVersion: 4, stores: { kv: [['a', 1]], sessions: [['s', {}]], missions: [], homework: [], journal: [] } };
+  const out = migrate(v4);
+  assert.equal(out.schemaVersion, 5);
+  assert.deepEqual(out.stores.reports, []);
+  assert.deepEqual(out.stores.kv, [['a', 1]]);
+  assert.ok(!('clips' in out.stores), 'nahrávky nejsou v záloze');
 });

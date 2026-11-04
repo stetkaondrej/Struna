@@ -48,3 +48,12 @@ test('správné tvary: 1 den, 2 dny, 5 dní', async () => {
   assert.equal(tn('streak', 3), '🔥 3 days in a row');
   setLang('cs');
 });
+
+test('velikost souboru: malé v kB, velké v MB a GB', async () => {
+  const { formatBytes } = await import('../../js/i18n.js');
+  setLang('cs');
+  assert.equal(formatBytes(500), '1 kB');
+  assert.equal(formatBytes(40 * 1024), '40 kB');
+  assert.equal(formatBytes(5 * 1024 * 1024), '5 MB');
+  assert.equal(formatBytes(1.5 * 1024 * 1024 * 1024), '1,5 GB');
+});

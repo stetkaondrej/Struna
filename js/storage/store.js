@@ -73,6 +73,40 @@ export async function setProfile(patch) {
   return db.update('kv', 'profile', (p) => ({ ...DEFAULT_PROFILE, ...(p ?? {}), ...patch }));
 }
 
+// --- Nahrávky (jen v telefonu, D-017) ---
+export async function listClips() {
+  return (await db.readStores(['clips'])).clips.map(([, value]) => value)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function addClip({ date, kind, mime, seconds, title, blob }) {
+  const now = new Date().toISOString();
+  const clip = { id: now, date, kind, mime, seconds, bytes: blob.size, title, blob, createdAt: now };
+  await db.put('clips', clip.id, clip);
+  return clip;
+}
+
+export async function renameClip(id, title) {
+  return db.update('clips', id, (c) => ({ ...c, title }));
+}
+
+export async function deleteClip(id) {
+  await db.remove('clips', id);
+}
+
+// --- Reporty pro učitele ---
+export const listReports = () => listAll('reports');
+
+export async function markReportSent(week, clipIds) {
+  const item = { week, sentAt: new Date().toISOString(), clipIds };
+  await db.put('reports', week, item);
+  return item;
+}
+
+// --- Rodičovský PIN: jen otisk, a jen v technickém úložišti (nezálohuje se) ---
+export const getPinHash = () => db.get(META_STORE, 'parentPin');
+export const setPinHash = (hash) => db.put(META_STORE, 'parentPin', hash);
+
 // --- Akordy: hvězdičky a „učím se“ ---
 export async function getChordProgress() {
   return (await db.get('kv', 'chords')) ?? {};

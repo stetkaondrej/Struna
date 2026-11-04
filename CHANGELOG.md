@@ -2,6 +2,19 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.1.0 · 2026-11-05 · Krok 4a: Pro učitele
+
+- **Nahrávky cvičení**: zvuk přímo ve Struně (max. 60 s), video kamerou iPhonu nebo z Fotek
+  - nabídka po cvičení i v záložce Já; přehrát, přejmenovat, uložit do Souborů, smazat
+  - ukazatel místa a upozornění nad 200 MB
+- **Report pro učitele** (Já → Pro rodiče): týden Po–Ne, minuty, dny, série, mise, domácí úkol, deník, akordy
+  - náhled zprávy, přiložení až 3 nahrávek, odeslání přes nabídku Sdílet (WhatsApp), kopírování textu
+  - Struna si pamatuje, kdy byl report odeslán
+- **Rodičovský PIN** (4 číslice) chrání report a mazání nahrávek; ukládá se jen otisk, platí 5 minut; obnova přes početní otázku
+- Nahrávky nejsou v záloze dat a obnova zálohy je nemaže (D-017)
+- Migrace dat 4 → 5, nová úložiště pro reporty a nahrávky
+- Testy: 79 automatických testů, 34 kroků v prohlížeči (nahrávání zvuku s náhradním mikrofonem, report, PIN, zálohy bez nahrávek)
+
 ## 1.0.1 · 2026-11-04 · Oprava kroužku časovače
 
 - Čas a text v kroužku na obrazovce Cvičení přetékaly přes kroužek, když měl iPhone větší písmo. Písmo uvnitř kroužku se teď řídí velikostí kroužku a kroužek roste spolu s písmem. Totéž pro kroužek na obrazovce Dnes

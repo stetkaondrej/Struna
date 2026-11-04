@@ -6,6 +6,7 @@ import * as timer from '../logic/timer.js';
 import { keepScreenOn } from '../wakelock.js';
 import { journalForm } from './journal-form.js';
 import { play } from '../sounds.js';
+import { clipRecorder, suggestTitle } from './clip-recorder.js';
 
 export default {
   async render(el, ctx) {
@@ -17,6 +18,7 @@ export default {
     const goal = settings.dailyGoalMin;
     let tick = null;
     let checkShown = false;
+    let stopRecorder = null; // při odchodu z obrazovky vypnout mikrofon
 
     const todaySecBefore = () => computeProgress(sessions).todaySec;
     const fraction = (now) => (todaySecBefore() + timer.elapsedSec(active, now)) / (goal * 60);
@@ -136,6 +138,9 @@ export default {
           <div id="journal-slot" class="journal-slot">
             <button type="button" class="btn primary big" id="journal">${esc(t('me.journal.add'))}</button>
           </div>
+          <div id="clip-slot" class="journal-slot">
+            <button type="button" class="btn big" id="clip-add">${esc(t('clips.add'))}</button>
+          </div>
           <div class="controls">
             <button type="button" class="btn big" id="home">${esc(t('practice.done.home'))}</button>
             <button type="button" class="btn big" id="again">${esc(t('practice.done.again'))}</button>
@@ -147,6 +152,14 @@ export default {
           else el.querySelector('#journal-slot').innerHTML = '';
         });
         el.querySelector('#journal-slot textarea').focus();
+      });
+      el.querySelector('#clip-add').addEventListener('click', async () => {
+        const slot = el.querySelector('#clip-slot');
+        const button = slot.innerHTML;
+        stopRecorder = clipRecorder(slot, ctx, {
+          defaultTitle: await suggestTitle(ctx),
+          onDone: () => { slot.innerHTML = button; stopRecorder = null; el.querySelector('#clip-add').hidden = true; },
+        });
       });
       el.querySelector('#home').addEventListener('click', () => go('dnes'));
       el.querySelector('#again').addEventListener('click', () => update());
@@ -160,6 +173,7 @@ export default {
 
     // Úklid při odchodu z obrazovky.
     return () => {
+      stopRecorder?.();
       clearInterval(tick);
       document.removeEventListener('visibilitychange', onVisible);
       keepScreenOn(false);

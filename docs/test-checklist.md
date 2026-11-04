@@ -25,6 +25,19 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] iPhone Nastavení → Zpřístupnění → Displej a velikost textu → Větší text: Struna má větší písmo a nic nepřetéká
 - [ ] Nastavení → O aplikaci → Nápověda otevře návod
 
+## Nahrávky a report pro učitele (krok 4a)
+- [ ] Po cvičení → **Nahrát ukázku** → **Nahrát zvuk**. iPhone se zeptá na mikrofon → Povolit
+- [ ] Nahraj 10 s, **Zastavit**, přehraj si to a ulož. Název je předvyplněný z domácího úkolu
+- [ ] Já → Nahrávky → **Natočit video** (kamera) a **Vybrat video z Fotek**. Obojí se uloží a přehraje
+- [ ] Nahrávky přežijí zavření aplikace i restart telefonu
+- [ ] Přejmenovat a Uložit do Souborů fungují
+- [ ] Smazat chce rodičovský PIN
+- [ ] Já → Pro rodiče → Report pro učitele: první otevření vytvoří PIN (2× zadat)
+- [ ] Náhled reportu ukazuje správná čísla týdne a zápisy z deníku
+- [ ] Zaškrtni 1 nahrávku → **Odeslat učiteli** → WhatsApp → učitel. **Učitel dostane text i nahrávku** (pokud text chybí, vlož ho, je ve schránce)
+- [ ] Po odeslání: „Odesláno …“ u týdne
+- [ ] Zálohuj a obnov: nahrávky v telefonu zůstanou
+
 ## Cvičení a časovač
 - [ ] Dnes → **Začít cvičit**. Otevře se Cvičení a čas běží
 - [ ] Během cvičení displej nezhasne (počkej déle, než je nastavené automatické zamčení)
@@ -88,5 +101,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] (0.1.0 → 0.2.0) Testovací počitadlo zmizelo, jazyk zůstal
 - [ ] (0.2.0 → 0.3.0) Minuty, série a XP zůstaly; v Akordech jsou Em a Am „Učím se“
 - [ ] (0.3.1 → 1.0.0) Krátký průvodce, pak vše jako předtím
+- [ ] (1.0.x → 1.1.0) Vše zůstalo, v Já přibyly Nahrávky a Pro rodiče
 
 **Poznámky:**

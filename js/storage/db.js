@@ -1,6 +1,6 @@
 // Nízkoúrovňová práce s IndexedDB (databáze v telefonu).
 // Žádná obrazovka tento soubor nevolá přímo, jen přes store.js.
-import { DB_NAME, DB_VERSION, DATA_STORES, META_STORE } from './schema.js';
+import { DB_NAME, DB_VERSION, DATA_STORES, LOCAL_STORES, META_STORE } from './schema.js';
 
 let dbPromise;
 
@@ -10,7 +10,7 @@ export function openDB() {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = () => {
       const db = request.result;
-      for (const name of [...DATA_STORES, META_STORE]) {
+      for (const name of [...DATA_STORES, ...LOCAL_STORES, META_STORE]) {
         if (!db.objectStoreNames.contains(name)) db.createObjectStore(name);
       }
     };
@@ -73,6 +73,13 @@ export async function replace({ put: puts = [], remove = [] }) {
   const tx = db.transaction(names, 'readwrite');
   for (const [store, key, value] of puts) tx.objectStore(store).put(value, key);
   for (const [store, key] of remove) tx.objectStore(store).delete(key);
+  return finished(tx);
+}
+
+export async function remove(store, key) {
+  const db = await openDB();
+  const tx = db.transaction(store, 'readwrite');
+  tx.objectStore(store).delete(key);
   return finished(tx);
 }
 

@@ -1,6 +1,6 @@
 // Service worker: uloží aplikaci do telefonu, aby fungovala i bez internetu.
 // Při každém vydání změň VERSION (stejně jako v js/version.js). Telefon pak pozná novou verzi.
-const VERSION = '1.0.1';
+const VERSION = '1.1.0';
 const CACHE = `struna-${VERSION}`;
 
 // Všechny soubory aplikace. Test tests/unit/sw.test.js hlídá, že tu nic nechybí.
@@ -21,13 +21,18 @@ const ASSETS = [
   './js/wakelock.js',
   './js/logic/dates.js',
   './js/logic/mission.js',
+  './js/logic/pin.js',
   './js/logic/progress.js',
+  './js/logic/report.js',
   './js/logic/timer.js',
   './js/screens/chords.js',
+  './js/screens/clip-recorder.js',
   './js/screens/journal-form.js',
   './js/screens/me.js',
   './js/screens/onboarding.js',
+  './js/screens/pin-gate.js',
   './js/screens/practice.js',
+  './js/screens/report.js',
   './js/screens/settings.js',
   './js/screens/soon.js',
   './js/screens/today.js',

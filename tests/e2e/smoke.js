@@ -32,9 +32,11 @@ const base = `http://127.0.0.1:${server.address().port}/`;
 await mkdir(outDir, { recursive: true });
 
 const { defaultBrowserType, ...iphone } = devices['iPhone 12 Pro'];
-const browser = await chromium.launch();
+// Náhradní mikrofon prohlížeče, aby šlo testovat nahrávání zvuku.
+const browser = await chromium.launch({ args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
 const context = await browser.newContext({
   ...iphone, deviceScaleFactor: 1, acceptDownloads: true, locale: 'cs-CZ', timezoneId: 'Europe/Prague',
+  permissions: ['microphone', 'clipboard-read', 'clipboard-write'],
 });
 const page = await context.newPage();
 const errors = [];
@@ -394,13 +396,114 @@ try {
   });
 
   let backupPath;
+  await step('nahrávka zvuku ve Struně (název z domácího úkolu)', async () => {
+    await tab('ja');
+    await page.click('#clip-add');
+    await page.click('#rec-audio');
+    await page.waitForSelector('#rec-time');
+    await page.waitForTimeout(1200); // skutečný čas pro nahrávání
+    await page.clock.fastForward(3000);
+    await page.click('#rec-stop');
+    await page.waitForSelector('#clip-form audio');
+    assert.match(await page.inputValue('#clip-title'), /^Ode to Joy/);
+    await page.click('#clip-form button[type="submit"]');
+    await waitText('#toast', 'Nahrávka je uložená');
+    await page.waitForSelector('#clips [data-play]');
+    assert.equal(await page.locator('#clips [data-play]').count(), 1);
+  });
+
+  await step('video z Fotek, přehrání a přejmenování', async () => {
+    await page.click('#clip-add');
+    await page.setInputFiles('#rec-pick', { name: 'video.mp4', mimeType: 'video/mp4', buffer: Buffer.from('není to opravdové video') });
+    await page.waitForSelector('#clip-form video');
+    await page.fill('#clip-title', 'Brnkání video');
+    await page.click('#clip-form button[type="submit"]');
+    await waitText('#toast', 'Nahrávka je uložená');
+    await page.waitForFunction(() => document.querySelectorAll('#clips [data-play]').length === 2);
+    const audioRow = page.locator('#clips li', { hasText: 'Ode to Joy' });
+    await audioRow.locator('[data-play]').click();
+    await audioRow.locator('audio').waitFor();
+    await audioRow.locator('[data-rename]').click();
+    await audioRow.locator('input').fill('Ode to Joy – 1. řádek');
+    await audioRow.locator('button[type="submit"]').click();
+    await waitText('#clips', 'Ode to Joy – 1. řádek');
+    await waitText('#clips', 'Nahrávky nejsou v záloze');
+    await page.screenshot({ path: path.join(outDir, 'nahravky.png'), fullPage: true });
+  });
+
+  await step('report pro učitele: vytvoření PINu, náhled, nahrávka, kopie textu', async () => {
+    await page.click('#open-report');
+    await page.waitForSelector('#pin');
+    await page.fill('#pin', '12');
+    await page.click('#pin-form button[type="submit"]');
+    await waitText('#pin-error', 'přesně 4 číslice');
+    await page.fill('#pin', '1234');
+    await page.click('#pin-form button[type="submit"]');
+    await page.fill('#pin2', '1234');
+    await page.click('#pin-form button[type="submit"]');
+    await waitText('#toast', 'PIN je nastavený');
+    await page.waitForSelector('#report-text');
+    const text = await page.textContent('#report-text');
+    assert.match(text, /^🎸 Struna · Hvězdo · týden/);
+    assert.match(text, /⏱ 78 minut · 2 dní cvičení/);
+    assert.match(text, /📝 Domácí úkol \(lekce .*\): Ode to Joy, první řádek\. Palec za krkem\. – ještě se cvičí/);
+    assert.match(text, /💡 Co jsem se naučila: Em bez koukání na prsty/);
+    assert.match(text, /🤔 Kde jsem se zasekla: C akord/);
+    await page.check('[data-clip]:not([disabled]) >> nth=0');
+    await waitText('#report-text', '🎙 Nahrávky (1)');
+    await page.screenshot({ path: path.join(outDir, 'report.png'), fullPage: true });
+    await page.click('#send'); // v prohlížeči bez nabídky Sdílet: text se zkopíruje
+    await waitText('#toast', 'zkopírovaný');
+    const clip = await page.evaluate(() => navigator.clipboard.readText());
+    assert.equal(clip, await page.textContent('#report-text'));
+    await page.click('#prev');
+    await waitText('#report-text', 'Tento týden zatím bez cvičení');
+    await page.click('#next');
+    await waitText('#report-text', '78 minut');
+  });
+
+  await step('PIN chrání mazání nahrávek a po 5 minutách se ptá znovu', async () => {
+    await page.clock.fastForward(6 * 60 * 1000);
+    await tab('ja');
+    const row = page.locator('#clips li', { hasText: 'Brnkání video' });
+    await row.locator('[data-delete]').click();
+    await row.locator('#pin').fill('0000');
+    await row.locator('#pin-form button[type="submit"]').click();
+    await waitText('#pin-error', 'Špatný PIN');
+    await row.locator('#pin').fill('1234');
+    await row.locator('#pin-form button[type="submit"]').click();
+    await waitText('#toast', 'Nahrávka je smazaná');
+    await page.waitForFunction(() => document.querySelectorAll('#clips [data-play]').length === 1);
+  });
+
+  await step('zapomenutý PIN: početní otázka a nový PIN', async () => {
+    await page.clock.fastForward(6 * 60 * 1000);
+    await page.click('#open-report');
+    await page.click('#pin-forgot');
+    const q = await page.textContent('#pin-form p');
+    const [, a, b] = q.match(/(\d+) × (\d+)/);
+    await page.fill('#pin-answer', '1');
+    await page.click('#pin-form button[type="submit"]');
+    await waitText('#pin-error', 'To není správně');
+    await page.fill('#pin-answer', String(Number(a) * Number(b)));
+    await page.click('#pin-form button[type="submit"]');
+    await page.fill('#pin', '5678');
+    await page.click('#pin-form button[type="submit"]');
+    await page.fill('#pin2', '5678');
+    await page.click('#pin-form button[type="submit"]');
+    await page.waitForSelector('#report-text');
+  });
+
   await step('záloha obsahuje cvičení, mise, úkoly a deník', async () => {
+    await tab('dnes');
     await page.click('#top-action');
     const [download] = await Promise.all([page.waitForEvent('download'), page.click('#backup')]);
     backupPath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(backupPath);
     const data = JSON.parse(await readFile(backupPath, 'utf8'));
-    assert.equal(data.schemaVersion, 4);
+    assert.equal(data.schemaVersion, 5);
+    assert.ok(!('clips' in data.stores), 'nahrávky nejsou v záloze');
+    assert.ok(Array.isArray(data.stores.reports));
     assert.equal(data.stores.sessions.length, 4);
     assert.equal(data.stores.missions.length, 2);
     assert.equal(data.stores.homework.length, 1);
@@ -416,6 +519,8 @@ try {
     await waitText('#toast', 'obnovená');
     await skipOnboarding(); // stará záloha nemá profil: průvodce se ukáže hned znovu
     await waitText('.today-card', '0 z 15 min');
+    await tab('ja');
+    await waitText('#clips', 'Ode to Joy – 1. řádek'); // obnova zálohy nahrávky nesmaže (D-017)
   });
 
   await step('obnova nové zálohy vrátí cvičení', async () => {

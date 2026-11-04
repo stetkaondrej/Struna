@@ -296,3 +296,29 @@ body[data-mode="onboarding"] main { padding-bottom: calc(env(safe-area-inset-bot
 .profile-text h2 { font-size: 1.5rem; overflow-wrap: anywhere; }
 .name-form { display: flex; flex-direction: column; gap: 10px; }
 .field-label { font-weight: 700; }
+
+/* --- Krok 4a: nahrávky, PIN, report --- */
+.recorder { display: flex; flex-direction: column; gap: 12px; width: 100%; text-align: left; }
+.rec-buttons { display: grid; gap: 8px; }
+.recording { align-items: center; text-align: center; }
+.rec-time { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--pick); }
+.clip-media { width: 100%; max-width: 100%; border-radius: 12px; }
+video.clip-media { max-height: 50vh; background: #000; }
+.clip-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.clip-list li { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.clip-play { min-height: 44px; overflow-wrap: anywhere; }
+.clip-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.clip-actions .link { min-height: 44px; }
+.danger-text { color: var(--pick); }
+.pin-form { gap: 12px; }
+.pin-input { font-size: 1.6rem !important; letter-spacing: .6em; text-align: center; max-width: 12rem; }
+.week-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; text-align: center; }
+.week-nav .icon-btn { font-size: 1.6rem; }
+.week-nav .icon-btn:disabled { opacity: .35; cursor: default; }
+.report-preview {
+  margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-body); font-size: 0.94rem;
+  background: var(--bg); border-radius: 12px; padding: 12px; line-height: 1.5;
+}
+.clip-pick { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.check-row { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
+.check-row input { width: 24px; height: 24px; accent-color: var(--teal); flex: none; }

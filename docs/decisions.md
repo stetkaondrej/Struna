@@ -4,6 +4,21 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-019 · Krok 4 ve třech částech
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Krok 4 se staví jako 4a Pro učitele (1.1.0) → 4b Hra (1.2.0) → 4c Nástroje (1.3.0). Každá část má vlastní specifikaci a test na iPhonu.
+**Proč:** Malé kroky, po každém je aplikace hotová (P6).
+
+## D-018 · Rodičovský PIN
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** 4 číslice, ukládá se jen otisk SHA-256 v technickém úložišti (nezálohuje se). Po zadání platí 5 minut. Zapomenutý PIN se obnoví početní otázkou (dvojciferné násobení). Chrání report pro učitele a mazání nahrávek.
+**Proč:** Jednoduchá pojistka, aby dítě omylem neodeslalo report ani nesmazalo nahrávku. Není to silné zabezpečení, a ani nemá být.
+
+## D-017 · Nahrávky jen v telefonu, mimo zálohu
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Nahrávky jsou v úložišti `clips` (`LOCAL_STORES`). Do záložního souboru se nedávají a obnova zálohy je nesmaže. Report jde učiteli přes nabídku Sdílet (WhatsApp, rozhodnutí vlastníka).
+**Proč:** Minuta videa má i 100 MB, záložní soubor by byl obrovský a pomalý. Nahrávky k uchování se ukládají do Souborů.
+
 ## D-016 · Velikost písma podle iPhonu
 **Datum:** 4. 11. 2026
 **Rozhodnutí:** Velikosti písma jsou v `rem` a základ se řídí systémovým nastavením iPhonu (`-apple-system-body`).

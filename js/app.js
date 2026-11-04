@@ -8,6 +8,7 @@ import settings from './screens/settings.js';
 import practice from './screens/practice.js';
 import chords from './screens/chords.js';
 import me from './screens/me.js';
+import report from './screens/report.js';
 import { soonScreen } from './screens/soon.js';
 import { onboarding } from './screens/onboarding.js';
 import { setSoundsEnabled } from './sounds.js';
@@ -21,7 +22,10 @@ const SCREENS = {
   akordy: chords,
   ja: me,
   nastaveni: settings,
+  report,
 };
+// Podstránky bez vlastní záložky: v horní liště mají šipku zpět.
+const SUBPAGES = { nastaveni: 'nav.settings', report: 'report.title' };
 
 const main = document.getElementById('main');
 const tabbar = document.getElementById('tabbar');
@@ -77,12 +81,12 @@ function renderChrome(route) {
     </a>`).join('');
   tabbar.setAttribute('aria-label', 'Struna');
 
-  const isSettings = route === 'nastaveni';
-  title.textContent = isSettings ? t('nav.settings') : (route === 'dnes' ? 'Struna' : t(`tab.${route}`));
-  topAction.innerHTML = isSettings ? icon('back') : icon('settings');
-  topAction.setAttribute('aria-label', isSettings ? t('nav.back') : t('nav.settings'));
-  topAction.onclick = () => (isSettings ? history.length > 1 ? history.back() : go('dnes') : go('nastaveni'));
-  document.title = isSettings ? `${t('nav.settings')} · Struna` : 'Struna';
+  const sub = SUBPAGES[route];
+  title.textContent = sub ? t(sub) : (route === 'dnes' ? 'Struna' : t(`tab.${route}`));
+  topAction.innerHTML = sub ? icon('back') : icon('settings');
+  topAction.setAttribute('aria-label', sub ? t('nav.back') : t('nav.settings'));
+  topAction.onclick = () => (sub ? history.length > 1 ? history.back() : go('dnes') : go('nastaveni'));
+  document.title = sub ? `${t(sub)} · Struna` : 'Struna';
 }
 
 let renderId = 0;
