@@ -3,6 +3,7 @@ import { esc } from '../ui.js';
 import { loadContent } from '../content.js';
 import { localDateString } from '../logic/dates.js';
 import { worldStates, chordsBossMet, nextString, QUIZ_TARGET } from '../logic/worlds.js';
+import { bestOverall } from '../logic/changes.js';
 import { play } from '../sounds.js';
 import { requirePin } from './pin-gate.js';
 import { clipRecorder } from './clip-recorder.js';
@@ -14,6 +15,8 @@ export default {
     const [{ worlds }, profile] = await Promise.all([loadContent(), store.getProfile()]);
     let progress = await store.getWorlds();
     let chordProgress = await store.getChordProgress();
+    const metronome = await store.getMetronome();
+    const bestChanges = bestOverall(await store.listChanges());
     let openId = null;
     let stopRecorder = null;
     const today = () => localDateString();
@@ -24,7 +27,9 @@ export default {
     async function autoBosses() {
       for (const s of states()) {
         const w = worldOf(s.id);
-        if (s.bossAvailable && w.boss.type === 'chords' && chordsBossMet(w.boss, chordProgress)) await finishBoss(w, false);
+        if (!s.bossAvailable) continue;
+        if (w.boss.type === 'chords' && chordsBossMet(w.boss, chordProgress)) await finishBoss(w, false);
+        if (w.boss.type === 'changes' && bestChanges >= w.boss.count) await finishBoss(w, false);
       }
     }
 
@@ -129,6 +134,16 @@ export default {
           return `<p>${esc(t('map.bossChordsProgress', { n: Math.min(n, w.boss.count), total: w.boss.count }))}</p>
             <button type="button" class="btn" id="boss-chords">${esc(t('map.bossChordsOpen'))}</button>`;
         }
+        case 'metronome': {
+          const sec = Math.min(metronome.bestSteadySec ?? 0, w.boss.seconds);
+          return `<p id="boss-progress">${esc(t('map.bossMetroProgress', { sec, need: w.boss.seconds }))}</p>
+            ${sec >= w.boss.seconds
+              ? `<button type="button" class="btn primary big" id="boss-confirm">${esc(t('map.bossConfirm'))}</button>`
+              : `<button type="button" class="btn" id="boss-metro">${esc(t('map.bossMetroOpen'))}</button>`}`;
+        }
+        case 'changes':
+          return `<p id="boss-progress">${esc(t('map.bossChangesProgress', { n: Math.min(bestChanges, w.boss.count), need: w.boss.count }))}</p>
+            <button type="button" class="btn" id="boss-changes">${esc(t('map.bossChangesOpen'))}</button>`;
         default: return `<button type="button" class="btn primary big" id="boss-confirm">${esc(t('map.bossConfirm'))}</button>`;
       }
     }
@@ -136,6 +151,8 @@ export default {
     function wireBoss(w) {
       el.querySelector('#boss-confirm')?.addEventListener('click', () => finishBoss(w));
       el.querySelector('#boss-chords')?.addEventListener('click', () => go('akordy'));
+      el.querySelector('#boss-metro')?.addEventListener('click', () => { ctx.handoff = { scrollTo: 'metronome' }; go('cviceni'); });
+      el.querySelector('#boss-changes')?.addEventListener('click', () => go('vyzva'));
       el.querySelector('#boss-record')?.addEventListener('click', () => {
         stopRecorder = clipRecorder(el.querySelector('#boss-slot'), ctx, {
           defaultTitle: w.boss[lang].title,

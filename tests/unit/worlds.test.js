@@ -12,7 +12,7 @@ test('obsah: 7 světů v pořadí učitele, lekce a výzvy v obou jazycích', ()
   const ids = new Set();
   for (const w of worlds) {
     assert.ok(w.emoji && w.cs.name && w.en.name, `svět ${w.id}`);
-    assert.ok(['confirm', 'quiz', 'chords', 'record'].includes(w.boss.type), `výzva ${w.id}`);
+    assert.ok(['confirm', 'quiz', 'chords', 'record', 'metronome', 'changes'].includes(w.boss.type), `výzva ${w.id}`);
     for (const lang of ['cs', 'en']) assert.ok(w.boss[lang].title && w.boss[lang].text, `výzva ${w.id} ${lang}`);
     for (const l of w.lessons) {
       assert.ok(!ids.has(l.id), `duplicitní lekce ${l.id}`);

@@ -2,6 +2,20 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.3.0 · 2026-11-05 · Krok 4c: Nástroje
+
+- **🥁 Metronom** (záložka Cvičení): tempo 40–160 (výchozí 70), −5 / +5 a posuvník, 4 doby s výraznou první dobou
+  - rytmus brnkání ↓ ↓ ↓ ↓ nebo ↓ ↓ ↑ ↑ ↓ ↑; šipka, která se má hrát, svítí v rytmu
+  - zvuk se plánuje dopředu (Web Audio), hraje i v tichém režimu, displej nezhasne, pamatuje si tempo a rytmus
+- **⚡ Výzva 1 minuta střídání akordů**: výběr dvou akordů, odpočet 3–2–1, 60 s, velké tlačítko „Přechod!“, rekord pro každou dvojici, historie
+  - +5 XP za pokus (max. 3× denně), +10 XP za nový rekord
+- **Mapa:** výzva světa 5 se odemkne po 30 s metronomu v rytmu ↓ ↓ ↑ ↑ ↓ ↑ s tempem aspoň 70; výzva světa 6 se splní sama po 20 přechodech za minutu
+- **Denní mise:** u úkolu Přehazování tlačítko „Spustit 1 minutu“, u Brnkání tlačítko „Metronom“
+- **Samolepky (23):** 🥁 Rytmus (metronom 5 různých dní) a ⚡ Rychlé prsty (20 přechodů za minutu)
+- Nezhasínání displeje teď drží časovač, metronom i výzva zároveň
+- Migrace dat 6 → 7, nové úložiště výsledků výzvy
+- Testy: 100 automatických testů, 44 kroků v prohlížeči
+
 ## 1.2.2 · 2026-11-05 · Oprava hry „Která struna?“
 
 - **Chyba:** klepnutí kamkoli do hry (i na obrázek strun) se počítalo jako správná odpověď a ke špatné odpovědi se hned přičetla správná

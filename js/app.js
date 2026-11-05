@@ -10,6 +10,7 @@ import chords from './screens/chords.js';
 import me from './screens/me.js';
 import report from './screens/report.js';
 import map from './screens/map.js';
+import changes from './screens/changes.js';
 import { checkStickers } from './stickers-ui.js';
 import { onboarding } from './screens/onboarding.js';
 import { setSoundsEnabled } from './sounds.js';
@@ -24,9 +25,10 @@ const SCREENS = {
   ja: me,
   nastaveni: settings,
   report,
+  vyzva: changes,
 };
 // Podstránky bez vlastní záložky: v horní liště mají šipku zpět.
-const SUBPAGES = { nastaveni: 'nav.settings', report: 'report.title' };
+const SUBPAGES = { nastaveni: 'nav.settings', report: 'report.title', vyzva: 'change.title' };
 
 const main = document.getElementById('main');
 const tabbar = document.getElementById('tabbar');
@@ -59,6 +61,7 @@ const ctx = {
     render();
   },
   checkStickers: () => checkStickers(ctx),
+  handoff: null, // údaje pro další obrazovku (např. dvojice akordů z úkolu mise)
   async setSounds(on) {
     await store.setSetting('sounds', on);
     setSoundsEnabled(on);

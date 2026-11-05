@@ -620,9 +620,84 @@ try {
       assert.ok(earned.includes(id), `chybí samolepka ${id} (má: ${earned.join(', ')})`);
     }
     assert.ok(!earned.includes('world5'));
-    await waitText('#album', `${earned.length} z 21`);
+    await waitText('#album', `${earned.length} z 23`);
     assert.ok(stickerPopups > 0, 'oslava nové samolepky se ukázala');
     await page.screenshot({ path: path.join(outDir, 'album.png'), fullPage: true });
+  });
+
+  await step('metronom: tempo 70, ±5, rytmus a svítící šipky', async () => {
+    await tab('cviceni');
+    await page.waitForSelector('#metronome');
+    assert.equal((await text('#metro-bpm')).trim(), '70');
+    await page.waitForSelector('[data-pattern="dduudu"][aria-pressed="true"]');
+    await page.click('#metro-faster');
+    await waitText('#metro-bpm', '75');
+    await page.click('#metro-slower');
+    await waitText('#metro-bpm', '70');
+    await page.click('#metro-toggle');
+    await waitText('#metro-toggle', 'Zastavit');
+    await page.clock.fastForward(400);
+    await page.waitForSelector('.slot.on');
+    await page.screenshot({ path: path.join(outDir, 'metronom.png'), fullPage: true });
+    await page.click('#metro-toggle');
+    await waitText('#metro-toggle', 'Spustit');
+  });
+
+  await step('svět 5: výzva se odemkne po 30 s metronomu v rytmu', async () => {
+    await tab('mapa');
+    await page.click('.map-text[data-world="5"]');
+    for (let i = 0; i < 3; i++) await page.click('[data-lesson] >> nth=0');
+    await waitText('#boss-progress', 'z 30 s');
+    assert.equal(await page.locator('#boss-confirm').count(), 0, 'bez metronomu nejde potvrdit');
+    await page.click('#boss-metro');
+    await page.waitForSelector('#metronome');
+    await page.click('#metro-toggle');
+    await page.clock.fastForward(31 * 1000);
+    await page.click('#metro-toggle');
+    await waitText('#metro-toggle', 'Spustit');
+    await tab('mapa');
+    await page.click('.map-text[data-world="5"]');
+    await waitText('#boss-progress', '30 s z 30 s');
+    await page.click('#boss-confirm');
+    await waitText('#toast', 'Řeka rytmu je hotový');
+  });
+
+  await step('výzva 1 minuta: odpočet, klepání, rekord; svět 6 se splní sám', async () => {
+    await page.click('#back');
+    await page.click('.map-text[data-world="6"]');
+    for (let i = 0; i < 3; i++) await page.click('[data-lesson] >> nth=0');
+    await waitText('#boss-progress', '0 z 20');
+    await page.click('#boss-changes');
+    await page.waitForSelector('#challenge #change-start');
+    await page.click('#change-start');
+    await page.waitForSelector('#change-tap[disabled]');
+    await page.clock.fastForward(3100);
+    await page.waitForSelector('#change-tap:not([disabled])');
+    for (let i = 0; i < 21; i++) await page.click('#change-tap');
+    await waitText('#change-count', '21');
+    await page.screenshot({ path: path.join(outDir, 'vyzva-minuta.png'), fullPage: true });
+    await page.clock.fastForward(60 * 1000);
+    await page.waitForSelector('#change-result');
+    await waitText('#change-result', '21 přechodů za minutu');
+    await waitText('#change-result', 'Nový rekord');
+    await tab('mapa');
+    await waitText('#toast', 'Kaňon přechodů je hotový');
+    await page.waitForSelector('.map-world.current .map-node[data-world="7"]');
+    await tab('ja');
+    await page.waitForSelector('#album .sticker.earned[data-sticker="fastFingers"]');
+    await waitText('#album', 'z 23');
+  });
+
+  await step('denní mise: tlačítko nástroje u úkolu otevře výzvu nebo metronom', async () => {
+    await tab('dnes');
+    const tool = page.locator('[data-tool]').first();
+    const kind = await tool.getAttribute('data-tool');
+    await tool.click();
+    if (kind === 'change') {
+      await page.waitForSelector('#main .screen[data-route="vyzva"] #challenge');
+    } else {
+      await page.waitForSelector('#main .screen[data-route="cviceni"] #metronome');
+    }
   });
 
   await step('záloha obsahuje cvičení, mise, úkoly a deník', async () => {
@@ -632,7 +707,8 @@ try {
     backupPath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(backupPath);
     const data = JSON.parse(await readFile(backupPath, 'utf8'));
-    assert.equal(data.schemaVersion, 6);
+    assert.equal(data.schemaVersion, 7);
+    assert.equal(data.stores.changes.length, 1, 'výsledek výzvy 1 minuta je v záloze');
     const kv = Object.fromEntries(data.stores.kv);
     assert.ok(kv.worlds.bosses[1] && kv.worlds.bosses[2], 'pokrok na mapě je v záloze');
     assert.ok(!('clips' in data.stores), 'nahrávky nejsou v záloze');

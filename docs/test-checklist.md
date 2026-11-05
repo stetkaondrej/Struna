@@ -53,6 +53,17 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Nová samolepka ukáže oslavu se zvukem
 - [ ] Zálohuj a obnov: pokrok na mapě i samolepky se vrátí
 
+## Metronom a výzva 1 minuta (krok 4c)
+- [ ] Cvičení → Metronom: tempo 70, −/+ mění o 5, posuvník funguje
+- [ ] Spustit: klik na každou dobu, **první doba zní výš**, svítící políčko jde v rytmu se zvukem
+- [ ] Rytmus ↓ ↓ ↑ ↑ ↓ ↑: šipky na 1 · 2 · 2a · 3a · 4 · 4a
+- [ ] Metronom hraje i s přepínačem tichého režimu, displej nezhasne, hraje i při běžícím časovači
+- [ ] Po zavření a otevření aplikace si metronom pamatuje tempo a rytmus
+- [ ] ⚡ Výzva 1 minuta: výběr akordů, odpočet 3–2–1, velké tlačítko Přechod!, po 60 s výsledek a rekord
+- [ ] Mapa, svět 5: výzva jde potvrdit až po 30 s metronomu (rytmus ↓ ↓ ↑ ↑ ↓ ↑, tempo 70+)
+- [ ] Mapa, svět 6: výzva se splní sama po 20 přechodech za minutu
+- [ ] Dnes: u úkolu Přehazování tlačítko „Spustit 1 minutu“, u Brnkání „Metronom“
+
 ## Cvičení a časovač
 - [ ] Dnes → **Začít cvičit**. Otevře se Cvičení a čas běží
 - [ ] Během cvičení displej nezhasne (počkej déle, než je nastavené automatické zamčení)
@@ -118,5 +129,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] (0.3.1 → 1.0.0) Krátký průvodce, pak vše jako předtím
 - [ ] (1.0.x → 1.1.0) Vše zůstalo, v Já přibyly Nahrávky a Pro rodiče
 - [ ] (1.1.x → 1.2.0) Vše zůstalo, oslava samolepek za to, co už dcera zvládla
+- [ ] (1.2.x → 1.3.0) Vše zůstalo, na obrazovce Cvičení přibyl metronom a výzva
 
 **Poznámky:**

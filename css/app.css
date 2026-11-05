@@ -383,3 +383,38 @@ video.clip-media { max-height: 50vh; background: #000; }
   .sticker-pop-card { animation: pop .45s cubic-bezier(.2, 1.6, .4, 1); }
 }
 .training-btn { width: 100%; min-height: 56px; border-width: 2px; background: var(--sun-soft); border-color: var(--sun); color: var(--ink); }
+
+/* --- Krok 4c: metronom, výzva 1 minuta --- */
+.metro { gap: 12px; }
+.metro-tempo { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.big-icon { width: 56px; height: 56px; font-size: 1.8rem; font-weight: 800; background: var(--bg); }
+.metro-bpm { display: flex; flex-direction: column; align-items: center; }
+.metro-bpm strong { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.metro input[type="range"] { width: 100%; accent-color: var(--teal); min-height: 44px; }
+.metro-slots { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.slot { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 0; border-radius: 10px; background: var(--bg); }
+.slot b { font-size: 1.4rem; min-height: 1.6rem; line-height: 1.2; }
+.slot small { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+.slot.and b { color: var(--pick); }
+.slot.on { background: var(--sun); }
+.slot.on small { color: #1D2A2A; }
+.quest-tool { margin: 4px 0 0 52px; min-height: 40px; font-size: 0.94rem; }
+.pair-pick { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: end; gap: 10px; }
+.pair-arrow { font-size: 1.6rem; padding-bottom: 8px; }
+.field select {
+  font: inherit; font-size: 1.2rem; font-weight: 700; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; min-height: 48px; width: 100%;
+}
+.challenge-run { align-items: center; text-align: center; }
+.challenge-time { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.change-tap {
+  font: inherit; width: 100%; min-height: 46vh; border: 0; border-radius: 24px; cursor: pointer;
+  background: var(--teal); color: var(--on-accent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none;
+}
+.change-tap span { font-family: var(--font-display); font-size: 2rem; font-weight: 800; }
+.change-tap strong { font-family: var(--font-display); font-size: 4.5rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.change-tap:disabled { background: var(--line); color: var(--muted); }
+.change-tap:active:not(:disabled) { transform: scale(.98); }
+.history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.history-list li { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 6px; }

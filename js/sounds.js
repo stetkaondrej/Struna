@@ -20,7 +20,8 @@ export function play(name) {
   if (!enabled || !SOUNDS[name]) return;
   try {
     // Zvuk se řídí tlačítkem pro tichý režim iPhonu.
-    if (navigator.audioSession) navigator.audioSession.type = 'ambient';
+    // (Když zrovna hraje metronom, nechá ho hrát i v tichém režimu.)
+    if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'ambient';
     ctx ??= new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume();
     const t0 = ctx.currentTime + 0.02;

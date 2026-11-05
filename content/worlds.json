@@ -1,5 +1,5 @@
 {
-  "_info": "Mapa výprav: 7 světů v pořadí, které potvrdil učitel (D-003). boss.type: confirm = dcera potvrdí, quiz = hra Která struna?, chords = 3 akordy s ★★ a víc, record = nahrávka.",
+  "_info": "Mapa výprav: 7 světů v pořadí, které potvrdil učitel (D-003). boss.type: confirm = dcera potvrdí, quiz = hra Která struna?, chords = 3 akordy s ★★ a víc, record = nahrávka, metronome = běh metronomu v rytmu, changes = výsledek výzvy 1 minuta.",
   "worlds": [
     {
       "id": 1, "emoji": "🏕️",
@@ -92,9 +92,9 @@
           "cs": { "title": "Počítání nahlas", "text": "Počítej nahlas „raz a dva a tři a čtyři a“. Dolů hraješ na čísla, nahoru na „a“." },
           "en": { "title": "Counting out loud", "text": "Count out loud “one and two and three and four and”. Strum down on the numbers and up on “and”." } }
       ],
-      "boss": { "type": "confirm",
-        "cs": { "title": "30 sekund v rytmu", "text": "Brnkej ↓ ↓ ↑ ↑ ↓ ↑ 30 sekund bez zastavení a rovnoměrně. Pak potvrď." },
-        "en": { "title": "30 seconds in rhythm", "text": "Strum ↓ ↓ ↑ ↑ ↓ ↑ for 30 seconds without stopping and keep it steady. Then confirm." } }
+      "boss": { "type": "metronome", "seconds": 30, "bpm": 70,
+        "cs": { "title": "30 sekund v rytmu", "text": "Zapni metronom (tempo 70 a víc, rytmus ↓ ↓ ↑ ↑ ↓ ↑) a brnkej s ním 30 sekund bez zastavení. Pak potvrď." },
+        "en": { "title": "30 seconds in rhythm", "text": "Start the metronome (tempo 70 or more, pattern ↓ ↓ ↑ ↑ ↓ ↑) and strum with it for 30 seconds without stopping. Then confirm." } }
     },
     {
       "id": 6, "emoji": "🏜️",
@@ -111,9 +111,9 @@
           "cs": { "title": "D ↔ G", "text": "Zvedni všechny prsty najednou a polož je najednou. Nejdřív pomalu, pak rychleji." },
           "en": { "title": "D ↔ G", "text": "Lift all fingers together and put them down together. Slowly first, then faster." } }
       ],
-      "boss": { "type": "confirm",
-        "cs": { "title": "20 čistých přechodů za minutu", "text": "Střídej dva akordy jednu minutu a počítej čisté přechody. Potřebuješ 20. Pak potvrď." },
-        "en": { "title": "20 clean changes in a minute", "text": "Switch between two chords for one minute and count the clean changes. You need 20. Then confirm." } }
+      "boss": { "type": "changes", "count": 20,
+        "cs": { "title": "20 čistých přechodů za minutu", "text": "Zahraj výzvu „1 minuta střídání akordů“. Výzva se splní sama, až budeš mít aspoň 20 přechodů." },
+        "en": { "title": "20 clean changes in a minute", "text": "Play the “1-minute chord changes” challenge. This challenge completes itself when you reach at least 20 changes." } }
     },
     {
       "id": 7, "emoji": "🎤",

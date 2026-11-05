@@ -7,10 +7,21 @@ import { keepScreenOn } from '../wakelock.js';
 import { journalForm } from './journal-form.js';
 import { play } from '../sounds.js';
 import { clipRecorder, suggestTitle } from './clip-recorder.js';
+import { metronomeCard } from './metronome-card.js';
 
 export default {
-  async render(el, ctx) {
+  async render(root, ctx) {
     const { t, store, toast, go } = ctx;
+    // Obrazovka má 3 části: časovač (překresluje se), metronom a odkaz na výzvu 1 minuta.
+    const el = document.createElement('div');
+    const metroEl = document.createElement('div');
+    const tools = document.createElement('div');
+    tools.innerHTML = `<button type="button" class="btn big" id="open-challenge">${esc(t('change.open'))}</button>`;
+    tools.querySelector('#open-challenge').addEventListener('click', () => go('vyzva'));
+    root.append(el, metroEl, tools);
+    const stopMetro = await metronomeCard(metroEl, ctx);
+    const scrollToMetro = ctx.handoff?.scrollTo === 'metronome';
+    ctx.handoff = null;
     let [active, data, settings] = await Promise.all([
       store.getActiveSession(), store.loadProgressData(), store.getSettings(),
     ]);
@@ -171,10 +182,12 @@ export default {
     document.addEventListener('visibilitychange', onVisible);
 
     update();
+    if (scrollToMetro) requestAnimationFrame(() => metroEl.scrollIntoView({ block: 'start' }));
 
     // Úklid při odchodu z obrazovky.
     return () => {
       stopRecorder?.();
+      stopMetro();
       clearInterval(tick);
       document.removeEventListener('visibilitychange', onVisible);
       keepScreenOn(false);

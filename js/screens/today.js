@@ -22,7 +22,8 @@ function greeting(t, now, name) {
 }
 
 export default {
-  async render(el, { t, store, toast, go, lang, rerender }) {
+  async render(el, ctx) {
+    const { t, store, toast, go, lang, rerender } = ctx;
     const now = new Date();
     const date = localDateString(now);
     const [content, data, settings, active, lastBackup, chordProgress, homework, profile] = await Promise.all([
@@ -67,6 +68,8 @@ export default {
                   <span class="quest-body"><strong>${esc(title)}</strong><span class="muted small">${esc(text)}</span></span>
                   <span class="quest-xp">${esc(t('mission.questXp'))}</span>
                 </button>
+                ${q.type === 'chordChange' ? `<button type="button" class="link quest-tool" data-tool="change" data-a="${esc(q.params.a)}" data-b="${esc(q.params.b)}">⚡ ${esc(t('quest.toolChange'))}</button>` : ''}
+                ${q.type === 'strum' ? `<button type="button" class="link quest-tool" data-tool="metro">🥁 ${esc(t('quest.toolMetro'))}</button>` : ''}
               </li>`;
           }).join('')}
         </ul>
@@ -113,6 +116,10 @@ export default {
       ${isStandalone() ? '' : `<p class="note">${esc(t('today.install'))}</p>`}`;
 
     el.querySelector('#go-settings')?.addEventListener('click', () => go('nastaveni'));
+    el.querySelectorAll('[data-tool]').forEach((b) => b.addEventListener('click', () => {
+      if (b.dataset.tool === 'change') { ctx.handoff = { pair: { a: b.dataset.a, b: b.dataset.b } }; go('vyzva'); }
+      else { ctx.handoff = { scrollTo: 'metronome' }; go('cviceni'); }
+    }));
     el.querySelectorAll('[data-quest]').forEach((b) => b.addEventListener('click', async () => {
       try {
         const updated = await store.toggleQuest(date, b.dataset.quest);

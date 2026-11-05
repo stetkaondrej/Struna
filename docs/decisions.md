@@ -4,6 +4,11 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-022 · Metronom a výzva 1 minuta
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Metronom 40–160 BPM, výchozí 70 (schválil vlastník), zvuk plánovaný dopředu přes Web Audio, hraje i v tichém režimu (je to nástroj). Obraz šipek se počítá z uplynulého času. Výzva 1 minuta: +5 XP za pokus (max. 3× denně), +10 XP za nový rekord dvojice akordů. Výzva světa 5 se odemkne po 30 s metronomu v rytmu ↓ ↓ ↑ ↑ ↓ ↑ s tempem aspoň 70, svět 6 se splní sám po 20 přechodech. Samolepka Rytmus = metronom 5 různých dní (aspoň minutu denně, upravil vlastník).
+**Proč:** Rytmus a přechody brzdí začátečníky nejvíc. Struna neslyší kytaru, proto měří jen čas a klepnutí a poctivost je na dceři (jako u úkolů mise).
+
 ## D-021 · Mapa výprav a samolepky
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** 7 světů v pořadí učitele, obsah v `content/worlds.json`. Lekce +5 XP, výzva +100 XP (schválil vlastník). Další svět se odemkne po výzvě předchozího. Rodič může svět za PINem přeskočit (bez XP). Dcera prochází od začátku. 21 samolepek se počítá z historie; jednou získaná zůstává (`stickersSeen`), i kdyby se třeba smazala nahrávka.

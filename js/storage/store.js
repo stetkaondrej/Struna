@@ -130,6 +130,24 @@ export const completeBoss = (worldId, date) =>
 export const skipWorld = (worldId) =>
   updateWorlds((w) => (w.skipped.includes(worldId) ? w : { ...w, skipped: [...w.skipped, worldId] }));
 
+// --- Metronom ---
+const EMPTY_METRONOME = { bpm: 70, pattern: 'dduudu', days: {}, bestSteadySec: 0 };
+
+export async function getMetronome() {
+  return { ...EMPTY_METRONOME, ...((await db.get('kv', 'metronome')) ?? {}) };
+}
+
+export const updateMetronome = (fn) => db.update('kv', 'metronome', (m) => fn({ ...EMPTY_METRONOME, ...(m ?? {}) }));
+
+// --- Výzva 1 minuta ---
+export const listChanges = () => listAll('changes');
+
+export async function addChange({ date, a, b, count }) {
+  const item = { id: new Date().toISOString(), date, a, b, count };
+  await db.put('changes', item.id, item);
+  return item;
+}
+
 // --- Samolepky (už ukázané) ---
 export async function getStickersSeen() {
   return (await db.get('kv', 'stickersSeen')) ?? {};
@@ -208,8 +226,10 @@ export async function addJournal({ date, learned, stuck, feeling }) {
 
 // Vše, co potřebuje výpočet bodů a série (js/logic/progress.js).
 export async function loadProgressData() {
-  const [sessions, missions, journal, worlds] = await Promise.all([listSessions(), listMissions(), listJournal(), getWorlds()]);
-  return { sessions, missions, journal, worlds };
+  const [sessions, missions, journal, worlds, changes] = await Promise.all([
+    listSessions(), listMissions(), listJournal(), getWorlds(), listChanges(),
+  ]);
+  return { sessions, missions, journal, worlds, changes };
 }
 
 // --- Zálohy ---

@@ -5,7 +5,7 @@
 // 2. Krok N dostane snapshot ve verzi N-1 a vrátí ho ve verzi N.
 // 3. Ke každému kroku napiš test v tests/unit/migrations.test.js.
 
-export const CURRENT_SCHEMA = 6;
+export const CURRENT_SCHEMA = 7;
 
 const STEPS = {
   // 0 → 1: první verze dat. Zajistí, že existuje úložiště kv.
@@ -59,6 +59,15 @@ const STEPS = {
     if (!kv.some(([k]) => k === 'worlds')) kv = [...kv, ['worlds', { lessons: {}, bosses: {}, skipped: [] }]];
     if (!kv.some(([k]) => k === 'stickersSeen')) kv = [...kv, ['stickersSeen', {}]];
     return { ...s, stores: { ...s.stores, kv } };
+  },
+
+  // 6 → 7 (krok 4c): výsledky výzvy 1 minuta a nastavení metronomu.
+  7: (s) => {
+    let kv = s.stores.kv ?? [];
+    if (!kv.some(([k]) => k === 'metronome')) {
+      kv = [...kv, ['metronome', { bpm: 70, pattern: 'dduudu', days: {}, bestSteadySec: 0 }]];
+    }
+    return { ...s, stores: { ...s.stores, kv, changes: s.stores.changes ?? [] } };
   },
 };
 

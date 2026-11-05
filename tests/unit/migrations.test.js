@@ -101,9 +101,16 @@ test('migrace 4 → 5 přidá úložiště reportů a nic jiného nemění', () 
 });
 
 test('migrace 5 → 6 přidá prázdnou mapu a samolepky', () => {
-  const out = migrate({ app: 'struna', schemaVersion: 5, stores: { kv: [], sessions: [], missions: [], homework: [], journal: [], reports: [] } });
+  const out = migrate({ app: 'struna', schemaVersion: 5, stores: { kv: [], sessions: [], missions: [], homework: [], journal: [], reports: [] } }, 6);
   assert.equal(out.schemaVersion, 6);
   const kv = Object.fromEntries(out.stores.kv);
   assert.deepEqual(kv.worlds, { lessons: {}, bosses: {}, skipped: [] });
   assert.deepEqual(kv.stickersSeen, {});
+});
+
+test('migrace 6 → 7 přidá výzvu 1 minuta a metronom s tempem 70', () => {
+  const out = migrate({ app: 'struna', schemaVersion: 6, stores: { kv: [], sessions: [], missions: [], homework: [], journal: [], reports: [] } });
+  assert.equal(out.schemaVersion, 7);
+  assert.deepEqual(out.stores.changes, []);
+  assert.deepEqual(Object.fromEntries(out.stores.kv).metronome, { bpm: 70, pattern: 'dduudu', days: {}, bestSteadySec: 0 });
 });

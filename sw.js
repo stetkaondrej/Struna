@@ -1,6 +1,6 @@
 // Service worker: uloží aplikaci do telefonu, aby fungovala i bez internetu.
 // Při každém vydání změň VERSION (stejně jako v js/version.js). Telefon pak pozná novou verzi.
-const VERSION = '1.2.2';
+const VERSION = '1.3.0';
 const CACHE = `struna-${VERSION}`;
 
 // Všechny soubory aplikace. Test tests/unit/sw.test.js hlídá, že tu nic nechybí.
@@ -14,13 +14,16 @@ const ASSETS = [
   './js/chord-diagram.js',
   './js/content.js',
   './js/i18n.js',
+  './js/metronome-audio.js',
   './js/sounds.js',
   './js/stickers-ui.js',
   './js/sw-register.js',
   './js/ui.js',
   './js/version.js',
   './js/wakelock.js',
+  './js/logic/changes.js',
   './js/logic/dates.js',
+  './js/logic/metronome.js',
   './js/logic/mission.js',
   './js/logic/pin.js',
   './js/logic/progress.js',
@@ -28,11 +31,13 @@ const ASSETS = [
   './js/logic/stickers.js',
   './js/logic/timer.js',
   './js/logic/worlds.js',
+  './js/screens/changes.js',
   './js/screens/chords.js',
   './js/screens/clip-recorder.js',
   './js/screens/journal-form.js',
   './js/screens/map.js',
   './js/screens/me.js',
+  './js/screens/metronome-card.js',
   './js/screens/onboarding.js',
   './js/screens/pin-gate.js',
   './js/screens/practice.js',

@@ -5,17 +5,21 @@ import { computeProgress } from './logic/progress.js';
 import { worldStates } from './logic/worlds.js';
 import { localDateString } from './logic/dates.js';
 import { loadContent } from './content.js';
+import { metronomeDays } from './logic/metronome.js';
+import { bestOverall } from './logic/changes.js';
 import { play } from './sounds.js';
 
 export async function stickerData(store) {
-  const [data, chordProgress, clips, reports, seen, content] = await Promise.all([
+  const [data, chordProgress, clips, reports, seen, content, metronome] = await Promise.all([
     store.loadProgressData(), store.getChordProgress(), store.listClips(), store.listReports(), store.getStickersSeen(), loadContent(),
+    store.getMetronome(),
   ]);
   const progress = computeProgress(data.sessions, new Date(), data);
   const worldsDone = worldStates(content.worlds, data.worlds).filter((w) => w.status === 'done').map((w) => w.id);
   const facts = stickerFacts({
     progress, sessions: data.sessions, missions: data.missions, journal: data.journal,
     clips: clips.length, reports: reports.length, chordProgress, worldsDone,
+    metronomeDays: metronomeDays(metronome), bestChanges: bestOverall(data.changes),
   });
   return { ...evaluateStickers(facts, seen), seen };
 }

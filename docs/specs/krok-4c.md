@@ -1,6 +1,6 @@
 # Krok 4c · Nástroje – specifikace
 
-> Stav: **čeká na schválení** · Cílová verze: **1.3.0** · Rozdělení kroku 4: D-019
+> Stav: **postaveno ve verzi 1.3.0** · schváleno 5. 11. 2026: tempo 70, body ano, samolepka Rytmus = metronom 5 různých dní (aspoň minutu) · čeká na test na iPhonu · Cílová verze: **1.3.0** · Rozdělení kroku 4: D-019
 
 ## Cíl
 
@@ -50,7 +50,7 @@ Známé cvičení kytaristů: kolikrát za minutu čistě přehodíš mezi dvěm
 | Nový osobní rekord | **+10** |
 
 Nové samolepky (album bude mít **23**):
-- 🥁 **Rytmus**: metronom celkem 10 minut
+- 🥁 **Rytmus**: metronom 5 různých dní, aspoň minutu denně (upraveno vlastníkem)
 - ⚡ **Rychlé prsty**: 20 přechodů za minutu
 
 ## Data
