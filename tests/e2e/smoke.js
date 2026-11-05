@@ -536,6 +536,18 @@ try {
     await page.screenshot({ path: path.join(outDir, 'mapa.png'), fullPage: true });
   });
 
+  await step('trénink „Která struna?“ z mapy: hra jde kdykoli, výzvu světa 2 ale nesplní', async () => {
+    await page.click('#training');
+    await page.waitForSelector('#training-slot #quiz');
+    for (let i = 0; i < 10; i++) {
+      await page.click(`[data-answer="${await page.getAttribute('#quiz', 'data-answer')}"]`);
+    }
+    await waitText('#toast', 'až k ní na mapě dojdeš');
+    await page.waitForSelector('#training-slot #quiz'); // hraje se dál
+    await page.click('#quiz-close');
+    await page.waitForSelector('.map-world.locked .map-node[data-world="2"]');
+  });
+
   await step('svět 1: lekce, potom výzva, odemkne se svět 2', async () => {
     await page.click('.map-text[data-world="1"]');
     await waitText('#boss', 'Výzva se odemkne po všech lekcích');

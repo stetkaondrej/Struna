@@ -382,3 +382,4 @@ video.clip-media { max-height: 50vh; background: #000; }
 @media (prefers-reduced-motion: no-preference) {
   .sticker-pop-card { animation: pop .45s cubic-bezier(.2, 1.6, .4, 1); }
 }
+.training-btn { width: 100%; min-height: 56px; border-width: 2px; background: var(--sun-soft); border-color: var(--sun); color: var(--ink); }

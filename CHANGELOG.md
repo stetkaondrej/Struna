@@ -2,6 +2,11 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.2.1 · 2026-11-05 · Trénink na mapě
+
+- Nahoře na Mapě tlačítko **🎮 Trénink: Která struna?**: hra jde zahrát kdykoli, nejen na konci světa 2
+- Výzvu světa 2 trénink splní, jen když k ní dcera na mapě už došla (pořadí učení zůstává)
+
 ## 1.2.0 · 2026-11-05 · Krok 4b: Hra
 
 - **Mapa výprav** (záložka Mapa): 7 světů od Kytarového tábora po Velké pódium, s lekcemi a výzvou na konci

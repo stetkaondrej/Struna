@@ -1,6 +1,6 @@
 {
   "name": "struna",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Hravý pomocník pro cvičení na kytaru (webová aplikace pro iPhone).",
   "type": "module",

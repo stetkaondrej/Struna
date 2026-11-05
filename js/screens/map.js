@@ -39,6 +39,7 @@ export default {
     function drawList() {
       const st = states();
       el.innerHTML = `
+        <button type="button" class="btn training-btn" id="training">🎮 ${esc(t('map.training'))}</button>
         <p class="muted">${esc(t('map.intro'))}</p>
         <ol class="map-path">
           ${worlds.map((w, i) => {
@@ -58,6 +59,7 @@ export default {
           }).join('')}
         </ol>`;
       el.querySelectorAll('[data-world]').forEach((b) => b.addEventListener('click', () => { openId = Number(b.dataset.world); drawDetail(); }));
+      el.querySelector('#training').addEventListener('click', training);
     }
 
     function drawDetail() {
@@ -140,18 +142,22 @@ export default {
           onDone: (saved) => { stopRecorder = null; if (saved) finishBoss(w); else drawDetail(); },
         });
       });
-      el.querySelector('#boss-quiz')?.addEventListener('click', () => quiz(w));
+      el.querySelector('#boss-quiz')?.addEventListener('click', () => quiz(el.querySelector('#boss-slot'), {
+        onTarget: async () => { toast(t('quiz.done'), 'ok'); await finishBoss(w); },
+        onClose: drawDetail,
+      }));
     }
 
     // Hra „Která struna?“
-    function quiz(w) {
+    // slot = kam se hra vykreslí; onTarget = co se stane po 10 správně za sebou; onClose = ukončení hry
+    function quiz(slot, { onTarget, onClose }) {
       const names = t('quiz.strings').split(',');
       let streak = 0;
       let current = -1;
       function round(message = '') {
         current = nextString(current);
         const order = [0, 1, 2, 3, 4, 5].sort(() => Math.random() - 0.5); // tlačítka v náhodném pořadí
-        el.querySelector('#boss-slot').innerHTML = `
+        slot.innerHTML = `
           <div class="quiz" id="quiz">
             <p class="quiz-msg ${message ? 'show' : ''}" id="quiz-msg" aria-live="polite">${esc(message)}</p>
             ${stringsSvg(current)}
@@ -161,11 +167,11 @@ export default {
             <div class="bar"><i style="width:${(streak / QUIZ_TARGET) * 100}%"></i></div>
             <button type="button" class="link" id="quiz-close">${esc(t('quiz.close'))}</button>
           </div>`;
-        el.querySelector('#quiz').dataset.answer = String(current);
-        el.querySelectorAll('[data-answer]').forEach((b) => b.addEventListener('click', async () => {
+        slot.querySelector('#quiz').dataset.answer = String(current); // správná odpověď (pro automatický test)
+        slot.querySelectorAll('[data-answer]').forEach((b) => b.addEventListener('click', async () => {
           if (Number(b.dataset.answer) === current) {
             streak += 1;
-            if (streak >= QUIZ_TARGET) { toast(t('quiz.done'), 'ok'); await finishBoss(w); return; }
+            if (streak >= QUIZ_TARGET) { await onTarget(); return; }
             play('tick');
             round(t('quiz.right'));
           } else {
@@ -174,9 +180,34 @@ export default {
             round(t('quiz.wrong', { name: right }));
           }
         }));
-        el.querySelector('#quiz-close').addEventListener('click', () => drawDetail());
+        slot.querySelector('#quiz-close').addEventListener('click', onClose);
       }
       round();
+    }
+
+    // Trénink: hra kdykoli z mapy. Výzvu světa 2 splní, jen když k ní dcera na mapě už došla.
+    function training() {
+      el.innerHTML = `
+        <button type="button" class="link back" id="back">‹ ${esc(t('map.back'))}</button>
+        <section class="card">
+          <h2>🎮 ${esc(t('quiz.title'))}</h2>
+          <p class="muted">${esc(t('map.trainingText'))}</p>
+          <div id="training-slot"></div>
+        </section>`;
+      el.querySelector('#back').addEventListener('click', drawList);
+      const w2 = worlds.find((w) => w.boss.type === 'quiz');
+      const again = () => training();
+      quiz(el.querySelector('#training-slot'), {
+        onClose: drawList,
+        onTarget: async () => {
+          const s = states().find((x) => x.id === w2.id);
+          if (s.bossAvailable) { toast(t('quiz.done'), 'ok'); await finishBoss(w2, false); drawList(); return; }
+          play('mission');
+          toast(t('quiz.trainingDone'), 'ok');
+          again();
+        },
+      });
+      window.scrollTo(0, 0);
     }
 
     await autoBosses();
