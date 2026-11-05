@@ -1,6 +1,6 @@
 // Service worker: uloží aplikaci do telefonu, aby fungovala i bez internetu.
 // Při každém vydání změň VERSION (stejně jako v js/version.js). Telefon pak pozná novou verzi.
-const VERSION = '2.0.1';
+const VERSION = '2.1.0';
 const CACHE = `struna-${VERSION}`;
 
 // Všechny soubory aplikace. Test tests/unit/sw.test.js hlídá, že tu nic nechybí.

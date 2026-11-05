@@ -99,6 +99,12 @@ Kompletní test celé aplikace (verze 2.0.0). Celý trvá asi 45 minut, klidně 
 - [ ] Nastav hvězdičky a „Učím se“, vrať se zpět. Na kartě akordu je vidět změna
 - [ ] Zítra: druhý úkol mise je akord „Učím se“ s nejméně hvězdičkami
 
+## Akordy Cm a Gm (verze 2.1)
+- [ ] Akordy: 9 karet, na konci Cm a Gm
+- [ ] Detail Gm: pruh přes všechny struny (barré), vlevo číslo 3, prsty 3 a 4 v 5. pražci na A a D
+- [ ] Detail Cm: pruh od struny A, × na struně E, prst 2 na struně H ve 4. pražci, prsty 3 a 4 v 5. pražci na D a G
+- [ ] Cm a Gm jdou zapnout „Učím se“ a objeví se v denní misi a ve výzvě 1 minuta
+
 ## Domácí úkol a deník (krok 2)
 - [ ] Já → Přidat úkol po lekci → napiš úkol → Uložit. Úkol je vidět v Já
 - [ ] Pokud dnešní rozcvička ještě není odškrtnutá, úkol se objeví v dnešní misi. Jinak zítra

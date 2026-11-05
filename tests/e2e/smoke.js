@@ -310,15 +310,22 @@ try {
     await page.screenshot({ path: path.join(outDir, 'dnes-mise.png'), fullPage: true });
   });
 
-  await step('kniha akordů: 7 akordů, hvězdičky a „Učím se“ se uloží', async () => {
+  await step('kniha akordů: 9 akordů, hvězdičky a „Učím se“ se uloží', async () => {
     await tab('akordy');
-    assert.equal(await page.locator('[data-chord]').count(), 7);
+    assert.equal(await page.locator('[data-chord]').count(), 9);
     await page.screenshot({ path: path.join(outDir, 'akordy.png'), fullPage: true });
     await page.click('[data-chord="Am"]');
     await page.waitForSelector('.chord-detail');
     await page.click('[data-stars="2"]');
     await page.waitForSelector('[data-stars="2"][aria-pressed="true"]');
     await page.screenshot({ path: path.join(outDir, 'akord-detail.png'), fullPage: true });
+    await page.click('#back');
+    // barré akord: pruh přes struny a číslo pražce
+    await page.click('[data-chord="Gm"]');
+    await page.waitForSelector('.chord-detail .barre');
+    assert.equal((await text('.chord-detail .base-fret')).trim(), '3');
+    await waitText('.chord-detail', 'G moll');
+    await page.screenshot({ path: path.join(outDir, 'akord-gm.png'), fullPage: true });
     await page.click('#back');
     await page.click('[data-chord="E"]');
     await page.click('#learning');
@@ -812,7 +819,7 @@ try {
     await page.reload();
     await waitText('[data-quest="q1"]', 'Ode to Joy'); // mise i obsah z content/ fungují offline
     await tab('akordy');
-    assert.equal(await page.locator('[data-chord]').count(), 7);
+    assert.equal(await page.locator('[data-chord]').count(), 9);
     await tab('dnes');
     await context.setOffline(false);
   });

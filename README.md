@@ -17,7 +17,7 @@ Doplňuje lekce s učitelem: krátké denní mise, viditelný pokrok a týdenní
 - **Mapa**: výprava přes 7 světů. Každý svět má lekce a na konci výzvu (třeba hru „Která struna?“).
 - **Dnes**: denní mise se 3 úkoly, tlačítko **Začít cvičit**, série dní 🔥 a úroveň.
 - **Cvičení**: časovač, **metronom** (tempo 40–160, rytmus ↓ ↓ ↑ ↑ ↓ ↑) a **výzva 1 minuta střídání akordů**. Displej nezhasne. Když aplikaci zavřeš, časovač běží dál.
-- **Akordy**: prstoklady 7 akordů. Zapni **Učím se** a dávej si hvězdičky ★.
+- **Akordy**: prstoklady 9 akordů (Em, Am, E, A, D, G, C, Cm, Gm). Zapni **Učím se** a dávej si hvězdičky ★.
 - **Já**: profil, domácí úkol od učitele, **zvukový deník** (nahrávky po týdnech, Tehdy a teď), deník „Co jsem se naučila“, album samolepek, čísla a report pro učitele (za rodičovským PINem).
 
 ### Body XP
@@ -52,7 +52,7 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | ✅ verze 1.1.1, otestováno na iPhonu |
 | 4b · Hra | Mapa 7 světů, samolepky | ✅ verze 1.2.2, otestováno na iPhonu |
 | 4c · Nástroje | Metronom, výzva 1 minuta | ✅ verze 1.3.0, otestováno na iPhonu |
-| 5 · Zvukový deník | Zvukový deník, vzhled názvu, závěrečná kontrola | 🧪 verze 2.0.1, čeká na test na iPhonu |
+| 5 · Zvukový deník | Zvukový deník, vzhled názvu, závěrečná kontrola | 🧪 verze 2.1.0, čeká na test na iPhonu |
 
 Podrobnosti: [docs/metaplan.md](docs/metaplan.md) · rozhodnutí: [docs/decisions.md](docs/decisions.md) · změny: [CHANGELOG.md](CHANGELOG.md)
 

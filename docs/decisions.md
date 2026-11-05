@@ -4,6 +4,12 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-025 · Barré akordy Cm a Gm
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Na přání vlastníka přibyly Cm (× 3 5 5 4 3) a Gm (3 5 5 3 3 3), standardní barré ve 3. pražci. V tipu je lehčí verze na 4 nejtenčích strunách. Diagram umí barré (ukazovák na víc strunách ve stejném pražci) a číslo pražce, když akord leží výš než 4. pražec.
+**Proč:** Učitel tyto akordy zařazuje. Barré je pro začátečnici těžké, proto lehčí verze v tipu.
+**Čeká:** potvrzení prstokladů učitelem a volba plné, nebo lehčí verze.
+
 ## D-024 · Název Struna: běžná barva a ikona
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** Název na obrazovce Dnes má barvu běžného textu (v tmavém režimu bílá, ve světlém tmavá, aby byl vidět) a vedle ikonu aplikace. Návrh s tyrkysovým textem a žlutým obrysem vlastník zamítl.

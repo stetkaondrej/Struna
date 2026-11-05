@@ -2,6 +2,14 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 2.1.0 · 2026-11-05 · Akordy Cm a Gm
+
+- **Nové akordy C moll (Cm) a G moll (Gm)**, kniha akordů má 9 akordů (Em, C, D a G už byly)
+  - oba jsou barré ve 3. pražci, v tipu je lehčí verze na 4 strunách
+  - fungují všude jako ostatní: Učím se, hvězdičky, denní mise, výzva 1 minuta, výzva Akordového lesa, report
+- Diagram akordu nově kreslí **barré** (pruh přes struny) a **číslo pražce**, od kterého začíná
+- Testy: 110 automatických testů (správnost prstokladů, barré, číslo pražce), test v prohlížeči kontroluje detail Gm
+
 ## 2.0.1 · 2026-11-05 · Název Struna
 
 - Název **Struna** na obrazovce Dnes má zase běžnou barvu textu (v tmavém režimu bílou), vedle zůstává ikona aplikace. Tyrkysový text se žlutým obrysem vlastník zamítl
