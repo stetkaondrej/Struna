@@ -26,7 +26,7 @@ Funkce nahrávky (přehrát, přejmenovat, uložit do Souborů, smazat za PINem)
 
 ## 2. Název na úvodní obrazovce
 
-„Struna“ v horní liště obrazovky Dnes bude vypadat jako ikona aplikace: **tyrkysový text se žlutým obrysem** a vedle malá ikona.
+„Struna“ v horní liště obrazovky Dnes má vedle sebe malou ikonu aplikace. Barva textu zůstává běžná (v tmavém režimu bílá). Tyrkysový text se žlutým obrysem vlastník zamítl (D-024).
 
 ## 3. Závěrečná kontrola (verze 2.0.0)
 
@@ -40,5 +40,5 @@ Funkce nahrávky (přehrát, přejmenovat, uložit do Souborů, smazat za PINem)
 - [ ] Přehrát obě za sebou přehraje starší, pak novější nahrávku
 - [ ] Připomínka na Dnes se ukáže jen v týdnu bez nahrávky
 - [ ] Samolepka Zvukový deník za nahrávky ve 4 různých týdnech
-- [ ] Název Struna má žlutý obrys a ikonu
+- [ ] Název Struna má vedle sebe ikonu a běžnou barvu textu
 - [ ] Žádný text bez překladu v obou jazycích, všechny testy prošly

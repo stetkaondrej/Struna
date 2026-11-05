@@ -88,7 +88,7 @@ function renderChrome(route) {
 
   const sub = SUBPAGES[route];
   if (route === 'dnes' && !sub) {
-    // Název jako ikona aplikace: tyrkysový text se žlutým obrysem a vedle ikona.
+    // Název s ikonou aplikace vedle (barva textu zůstává běžná, D-024).
     title.innerHTML = '<img src="assets/icons/icon-192.png" class="brand-icon" alt=""><span class="brand-text">Struna</span>';
     title.classList.add('is-brand');
   } else {

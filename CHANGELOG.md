@@ -2,6 +2,10 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 2.0.1 · 2026-11-05 · Název Struna
+
+- Název **Struna** na obrazovce Dnes má zase běžnou barvu textu (v tmavém režimu bílou), vedle zůstává ikona aplikace. Tyrkysový text se žlutým obrysem vlastník zamítl
+
 ## 2.0.0 · 2026-11-05 · Krok 5: Zvukový deník 🎉
 
 Dokončení plánu. Kompletní aplikace k testování.
@@ -10,7 +14,7 @@ Dokončení plánu. Kompletní aplikace k testování.
   - karta **Tehdy a teď**: nejstarší a nejnovější nahrávka stejné skladby, tlačítko **Přehrát obě za sebou**
   - připomínka na Dnes, když tento týden ještě není nahrávka
   - nová samolepka 📼 Zvukový deník (nahrávky ve 4 různých týdnech), album má 24 samolepek
-- **Název Struna** na úvodní obrazovce: tyrkysový text se žlutým obrysem a ikonou aplikace (jako ikona na ploše)
+- **Název Struna** na úvodní obrazovce s ikonou aplikace (tyrkysový text se žlutým obrysem v 2.0.1 vrácen zpět)
 - Změna plánu (D-023): **bez ladičky** (dcera má elektronickou) a **bez rodičovského pohledu na druhém telefonu**
 - Záložka Já: pořadí profil → domácí úkol → zvukový deník → deník → album → čísla → pro rodiče
 - Závěrečná kontrola: test v prohlížeči projde všechny obrazovky česky i anglicky a hlídá nepřeložené texty

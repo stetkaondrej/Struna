@@ -52,7 +52,7 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | ✅ verze 1.1.1, otestováno na iPhonu |
 | 4b · Hra | Mapa 7 světů, samolepky | ✅ verze 1.2.2, otestováno na iPhonu |
 | 4c · Nástroje | Metronom, výzva 1 minuta | ✅ verze 1.3.0, otestováno na iPhonu |
-| 5 · Zvukový deník | Zvukový deník, vzhled názvu, závěrečná kontrola | 🧪 verze 2.0.0, čeká na test na iPhonu |
+| 5 · Zvukový deník | Zvukový deník, vzhled názvu, závěrečná kontrola | 🧪 verze 2.0.1, čeká na test na iPhonu |
 
 Podrobnosti: [docs/metaplan.md](docs/metaplan.md) · rozhodnutí: [docs/decisions.md](docs/decisions.md) · změny: [CHANGELOG.md](CHANGELOG.md)
 

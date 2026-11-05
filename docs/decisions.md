@@ -4,6 +4,10 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-024 · Název Struna: běžná barva a ikona
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Název na obrazovce Dnes má barvu běžného textu (v tmavém režimu bílá, ve světlém tmavá, aby byl vidět) a vedle ikonu aplikace. Návrh s tyrkysovým textem a žlutým obrysem vlastník zamítl.
+
 ## D-023 · Krok 5 jen se zvukovým deníkem
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** Ladička se nestaví (dcera má elektronickou). Rodičovský pohled na druhém telefonu se nestaví (stačí aplikace na telefonu dcery, žádný cloud). Krok 5 = zvukový deník (nahrávky po týdnech, Tehdy a teď, připomínka, samolepka) a název na úvodní obrazovce ve stylu ikony. Verze 2.0.0 uzavírá plán.

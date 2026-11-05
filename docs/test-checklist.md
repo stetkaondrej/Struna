@@ -8,7 +8,7 @@ Kompletní test celé aplikace (verze 2.0.0). Celý trvá asi 45 minut, klidně 
 - [ ] V Safari otevři https://stetkaondrej.github.io/Struna/
 - [ ] Sdílet → Přidat na plochu. Na ploše je ikona Struna (žlutý kruh se strunou)
 - [ ] Z ikony se aplikace otevře na celou obrazovku, bez lišty Safari
-- [ ] Na obrazovce Dnes je nahoře název **Struna** tyrkysově se žlutým obrysem a vedle ikona
+- [ ] Na obrazovce Dnes je nahoře název **Struna** (v tmavém režimu bílý) a vedle ikona aplikace
 
 ## Záložky a vzhled
 - [ ] Všech 5 záložek dole se přepíná (Dnes, Mapa, Cvičení, Akordy, Já)
