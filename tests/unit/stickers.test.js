@@ -8,9 +8,9 @@ const base = {
   clips: 0, reports: 0, chordProgress: {}, worldsDone: [],
 };
 
-test('23 samolepek s názvem a nápovědou v obou jazycích', () => {
-  assert.equal(STICKERS.length, 23);
-  assert.equal(new Set(STICKERS.map((s) => s.id)).size, 23);
+test('24 samolepek s názvem a nápovědou v obou jazycích', () => {
+  assert.equal(STICKERS.length, 24);
+  assert.equal(new Set(STICKERS.map((s) => s.id)).size, 24);
   for (const s of STICKERS) {
     for (const lang of ['cs', 'en']) {
       assert.ok(TEXTS[lang][`sticker.${s.id}`], `${lang} název ${s.id}`);
@@ -48,4 +48,9 @@ test('Rytmus za metronom 5 různých dní, Rychlé prsty za 20 přechodů', () =
   assert.ok(!four.has('rhythm') && !four.has('fastFingers'));
   const five = evaluateStickers(stickerFacts({ ...base, metronomeDays: 5, bestChanges: 20 })).earned;
   assert.ok(five.has('rhythm') && five.has('fastFingers'));
+});
+
+test('Zvukový deník za nahrávky ve 4 různých týdnech', () => {
+  assert.ok(!evaluateStickers(stickerFacts({ ...base, clipWeeks: 3 })).earned.has('diary4'));
+  assert.ok(evaluateStickers(stickerFacts({ ...base, clipWeeks: 4 })).earned.has('diary4'));
 });

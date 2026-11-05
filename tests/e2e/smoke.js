@@ -172,6 +172,8 @@ try {
     assert.equal(await page.title(), 'Struna');
     assert.equal(await page.locator('#tabbar a').count(), 5);
     assert.equal(await text('.hello'), 'Dobré odpoledne, Kytaristko!');
+    assert.equal((await text('#title .brand-text')).trim(), 'Struna', 'název jako ikona');
+    await page.waitForSelector('#title img.brand-icon');
     assert.equal(await text('.hello-row .avatar-face'), '🦊');
     await waitText('.today-card', '0 z 15 min');
     assert.equal(await text('#streak'), 'Začni sérii ještě dnes!');
@@ -403,6 +405,15 @@ try {
   });
 
   let backupPath;
+  await step('zvukový deník: připomínka na Dnes otevře nahrávání', async () => {
+    await tab('dnes');
+    await waitText('#diary-prompt', 'nahraj si, jak zníš tento týden');
+    await page.click('#diary-go');
+    await page.waitForSelector('#main .screen[data-route="ja"] #rec-audio');
+    await page.click('#rec-cancel');
+    await page.waitForSelector('#clip-add');
+  });
+
   await step('nahrávka zvuku ve Struně (název z domácího úkolu)', async () => {
     await tab('ja');
     await page.click('#clip-add');
@@ -434,8 +445,19 @@ try {
     await audioRow.locator('input').fill('Ode to Joy – 1. řádek');
     await audioRow.locator('button[type="submit"]').click();
     await waitText('#clips', 'Ode to Joy – 1. řádek');
-    await waitText('#clips', 'Nahrávky nejsou v záloze');
+    await waitText('#clips', 'není v záloze dat');
     await page.screenshot({ path: path.join(outDir, 'nahravky.png'), fullPage: true });
+  });
+
+  await step('zvukový deník: týdny, Tehdy a teď, přehrát obě za sebou', async () => {
+    await waitText('#clips', 'Zvukový deník');
+    await waitText('.week-title', 'Týden 1');
+    await waitText('#compare', 'Tehdy a teď');
+    await page.click('#play-both');
+    assert.equal(await page.locator('#compare-player audio, #compare-player video').count(), 2);
+    await tab('dnes');
+    assert.equal(await page.locator('#diary-prompt').count(), 0, 'tento týden už nahrávka je');
+    await tab('ja');
   });
 
   await step('report pro učitele: vytvoření PINu, náhled, nahrávka, kopie textu', async () => {
@@ -620,7 +642,7 @@ try {
       assert.ok(earned.includes(id), `chybí samolepka ${id} (má: ${earned.join(', ')})`);
     }
     assert.ok(!earned.includes('world5'));
-    await waitText('#album', `${earned.length} z 23`);
+    await waitText('#album', `${earned.length} z 24`);
     assert.ok(stickerPopups > 0, 'oslava nové samolepky se ukázala');
     await page.screenshot({ path: path.join(outDir, 'album.png'), fullPage: true });
   });
@@ -685,7 +707,7 @@ try {
     await page.waitForSelector('.map-world.current .map-node[data-world="7"]');
     await tab('ja');
     await page.waitForSelector('#album .sticker.earned[data-sticker="fastFingers"]');
-    await waitText('#album', 'z 23');
+    await waitText('#album', 'z 24');
   });
 
   await step('denní mise: tlačítko nástroje u úkolu otevře výzvu nebo metronom', async () => {
@@ -749,6 +771,36 @@ try {
     await waitText('#toast', 'není záloha');
     assert.equal(await page.locator('#restore-confirm').isHidden(), true);
     await page.click('#top-action');
+  });
+
+  await step('celá aplikace česky i anglicky: žádný nepřeložený text', async () => {
+    const RAW_KEY = /\b(?:tab|map|quiz|metro|change|diary|sticker|album|clips|pin|report|onb|today|streak|week|level|practice|settings|me|journal|mission|chords|greet|error|update|nav|quest|avatar|lang)\.[a-zA-Z]+/;
+    const sweep = async (lang) => {
+      for (const route of ['dnes', 'mapa', 'cviceni', 'akordy', 'ja', 'nastaveni', 'vyzva']) {
+        await page.goto(`${base}#${route}`);
+        await page.waitForSelector(`#main .screen[data-route="${route}"]`);
+        await page.waitForTimeout(150);
+        const body = await page.evaluate(() => document.body.innerText);
+        assert.doesNotMatch(body, RAW_KEY, `${lang} #${route}: nepřeložený text`);
+      }
+      // detaily: svět na mapě, akord, hra
+      await tab('mapa');
+      await page.click('.map-text[data-world="1"]');
+      assert.doesNotMatch(await page.evaluate(() => document.body.innerText), RAW_KEY, `${lang} detail světa`);
+      await tab('akordy');
+      await page.click('[data-chord="G"]');
+      assert.doesNotMatch(await page.evaluate(() => document.body.innerText), RAW_KEY, `${lang} detail akordu`);
+    };
+    await sweep('cs');
+    await page.goto(`${base}#nastaveni`);
+    await page.click('[data-lang="en"]');
+    await page.waitForSelector('[data-lang="en"][aria-pressed="true"]');
+    await sweep('en');
+    await page.goto(`${base}#dnes`);
+    await waitText('#mission', 'Today’s mission');
+    await page.goto(`${base}#nastaveni`);
+    await page.click('[data-lang="cs"]');
+    await page.waitForSelector('[data-lang="cs"][aria-pressed="true"]');
   });
 
   await step('aplikace funguje offline', async () => {

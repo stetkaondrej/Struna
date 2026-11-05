@@ -7,6 +7,7 @@ import { localDateString } from './logic/dates.js';
 import { loadContent } from './content.js';
 import { metronomeDays } from './logic/metronome.js';
 import { bestOverall } from './logic/changes.js';
+import { clipWeeks } from './logic/diary.js';
 import { play } from './sounds.js';
 
 export async function stickerData(store) {
@@ -19,7 +20,7 @@ export async function stickerData(store) {
   const facts = stickerFacts({
     progress, sessions: data.sessions, missions: data.missions, journal: data.journal,
     clips: clips.length, reports: reports.length, chordProgress, worldsDone,
-    metronomeDays: metronomeDays(metronome), bestChanges: bestOverall(data.changes),
+    metronomeDays: metronomeDays(metronome), bestChanges: bestOverall(data.changes), clipWeeks: clipWeeks(clips),
   });
   return { ...evaluateStickers(facts, seen), seen };
 }

@@ -8,6 +8,7 @@ import { loadContent } from '../content.js';
 import * as timer from '../logic/timer.js';
 import { avatarEmoji } from '../avatars.js';
 import { play } from '../sounds.js';
+import { hasClipThisWeek } from '../logic/diary.js';
 
 // Text úkolu v aktuálním jazyce.
 export function questTexts(quest, quests, lang) {
@@ -30,6 +31,8 @@ export default {
       loadContent(), store.loadProgressData(), store.getSettings(), store.getActiveSession(), store.getLastBackup(),
       store.getChordProgress(), store.listHomework(), store.getProfile(),
     ]);
+    const clips = await store.listClips();
+    const diaryPrompt = data.sessions.length > 0 && !hasClipThisWeek(clips, now);
     const mission = await store.getOrCreateMission(date, buildMission({ date, chords: content.chords, chordProgress, homework }));
     const missions = [...data.missions.filter((m) => m.date !== date), mission];
     const progress = computeProgress(data.sessions, now, { missions, journal: data.journal, worlds: data.worlds });
@@ -112,10 +115,12 @@ export default {
         <p class="muted small">${esc(t('level.toNext', { n: level.nextXp - progress.xp }))}</p>
       </section>
 
+      ${diaryPrompt ? `<div class="note diary-note" id="diary-prompt"><p>📼 ${esc(t('diary.prompt'))}</p><button type="button" class="link" id="diary-go">${esc(t('diary.promptGo'))}</button></div>` : ''}
       ${backupNote ? `<div class="note warn"><p>${esc(backupNote)}</p><button type="button" class="link" id="go-settings">${esc(t('today.backupGo'))}</button></div>` : ''}
       ${isStandalone() ? '' : `<p class="note">${esc(t('today.install'))}</p>`}`;
 
     el.querySelector('#go-settings')?.addEventListener('click', () => go('nastaveni'));
+    el.querySelector('#diary-go')?.addEventListener('click', () => { ctx.handoff = { record: true }; go('ja'); });
     el.querySelectorAll('[data-tool]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.tool === 'change') { ctx.handoff = { pair: { a: b.dataset.a, b: b.dataset.b } }; go('vyzva'); }
       else { ctx.handoff = { scrollTo: 'metronome' }; go('cviceni'); }

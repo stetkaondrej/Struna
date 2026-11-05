@@ -1,6 +1,6 @@
 # Krok 4c · Nástroje – specifikace
 
-> Stav: **postaveno ve verzi 1.3.0** · schváleno 5. 11. 2026: tempo 70, body ano, samolepka Rytmus = metronom 5 různých dní (aspoň minutu) · čeká na test na iPhonu · Cílová verze: **1.3.0** · Rozdělení kroku 4: D-019
+> Stav: **✅ hotovo** · verze 1.3.0, otestováno na iPhonu
 
 ## Cíl
 

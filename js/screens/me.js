@@ -11,6 +11,8 @@ import { clipRecorder, clipFile, suggestTitle } from './clip-recorder.js';
 import { requirePin } from './pin-gate.js';
 import { STICKERS } from '../logic/stickers.js';
 import { stickerData } from '../stickers-ui.js';
+import { firstWeekStart, groupByWeek, compareCandidates, daysApart } from '../logic/diary.js';
+import { shortDate } from '../logic/report.js';
 
 const CLIPS_WARN_BYTES = 200 * 1024 * 1024;
 
@@ -21,6 +23,9 @@ export default {
       store.listHomework(), store.loadProgressData(), store.getProfile(), store.listClips(), stickerData(store),
     ]);
     const clipBytes = clips.reduce((n, c) => n + (c.bytes || 0), 0);
+    const weeks = groupByWeek(clips, firstWeekStart(data.sessions, clips));
+    const pair = compareCandidates(clips);
+    const { lang } = ctx;
     const progress = computeProgress(data.sessions, new Date(), data);
     const current = activeHomework(homework);
     const history = homework.filter((h) => h.doneAt).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 5);
@@ -35,16 +40,6 @@ export default {
           <p class="muted">${esc(t('level.title', { n: levelFor(progress.xp).level }))} · ${progress.xp} XP</p>
         </div>
         <button type="button" class="link" id="edit-profile">${esc(t('me.profile.edit'))}</button>
-      </section>
-
-      <section class="card" id="album">
-        <div class="row-between"><h3>${esc(t('album.title'))}</h3>
-          <span class="pill">${esc(t('album.count', { n: stickers.earned.size, total: STICKERS.length }))}</span></div>
-        <div class="album">
-          ${STICKERS.map((s) => stickers.earned.has(s.id)
-            ? `<div class="sticker earned" data-sticker="${s.id}"><span aria-hidden="true">${s.emoji}</span><small>${esc(t(`sticker.${s.id}`))}</small></div>`
-            : `<div class="sticker" data-sticker="${s.id}"><span aria-hidden="true">?</span><small>${esc(t(`sticker.${s.id}.hint`))}</small></div>`).join('')}
-        </div>
       </section>
 
       <section class="card" id="homework">
@@ -74,10 +69,24 @@ export default {
       </section>
 
       <section class="card" id="clips">
-        <h3>${esc(t('clips.title'))}</h3>
-        <p class="muted">${esc(t('clips.intro'))}</p>
+        <h3>📼 ${esc(t('diary.title'))}</h3>
+        <p class="muted">${esc(t('diary.intro'))}</p>
         <div id="clip-slot"><button type="button" class="btn primary" id="clip-add">${esc(t('clips.add'))}</button></div>
-        ${clips.length ? `<ul class="clip-list">${clips.map((c) => `
+        ${pair ? `
+          <div class="compare" id="compare">
+            <h4>${esc(t('diary.compare'))}</h4>
+            <p class="muted small">${esc(t(pair.sameSong ? 'diary.compareSame' : 'diary.compareAny', { days: daysApart(pair) }))}</p>
+            <div class="compare-row">
+              <div><span class="pill small">${esc(t('diary.then'))}</span><strong>${esc(pair.before.title)}</strong><span class="muted small">${esc(shortDate(pair.before.date, lang))}</span></div>
+              <span class="compare-arrow" aria-hidden="true">→</span>
+              <div><span class="pill small">${esc(t('diary.now'))}</span><strong>${esc(pair.after.title)}</strong><span class="muted small">${esc(shortDate(pair.after.date, lang))}</span></div>
+            </div>
+            <button type="button" class="btn" id="play-both">▶ ${esc(t('diary.playBoth'))}</button>
+            <div id="compare-player"></div>
+          </div>` : ''}
+        ${weeks.map((g) => `
+          <h4 class="week-title">${esc(t('diary.week', { n: g.weekNo, from: shortDate(localDateString(g.start), lang), to: shortDate(localDateString(g.end), lang) }))}</h4>
+          <ul class="clip-list">${g.clips.map((c) => `
           <li data-id="${esc(c.id)}">
             <div class="row-between">
               <button type="button" class="link clip-play" data-play="${esc(c.id)}">▶ ${c.kind === 'audio' ? '🎙️' : '🎥'} <span class="clip-title">${esc(c.title)}</span></button>
@@ -90,9 +99,10 @@ export default {
               <button type="button" class="link danger-text" data-delete="${esc(c.id)}">${esc(t('clips.delete'))}</button>
             </div>
             <div class="clip-pin"></div>
-          </li>`).join('')}</ul>` : `<p class="muted">${esc(t('clips.none'))}</p>`}
+          </li>`).join('')}</ul>`).join('')}
+        ${clips.length ? '' : `<p class="muted">${esc(t('clips.none'))}</p>`}
         ${clips.length ? `<p class="muted small">${esc(t(clipBytes > CLIPS_WARN_BYTES ? 'clips.sizeWarn' : 'clips.size', { size: formatBytes(clipBytes) }))}</p>` : ''}
-        <p class="muted small">${esc(t('clips.notInBackup'))}</p>
+        <p class="muted small">${esc(t('diary.onPhone'))}</p>
       </section>
 
       <section class="card" id="journal">
@@ -105,6 +115,16 @@ export default {
             ${j.learned ? `<p><strong>${esc(t('journal.learned'))}:</strong> ${esc(j.learned)}</p>` : ''}
             ${j.stuck ? `<p><strong>${esc(t('journal.stuck'))}:</strong> ${esc(j.stuck)}</p>` : ''}
           </li>`).join('')}</ul>` : `<p class="muted">${esc(t('me.journal.none'))}</p>`}
+      </section>
+
+      <section class="card" id="album">
+        <div class="row-between"><h3>${esc(t('album.title'))}</h3>
+          <span class="pill">${esc(t('album.count', { n: stickers.earned.size, total: STICKERS.length }))}</span></div>
+        <div class="album">
+          ${STICKERS.map((s) => stickers.earned.has(s.id)
+            ? `<div class="sticker earned" data-sticker="${s.id}"><span aria-hidden="true">${s.emoji}</span><small>${esc(t(`sticker.${s.id}`))}</small></div>`
+            : `<div class="sticker" data-sticker="${s.id}"><span aria-hidden="true">?</span><small>${esc(t(`sticker.${s.id}.hint`))}</small></div>`).join('')}
+        </div>
       </section>
 
       <section class="card">
@@ -135,6 +155,22 @@ export default {
         onDone: () => { stopRecorder = null; rerender(); },
       });
     });
+    // Tehdy a teď: přehraje starší a hned potom novější nahrávku.
+    el.querySelector('#play-both')?.addEventListener('click', () => {
+      const box = el.querySelector('#compare-player');
+      const make = (clip, label) => {
+        const url = URL.createObjectURL(clip.blob);
+        urls.push(url);
+        const tag = clip.kind === 'audio' ? 'audio' : 'video';
+        return `<p class="small"><strong>${esc(label)}</strong> · ${esc(clip.title)}</p><${tag} controls playsinline src="${url}" class="clip-media"></${tag}>`;
+      };
+      box.innerHTML = make(pair.before, t('diary.then')) + make(pair.after, t('diary.now'));
+      const [first, second] = box.querySelectorAll('audio, video');
+      first.addEventListener('ended', () => second.play().catch(() => {}));
+      first.play().catch(() => {});
+    });
+    if (ctx.handoff?.record) { ctx.handoff = null; setTimeout(() => el.querySelector('#clip-add')?.click(), 0); }
+
     el.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', () => {
       const clip = clipById(b.dataset.play);
       const box = b.closest('li').querySelector('.clip-player');

@@ -4,6 +4,11 @@ Každé zásadní rozhodnutí: co, proč, kdy a jaké byly alternativy. Nejnově
 
 ---
 
+## D-023 · Krok 5 jen se zvukovým deníkem
+**Datum:** 5. 11. 2026
+**Rozhodnutí:** Ladička se nestaví (dcera má elektronickou). Rodičovský pohled na druhém telefonu se nestaví (stačí aplikace na telefonu dcery, žádný cloud). Krok 5 = zvukový deník (nahrávky po týdnech, Tehdy a teď, připomínka, samolepka) a název na úvodní obrazovce ve stylu ikony. Verze 2.0.0 uzavírá plán.
+**Proč:** Rozhodnutí vlastníka. Bez cloudu zůstává aplikace jednoduchá a data dítěte neopouštějí telefon (P2, P7).
+
 ## D-022 · Metronom a výzva 1 minuta
 **Datum:** 5. 11. 2026
 **Rozhodnutí:** Metronom 40–160 BPM, výchozí 70 (schválil vlastník), zvuk plánovaný dopředu přes Web Audio, hraje i v tichém režimu (je to nástroj). Obraz šipek se počítá z uplynulého času. Výzva 1 minuta: +5 XP za pokus (max. 3× denně), +10 XP za nový rekord dvojice akordů. Výzva světa 5 se odemkne po 30 s metronomu v rytmu ↓ ↓ ↑ ↑ ↓ ↑ s tempem aspoň 70, svět 6 se splní sám po 20 přechodech. Samolepka Rytmus = metronom 5 různých dní (aspoň minutu denně, upravil vlastník).

@@ -15,6 +15,7 @@ export const STICKERS = [
   { id: 'chords3x3', emoji: '🌈', test: (d) => d.chordsThreeStars >= 3 },
   { id: 'journal1', emoji: '📝', test: (d) => d.journal > 0 },
   { id: 'clip1', emoji: '🎙️', test: (d) => d.clips > 0 },
+  { id: 'diary4', emoji: '📼', test: (d) => d.clipWeeks >= 4 },
   { id: 'report1', emoji: '📨', test: (d) => d.reports > 0 },
   { id: 'rhythm', emoji: '🥁', test: (d) => d.metronomeDays >= 5 },
   { id: 'fastFingers', emoji: '⚡', test: (d) => d.bestChanges >= 20 },
@@ -24,7 +25,7 @@ export const STICKERS = [
 ];
 
 // Souhrn dat potřebných pro samolepky (z různých částí aplikace).
-export function stickerFacts({ progress, sessions, missions, journal, clips, reports, chordProgress, worldsDone, metronomeDays = 0, bestChanges = 0 }) {
+export function stickerFacts({ progress, sessions, missions, journal, clips, reports, chordProgress, worldsDone, metronomeDays = 0, bestChanges = 0, clipWeeks = 0 }) {
   return {
     sessions: sessions.length,
     minutes: Math.floor(progress.totalSec / 60),
@@ -37,6 +38,7 @@ export function stickerFacts({ progress, sessions, missions, journal, clips, rep
     worldsDone,
     metronomeDays,
     bestChanges,
+    clipWeeks,
   };
 }
 

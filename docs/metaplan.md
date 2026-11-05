@@ -159,7 +159,7 @@ Každý krok roadmapy prochází stejnými šesti fázemi:
 | **2 · MVP komplet** | Akordy s diagramy, denní mise se 3 úkoly, domácí úkol od učitele, deník „Co jsem se naučila“ | První verze k reálnému používání | 0.3.0 |
 | **3 · Do telefonu** | Ikona, název, úvodní nastavení (jméno, avatar, denní cíl), test na reálném iPhonu | Hotové MVP | **1.0.0** |
 | **4 · Verze 2** | Nahrát cvičení (video/audio), týdenní report pro učitele, mapa výprav, samolepky, metronom, 1minutové střídání akordů | Motivace + spojení s učitelem | 1.x |
-| **5 · Verze 3** | Ladička (mikrofon), zvukový deník, rodičovský pohled na druhém telefonu (cloud) | Plná verze | 2.0.0 |
+| **5 · Zvukový deník** | Zvukový deník, název jako ikona, závěrečná kontrola. ~~Ladička~~ a ~~rodičovský pohled~~ vypuštěny (D-023) | Plná verze | 2.0.0 |
 
 Mezi fázemi je **brána**: další fáze začne, až předchozí splní Definition of Done a dcera ji alespoň 3 dny používala.
 
@@ -232,4 +232,4 @@ Podrobnosti a důvody jsou v `docs/decisions.md`.
 
 ## 14. Další krok
 
-**Fáze 0 · Základy** je hotová a otestovaná na iPhonu (verze 0.1.0). **Krok 1 · Jádro MVP** je hotový a otestovaný (verze 0.2.0). **Krok 2 · MVP komplet** je hotový a otestovaný (verze 0.3.1). **Krok 3 · Do telefonu** je hotový a otestovaný (**verze 1.0.0**). **Krok 4** je rozdělený na 4a → 4b → 4c. **4a · Pro učitele** je hotový a otestovaný (verze 1.1.1). **4b · Hra** je hotový a otestovaný (verze 1.2.2). **4c · Nástroje** je postavený (verze 1.3.0) a čeká na test na iPhonu.
+**Plán je dokončený: verze 2.0.0.** Kroky 0–5 jsou postavené (krok 4 ve třech částech 4a/4b/4c, krok 5 zúžený podle D-023). Další vývoj: podle zkušeností dcery a učitele, vždy znovu přes specifikaci (kap. 7).

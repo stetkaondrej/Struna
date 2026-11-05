@@ -2,6 +2,20 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 2.0.0 · 2026-11-05 · Krok 5: Zvukový deník 🎉
+
+Dokončení plánu. Kompletní aplikace k testování.
+
+- **📼 Zvukový deník** (záložka Já): nahrávky po týdnech („Týden 3 · 16.–22. 11.“)
+  - karta **Tehdy a teď**: nejstarší a nejnovější nahrávka stejné skladby, tlačítko **Přehrát obě za sebou**
+  - připomínka na Dnes, když tento týden ještě není nahrávka
+  - nová samolepka 📼 Zvukový deník (nahrávky ve 4 různých týdnech), album má 24 samolepek
+- **Název Struna** na úvodní obrazovce: tyrkysový text se žlutým obrysem a ikonou aplikace (jako ikona na ploše)
+- Změna plánu (D-023): **bez ladičky** (dcera má elektronickou) a **bez rodičovského pohledu na druhém telefonu**
+- Záložka Já: pořadí profil → domácí úkol → zvukový deník → deník → album → čísla → pro rodiče
+- Závěrečná kontrola: test v prohlížeči projde všechny obrazovky česky i anglicky a hlídá nepřeložené texty
+- Testy: 105 automatických testů, 47 kroků v prohlížeči
+
 ## 1.3.0 · 2026-11-05 · Krok 4c: Nástroje
 
 - **🥁 Metronom** (záložka Cvičení): tempo 40–160 (výchozí 70), −5 / +5 a posuvník, 4 doby s výraznou první dobou

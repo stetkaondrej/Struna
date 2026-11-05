@@ -1,6 +1,6 @@
 # Ruční test na iPhonu
 
-Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co nefunguje, napiš Claudovi.
+Kompletní test celé aplikace (verze 2.0.0). Celý trvá asi 45 minut, klidně ho rozděl na víc dní. Před menším vydáním stačí sekce, které se změnily. Zaškrtni, co funguje. Co nefunguje, napiš Claudovi.
 
 **Verze:** ______ · **Datum:** ______ · **Telefon:** iPhone 12 Pro, iOS ______
 
@@ -8,6 +8,7 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] V Safari otevři https://stetkaondrej.github.io/Struna/
 - [ ] Sdílet → Přidat na plochu. Na ploše je ikona Struna (žlutý kruh se strunou)
 - [ ] Z ikony se aplikace otevře na celou obrazovku, bez lišty Safari
+- [ ] Na obrazovce Dnes je nahoře název **Struna** tyrkysově se žlutým obrysem a vedle ikona
 
 ## Záložky a vzhled
 - [ ] Všech 5 záložek dole se přepíná (Dnes, Mapa, Cvičení, Akordy, Já)
@@ -52,6 +53,12 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Já → Album samolepek: získané samolepky barevně, ostatní „?“ s nápovědou
 - [ ] Nová samolepka ukáže oslavu se zvukem
 - [ ] Zálohuj a obnov: pokrok na mapě i samolepky se vrátí
+
+## Zvukový deník (krok 5)
+- [ ] Dnes: když tento týden ještě není nahrávka, je tam připomínka „Zvukový deník: nahraj si, jak zníš tento týden“ → Nahrát otevře nahrávání
+- [ ] Já → Zvukový deník: nahrávky rozdělené po týdnech („Týden 1 · …“)
+- [ ] Se 2 a více nahrávkami: karta **Tehdy a teď** → Přehrát obě za sebou (nejdřív starší, pak novější)
+- [ ] Dvě nahrávky se stejným názvem (např. „Ode to Joy“) v různých dnech: Tehdy a teď ukáže právě je
 
 ## Metronom a výzva 1 minuta (krok 4c)
 - [ ] Cvičení → Metronom: tempo 70, −/+ mění o 5, posuvník funguje
@@ -130,5 +137,6 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] (1.0.x → 1.1.0) Vše zůstalo, v Já přibyly Nahrávky a Pro rodiče
 - [ ] (1.1.x → 1.2.0) Vše zůstalo, oslava samolepek za to, co už dcera zvládla
 - [ ] (1.2.x → 1.3.0) Vše zůstalo, na obrazovce Cvičení přibyl metronom a výzva
+- [ ] (1.3.0 → 2.0.0) Vše zůstalo, nahrávky jsou teď ve Zvukovém deníku po týdnech
 
 **Poznámky:**

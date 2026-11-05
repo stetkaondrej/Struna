@@ -18,7 +18,7 @@ Doplňuje lekce s učitelem: krátké denní mise, viditelný pokrok a týdenní
 - **Dnes**: denní mise se 3 úkoly, tlačítko **Začít cvičit**, série dní 🔥 a úroveň.
 - **Cvičení**: časovač, **metronom** (tempo 40–160, rytmus ↓ ↓ ↑ ↑ ↓ ↑) a **výzva 1 minuta střídání akordů**. Displej nezhasne. Když aplikaci zavřeš, časovač běží dál.
 - **Akordy**: prstoklady 7 akordů. Zapni **Učím se** a dávej si hvězdičky ★.
-- **Já**: domácí úkol od učitele, nahrávky, deník „Co jsem se naučila“, profil, čísla a report pro učitele (za rodičovským PINem).
+- **Já**: profil, domácí úkol od učitele, **zvukový deník** (nahrávky po týdnech, Tehdy a teď), deník „Co jsem se naučila“, album samolepek, čísla a report pro učitele (za rodičovským PINem).
 
 ### Body XP
 1 XP za minutu (max. 30 denně) · +20 za splněný denní cíl · +10 za úkol mise (+10 za všechny tři) · +5 za zápis do deníku · +50 za každých 7 dní série · +5 za lekci na mapě · +100 za výzvu světa · +5 za výzvu 1 minuta (max. 3× denně) · +10 za nový rekord. Den se počítá od 5 minut cvičení, 2 dny volna týdně sérii nepřeruší.
@@ -51,8 +51,8 @@ Když vyjde nová verze, Struna ukáže lištu **„Je k dispozici nová verze�
 | 3 · Do telefonu | Úvodní průvodce, profil, zvuky, doladění | ✅ verze 1.0.0, otestováno na iPhonu |
 | 4a · Pro učitele | Nahrávky, report pro učitele, rodičovský PIN | ✅ verze 1.1.1, otestováno na iPhonu |
 | 4b · Hra | Mapa 7 světů, samolepky | ✅ verze 1.2.2, otestováno na iPhonu |
-| 4c · Nástroje | Metronom, výzva 1 minuta | 🧪 verze 1.3.0, čeká na test na iPhonu |
-| 5 · Verze 3 | Ladička, zvukový deník, rodičovský pohled | – |
+| 4c · Nástroje | Metronom, výzva 1 minuta | ✅ verze 1.3.0, otestováno na iPhonu |
+| 5 · Zvukový deník | Zvukový deník, vzhled názvu, závěrečná kontrola | 🧪 verze 2.0.0, čeká na test na iPhonu |
 
 Podrobnosti: [docs/metaplan.md](docs/metaplan.md) · rozhodnutí: [docs/decisions.md](docs/decisions.md) · změny: [CHANGELOG.md](CHANGELOG.md)
 

@@ -87,7 +87,14 @@ function renderChrome(route) {
   tabbar.setAttribute('aria-label', 'Struna');
 
   const sub = SUBPAGES[route];
-  title.textContent = sub ? t(sub) : (route === 'dnes' ? 'Struna' : t(`tab.${route}`));
+  if (route === 'dnes' && !sub) {
+    // Název jako ikona aplikace: tyrkysový text se žlutým obrysem a vedle ikona.
+    title.innerHTML = '<img src="assets/icons/icon-192.png" class="brand-icon" alt=""><span class="brand-text">Struna</span>';
+    title.classList.add('is-brand');
+  } else {
+    title.textContent = sub ? t(sub) : t(`tab.${route}`);
+    title.classList.remove('is-brand');
+  }
   topAction.innerHTML = sub ? icon('back') : icon('settings');
   topAction.setAttribute('aria-label', sub ? t('nav.back') : t('nav.settings'));
   topAction.onclick = () => (sub ? history.length > 1 ? history.back() : go('dnes') : go('nastaveni'));
