@@ -1,6 +1,6 @@
 # Krok 4b · Hra – specifikace
 
-> Stav: **postaveno ve verzi 1.2.0** · schváleno 5. 11. 2026: XP +5/+100, dcera projde mapu od začátku · čeká na test na iPhonu · melodie pro světy 3 a 7 doplní učitel · Cílová verze: **1.2.0** · Rozdělení kroku 4: D-019
+> Stav: **✅ hotovo** · verze 1.2.2 (trénink na mapě 1.2.1, oprava hry 1.2.2), otestováno na iPhonu · melodie pro světy 3 a 7 doplní učitel
 
 ## Cíl
 
