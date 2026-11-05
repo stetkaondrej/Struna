@@ -167,8 +167,10 @@ export default {
             <div class="bar"><i style="width:${(streak / QUIZ_TARGET) * 100}%"></i></div>
             <button type="button" class="link" id="quiz-close">${esc(t('quiz.close'))}</button>
           </div>`;
-        slot.querySelector('#quiz').dataset.answer = String(current); // správná odpověď (pro automatický test)
-        slot.querySelectorAll('[data-answer]').forEach((b) => b.addEventListener('click', async () => {
+        // Správná odpověď je jen v data-correct (pro automatický test). Pozor: nesmí se jmenovat data-answer,
+        // jinak by se celá plocha hry chovala jako tlačítko se správnou odpovědí (chyba ve verzi 1.2.0–1.2.1).
+        slot.querySelector('#quiz').dataset.correct = String(current);
+        slot.querySelectorAll('.quiz-buttons [data-answer]').forEach((b) => b.addEventListener('click', async () => {
           if (Number(b.dataset.answer) === current) {
             streak += 1;
             if (streak >= QUIZ_TARGET) { await onTarget(); return; }

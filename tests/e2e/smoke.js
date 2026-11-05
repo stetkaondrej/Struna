@@ -540,7 +540,7 @@ try {
     await page.click('#training');
     await page.waitForSelector('#training-slot #quiz');
     for (let i = 0; i < 10; i++) {
-      await page.click(`[data-answer="${await page.getAttribute('#quiz', 'data-answer')}"]`);
+      await page.click(`.quiz-buttons [data-answer="${await page.getAttribute('#quiz', 'data-correct')}"]`);
     }
     await waitText('#toast', 'až k ní na mapě dojdeš');
     await page.waitForSelector('#training-slot #quiz'); // hraje se dál
@@ -565,11 +565,23 @@ try {
     await page.click('#boss-quiz');
     await page.waitForSelector('#quiz');
     await page.screenshot({ path: path.join(outDir, 'hra-struna.png'), fullPage: true });
-    const answer = async () => Number(await page.getAttribute('#quiz', 'data-answer'));
-    await page.click(`[data-answer="${(await answer() + 1) % 6}"]`); // schválně špatně
+    const answer = async () => Number(await page.getAttribute('#quiz', 'data-correct'));
+    const streakText = () => page.textContent('#quiz-streak');
+    // Klepnutí na obrázek strun ani na prázdné místo se nepočítá
+    await page.click('.quiz-svg', { force: true });
+    await page.click('#quiz', { position: { x: 5, y: 5 } });
+    await page.waitForTimeout(200);
+    assert.equal((await streakText()).trim(), 'Správně za sebou: 0 z 10');
+    // Správná odpověď přidá 1
+    await page.click(`.quiz-buttons [data-answer="${await answer()}"]`);
+    await waitText('#quiz-msg', 'Správně');
+    assert.equal((await streakText()).trim(), 'Správně za sebou: 1 z 10');
+    // Špatná odpověď vynuluje a nic se k ní nepřičte
+    await page.click(`.quiz-buttons [data-answer="${(await answer() + 1) % 6}"]`);
     await waitText('#quiz-msg', 'Byla to struna');
-    await waitText('#quiz-streak', '0 z 10');
-    for (let i = 0; i < 10; i++) await page.click(`[data-answer="${await answer()}"]`);
+    await page.waitForTimeout(200);
+    assert.equal((await streakText()).trim(), 'Správně za sebou: 0 z 10');
+    for (let i = 0; i < 10; i++) await page.click(`.quiz-buttons [data-answer="${await answer()}"]`);
     await waitText('#toast', 'Strunová ulice je hotový');
     await waitText('#boss', 'Výzva splněna');
   });

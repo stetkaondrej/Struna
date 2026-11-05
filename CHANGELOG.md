@@ -2,6 +2,12 @@
 
 Formát: každá verze má vlastní nadpis `## X.Y.Z · datum`. Nejnovější nahoře.
 
+## 1.2.2 · 2026-11-05 · Oprava hry „Která struna?“
+
+- **Chyba:** klepnutí kamkoli do hry (i na obrázek strun) se počítalo jako správná odpověď a ke špatné odpovědi se hned přičetla správná
+- **Oprava:** počítá se jen klepnutí na tlačítko s názvem struny; obrázek strun je jen na koukání
+- Test v prohlížeči nově ověřuje, že klepnutí na obrázek ani na prázdné místo se nepočítá a že špatná odpověď opravdu vynuluje počítání
+
 ## 1.2.1 · 2026-11-05 · Trénink na mapě
 
 - Nahoře na Mapě tlačítko **🎮 Trénink: Která struna?**: hra jde zahrát kdykoli, nejen na konci světa 2

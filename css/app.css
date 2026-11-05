@@ -353,7 +353,7 @@ video.clip-media { max-height: 50vh; background: #000; }
 .eyebrow { font-size: 0.8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 
 .quiz { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; width: 100%; }
-.quiz-svg { width: 100%; max-width: 300px; height: auto; display: block; }
+.quiz-svg { width: 100%; max-width: 300px; height: auto; display: block; pointer-events: none; } /* obrázek není tlačítko */
 .quiz-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
 .quiz-buttons .btn { font-size: 1.4rem; min-height: 56px; }
 .quiz-msg { min-height: 1.5em; font-weight: 700; }

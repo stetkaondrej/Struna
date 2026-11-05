@@ -44,6 +44,7 @@ Projdi před každým vydáním. Trvá asi 10 minut. Zaškrtni, co funguje. Co n
 - [ ] Záložka Mapa: 7 světů, Kytarový tábor „Právě tady“ (s avatarem, pokud ho dcera má), ostatní zamčené
 - [ ] Svět 1: lekce odškrtnout (+5 XP), pak se odemkne výzva. Po výzvě fanfára, +100 XP a odemkne se svět 2
 - [ ] Mapa nahoře: **🎮 Trénink: Která struna?** jde hrát hned, i ve světě 1. Po 10 správně: „Výzvu světa 2 splníš, až k ní dojdeš“
+- [ ] Ve hře: klepnutí na obrázek strun se **nepočítá**. Počítá se jen tlačítko s názvem. Špatná odpověď vynuluje počítání na 0
 - [ ] Svět 2: hra „Která struna?“. Špatná odpověď vynuluje počítání, 10 správně za sebou splní výzvu
 - [ ] Svět 3: výzva s nahrávkou. Po uložení nahrávky je výzva splněná
 - [ ] Svět 4: výzva se splní sama, když mají 3 akordy aspoň ★★
